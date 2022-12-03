@@ -3,6 +3,7 @@ package xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistInfo;
 
 public interface SetlistFmApi {
 

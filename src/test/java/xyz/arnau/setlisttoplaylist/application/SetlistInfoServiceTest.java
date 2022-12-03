@@ -5,7 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import xyz.arnau.setlisttoplaylist.domain.ArtistInfo;
+import xyz.arnau.setlisttoplaylist.domain.Artist;
 import xyz.arnau.setlisttoplaylist.domain.Setlist;
 import xyz.arnau.setlisttoplaylist.domain.SetlistRepository;
 
@@ -26,7 +26,10 @@ class SetlistInfoServiceTest {
     @Test
     public void whenSetlistIsFound_ReturnsSetlist() {
         when(setlistRepository.getSetlist("abc12345"))
-                .thenReturn(Optional.of(new Setlist(new ArtistInfo("The Strokes"))));
+                .thenReturn(Optional.of(
+                        Setlist.builder()
+                                .artist(Artist.builder().name("The Strokes").build())
+                                .build()));
 
         Optional<Setlist> setlist = setlistService.getSetlist("abc12345");
 

@@ -18,78 +18,87 @@
     },
     "jsonBody": {
       "id": "abc12345",
-      "versionId": "g13f04535",
-      "eventDate": "10-06-2022",
-      "lastUpdated": "2022-08-03T02:53:24.000+0000",
+      "versionId": "g2bfaf8f6",
+      "eventDate": "18-09-2022",
+      "lastUpdated": "2022-09-19T10:56:05.000+0000",
       "artist": {
-        "mbid": "f181961b-20f7-459e-89de-920ef03c7ed0",
-        "name": "The Strokes",
-        "sortName": "Strokes, The",
+        "mbid": "4e7209ee-ef02-4cb7-bdff-815b0473c27c",
+        "name": "Manel",
+        "sortName": "Manel",
         "disambiguation": "",
-        "url": "https://www.setlist.fm/setlists/the-strokes-23d6982f.html"
+        "url": "https://www.setlist.fm/setlists/manel-4bd7bfce.html"
       },
       "venue": {
-        "id": "73d07e79",
-        "name": "Parc del Fòrum",
+        "id": "2bd0643e",
+        "name": "Plaça Corsini",
         "city": {
-          "id": "3110921",
-          "name": "Sant Adrià de Besòs",
+          "id": "3108288",
+          "name": "Tarragona",
           "state": "Catalonia",
           "stateCode": "56",
           "coords": {
-            "lat": 41.4307258201749,
-            "long": 2.21855163574219
+            "lat": 41.1166667,
+            "long": 1.25
           },
           "country": {
             "code": "ES",
             "name": "Spain"
           }
         },
-        "url": "https://www.setlist.fm/venue/parc-del-forum-sant-adria-de-besos-spain-73d07e79.html"
+        "url": "https://www.setlist.fm/venue/placa-corsini-tarragona-spain-2bd0643e.html"
       },
       "sets": {
         "set": [
           {
             "song": [
               {
-                "name": "Bad Decisions",
-                "info": "Initial problems with microphone."
+                "name": "En la que el Bernat se't troba"
               },
               {
-                "name": "Hard to Explain"
+                "name": "Per la bona gent"
               },
               {
-                "name": "Selfless"
+                "name": "Els entusiasmats"
               },
               {
-                "name": "Juicebox"
+                "name": "Tipus suite"
               },
               {
-                "name": "Someday"
+                "name": "Criticarem les noves modes de pentinats",
+                "info": "Electric version"
               },
               {
-                "name": "Reptilia"
+                "name": "Aquí tens el meu braç"
               },
               {
-                "name": "The Adults Are Talking"
+                "name": "La jungla"
               },
               {
-                "name": "You Only Live Once"
+                "name": "Les estrelles"
               },
               {
-                "name": "Under Control"
+                "name": "Formigues"
               },
               {
-                "name": "Take It or Leave It"
+                "name": "Captatio benevolentiae"
               },
               {
-                "name": "Brooklyn Bridge to Chorus"
+                "name": "Jo competeixo"
               },
               {
-                "name": "New York City Cops"
+                "name": "La cançó del soldadet"
               },
               {
-                "name": "Under Cover of Darkness"
+                "name": "Sabotatge"
+              },
+              {
+                "name": "Boomerang"
+              },
+              {
+                "name": "Teresa Rampell"
+              },
+              {
+                "name": "Boy Band"
               }
             ]
           },
@@ -97,15 +106,39 @@
             "encore": 1,
             "song": [
               {
-                "name": "Threat of Joy",
-                "info": "First time since 2017"
+                "name": "La gent normal",
+                "cover": {
+                  "mbid": "76b2e842-5e85-4c97-ab62-d5bc315595b5",
+                  "name": "Pulp",
+                  "sortName": "Pulp",
+                  "disambiguation": "",
+                  "url": "https://www.setlist.fm/setlists/pulp-bd6bdda.html"
+                }
+              },
+              {
+                "name": "Al mar!",
+                "info": "J Balvin's \"Mi gente\" mashup version"
+              },
+              {
+                "name": "Benvolgut"
+              },
+              {
+                "name": "Mierda de ciudad",
+                "tape": true,
+                "cover": {
+                  "mbid": "74241690-77b4-4ce7-8237-9f71a14f50b7",
+                  "name": "Kortatu",
+                  "sortName": "Kortatu",
+                  "disambiguation": "",
+                  "url": "https://www.setlist.fm/setlists/kortatu-bd6351a.html"
+                }
               }
             ]
           }
         ]
       },
-      "info": "Estrella Damm Stage - At the door and Ode to the mets were on the setlist but Julian wouldnt stop talking and ran out of time.",
-      "url": "https://www.setlist.fm/setlist/the-strokes/2022/parc-del-forum-sant-adria-de-besos-spain-6bb43616.html"
+      "info": "\"Mort d'un heroi romàntic\" was written in the setlist after \"Tipus suite\", but crossed out",
+      "url": "https://www.setlist.fm/setlist/manel/2022/placa-corsini-tarragona-spain-73b07e29.html"
     }
   }
 }
