@@ -1,0 +1,3 @@
+setlistFm:
+  api:
+    baseUrl: https://api.setlist.fm/

@@ -1,0 +1,111 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/rest/1.0/setlist/abc12345",
+    "headers": {
+      "Accept": {
+        "equalTo": "application/json"
+      },
+      "x-api-key": {
+        "equalTo": "TEST_API_KEY"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "id": "abc12345",
+      "versionId": "g13f04535",
+      "eventDate": "10-06-2022",
+      "lastUpdated": "2022-08-03T02:53:24.000+0000",
+      "artist": {
+        "mbid": "f181961b-20f7-459e-89de-920ef03c7ed0",
+        "name": "The Strokes",
+        "sortName": "Strokes, The",
+        "disambiguation": "",
+        "url": "https://www.setlist.fm/setlists/the-strokes-23d6982f.html"
+      },
+      "venue": {
+        "id": "73d07e79",
+        "name": "Parc del Fòrum",
+        "city": {
+          "id": "3110921",
+          "name": "Sant Adrià de Besòs",
+          "state": "Catalonia",
+          "stateCode": "56",
+          "coords": {
+            "lat": 41.4307258201749,
+            "long": 2.21855163574219
+          },
+          "country": {
+            "code": "ES",
+            "name": "Spain"
+          }
+        },
+        "url": "https://www.setlist.fm/venue/parc-del-forum-sant-adria-de-besos-spain-73d07e79.html"
+      },
+      "sets": {
+        "set": [
+          {
+            "song": [
+              {
+                "name": "Bad Decisions",
+                "info": "Initial problems with microphone."
+              },
+              {
+                "name": "Hard to Explain"
+              },
+              {
+                "name": "Selfless"
+              },
+              {
+                "name": "Juicebox"
+              },
+              {
+                "name": "Someday"
+              },
+              {
+                "name": "Reptilia"
+              },
+              {
+                "name": "The Adults Are Talking"
+              },
+              {
+                "name": "You Only Live Once"
+              },
+              {
+                "name": "Under Control"
+              },
+              {
+                "name": "Take It or Leave It"
+              },
+              {
+                "name": "Brooklyn Bridge to Chorus"
+              },
+              {
+                "name": "New York City Cops"
+              },
+              {
+                "name": "Under Cover of Darkness"
+              }
+            ]
+          },
+          {
+            "encore": 1,
+            "song": [
+              {
+                "name": "Threat of Joy",
+                "info": "First time since 2017"
+              }
+            ]
+          }
+        ]
+      },
+      "info": "Estrella Damm Stage - At the door and Ode to the mets were on the setlist but Julian wouldnt stop talking and ran out of time.",
+      "url": "https://www.setlist.fm/setlist/the-strokes/2022/parc-del-forum-sant-adria-de-besos-spain-6bb43616.html"
+    }
+  }
+}
