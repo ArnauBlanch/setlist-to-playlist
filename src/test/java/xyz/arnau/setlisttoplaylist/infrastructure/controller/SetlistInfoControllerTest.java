@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import wiremock.org.eclipse.jetty.http.HttpStatus;
 import xyz.arnau.setlisttoplaylist.application.SetlistService;
-import xyz.arnau.setlisttoplaylist.domain.ArtistInfo;
+import xyz.arnau.setlisttoplaylist.domain.Artist;
 import xyz.arnau.setlisttoplaylist.domain.Setlist;
 
 import java.util.Optional;
@@ -35,7 +35,7 @@ class SetlistInfoControllerTest {
 
     @Test
     public void whenSetlistExists_shouldReturnOk() {
-        var setlist = new Setlist(new ArtistInfo("The Strokes"));
+        var setlist = Setlist.builder().artist(Artist.builder().name("The Strokes").build()).build();
 
         when(setlistService.getSetlist("not-found")).thenReturn(Optional.of(setlist));
 
