@@ -9,8 +9,8 @@ import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.Set
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -54,8 +54,7 @@ public class SetlistFmSetlistRepository implements SetlistRepository {
         return Optional.empty();
     }
 
-    private Date parseDate(String date) throws ParseException {
-        var format = new SimpleDateFormat("dd-MM-yyyy");
-        return format.parse(date);
+    private LocalDate parseDate(String date) throws ParseException {
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     }
 }

@@ -27,7 +27,7 @@ class SetlistFmSetlistRepositoryTest {
         Optional<Setlist> setlist = setlistRepository.getSetlist("abc12345");
 
         assertThat(setlist).isNotEmpty();
-        assertThat(setlist.get().date()).isEqualToIgnoringHours("2022-09-18");
+        assertThat(setlist.get().date()).isEqualTo("2022-09-18");
         assertThat(setlist.get().artist()).isEqualTo(new Artist("Manel"));
         assertThat(setlist.get().venue())
                 .isEqualTo(new Venue("Plaça Corsini", "Tarragona", "Spain", "ES"));
