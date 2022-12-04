@@ -1,11 +1,15 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import retrofit2.Response;
 import xyz.arnau.setlisttoplaylist.domain.*;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.SetlistFmApi;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.*;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.ArtistInfo;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetInfo;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistInfo;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.VenueInfo;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -22,7 +26,7 @@ public class SetlistFmSetlistRepository implements SetlistRepository {
     private final SetlistFmApi setlistFmApi;
     private final SongMapper songMapper;
 
-    @Override
+    @Cacheable(value = "setlists", key = "#id", unless="#result == null")
     public Optional<Setlist> getSetlist(String id) {
         try {
             Response<SetlistInfo> setlistInfoResponse = setlistFmApi.getSetlist(id).execute();

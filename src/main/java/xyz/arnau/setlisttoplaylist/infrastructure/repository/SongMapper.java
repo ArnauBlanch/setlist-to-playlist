@@ -9,8 +9,6 @@ import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.Son
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.SpotifyApiService;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.Image;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class SongMapper {
