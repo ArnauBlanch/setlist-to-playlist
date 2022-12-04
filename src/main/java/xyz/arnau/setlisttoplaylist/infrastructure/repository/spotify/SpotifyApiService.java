@@ -1,6 +1,7 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.TrackItem;
 
@@ -13,6 +14,7 @@ public class SpotifyApiService {
 
     private final SpotifyApi spotifyApi;
 
+    @Cacheable(value = "setlists", key = "#p0.concat(#p1)", unless="#result == null")
     public Optional<TrackItem> searchTrack(String artist, String trackName) {
         try {
             var response = spotifyApi.search(query(artist, trackName), "track", 1).execute();

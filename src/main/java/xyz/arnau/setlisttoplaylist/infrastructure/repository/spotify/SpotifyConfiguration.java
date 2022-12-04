@@ -8,8 +8,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.Token;
+
+import java.time.LocalDateTime;
 
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
+import static java.time.temporal.ChronoUnit.SECONDS;
 
 @Configuration
 public class SpotifyConfiguration {
@@ -26,14 +30,20 @@ public class SpotifyConfiguration {
     @Value("${spotify.api.clientSecret}")
     private String clientSecret;
 
+    private Token authToken;
+    private LocalDateTime tokenExpiration;
+
     @Bean
     public SpotifyApi spotifyApi(SpotifyAuthApi spotifyAuthApi) {
         var httpClient = new OkHttpClient.Builder().addInterceptor(chain -> {
             var credentials = Credentials.basic(clientId, clientSecret);
-            var authResult = spotifyAuthApi.getAccessToken(credentials, "client_credentials").execute();
+            if (authToken == null || LocalDateTime.now().isAfter(tokenExpiration)) {
+                authToken = spotifyAuthApi.getAccessToken(credentials, "client_credentials").execute().body();
+                tokenExpiration = LocalDateTime.now().plus(authToken.getExpiresIn() - 100, SECONDS);
+            }
 
             var newRequest = chain.request().newBuilder()
-                    .addHeader("Authorization", authResult.body().getTokenType() + " " + authResult.body().getAccessToken())
+                    .addHeader("Authorization", authToken.getTokenType() + " " + authToken.getAccessToken())
                     .build();
             return chain.proceed(newRequest);
         }).build();
