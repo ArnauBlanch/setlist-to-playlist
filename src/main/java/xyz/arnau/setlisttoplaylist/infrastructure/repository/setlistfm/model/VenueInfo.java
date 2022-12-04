@@ -6,6 +6,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class VenueInfo {
-    private String name;
-    private CityInfo city;
+    private final String name;
+    private final CityInfo city;
 }

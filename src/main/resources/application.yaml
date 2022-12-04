@@ -1,3 +1,8 @@
 setlistFm:
   api:
     baseUrl: https://api.setlist.fm/
+
+spotify:
+  api:
+    baseUrl: https://api.spotify.com/
+    accountsBaseUrl: https://accounts.spotify.com/

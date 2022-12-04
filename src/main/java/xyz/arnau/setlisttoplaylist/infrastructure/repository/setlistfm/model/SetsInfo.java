@@ -8,5 +8,5 @@ import java.util.List;
 @Getter
 @RequiredArgsConstructor
 public class SetsInfo {
-    private List<SetInfo> set;
+    private final List<SetInfo> set;
 }

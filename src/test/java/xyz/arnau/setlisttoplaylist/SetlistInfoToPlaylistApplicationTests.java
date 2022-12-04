@@ -2,6 +2,7 @@ package xyz.arnau.setlisttoplaylist;
 
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import io.restassured.RestAssured;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
@@ -19,15 +20,11 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
+@WireMockTest(httpPort = 8081)
 class SetlistInfoToPlaylistApplicationTests {
 
 	@LocalServerPort
 	private int port;
-
-	@Rule
-	public WireMockRule mockSpotifyRule = new WireMockRule(wireMockConfig()
-			.port(8077)
-			.extensions(new ResponseTemplateTransformer(true)));
 
 	@BeforeEach
 	public void setUp() {
@@ -37,12 +34,11 @@ class SetlistInfoToPlaylistApplicationTests {
 	@Test
 	void givenASetlistId_shouldReturnSetlist() {
 		given()
-				.queryParam("name", "Arctic Monkeys")
 		.when()
 				.get("/setlist/abc12345")
 		.then()
 				.statusCode(200)
-				.body("artist.name", equalTo("The Strokes"));
+				.body("artist.name", equalTo("Manel"));
 
 	}
 

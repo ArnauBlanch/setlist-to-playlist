@@ -6,6 +6,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class CountryInfo {
-    private String code;
-    private String name;
+    private final String code;
+    private final String name;
 }

@@ -6,6 +6,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class ArtistInfo {
-    private String mbid;
-    private String name;
+    private final String mbid;
+    private final String name;
 }

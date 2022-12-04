@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class SongInfo {
-    private String name;
-    private ArtistInfo cover;
-    private boolean tape;
+    private final String name;
+    private final ArtistInfo cover;
+    private final boolean tape;
 }
