@@ -12,7 +12,7 @@ import xyz.arnau.setlisttoplaylist.domain.Setlist;
 import static org.springframework.http.ResponseEntity.notFound;
 
 @RestController
-@RequestMapping("/setlist")
+@RequestMapping("/setlists")
 @RequiredArgsConstructor
 public class SetlistController {
 
