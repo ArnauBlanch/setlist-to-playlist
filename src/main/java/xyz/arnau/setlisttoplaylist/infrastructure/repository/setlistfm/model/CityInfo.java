@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class CityInfo {
-    private String name;
-    private String stateCode;
-    private String state;
-    private CountryInfo country;
+    private final String name;
+    private final String stateCode;
+    private final String state;
+    private final CountryInfo country;
 }

@@ -5,12 +5,13 @@ import org.springframework.stereotype.Service;
 import retrofit2.Response;
 import xyz.arnau.setlisttoplaylist.domain.*;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.SetlistFmApi;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistInfo;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.*;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class SetlistFmSetlistRepository implements SetlistRepository {
 
     private final SetlistFmApi setlistFmApi;
+    private final SongMapper songMapper;
 
     @Override
     public Optional<Setlist> getSetlist(String id) {
@@ -30,21 +32,9 @@ public class SetlistFmSetlistRepository implements SetlistRepository {
                 return Optional.of(
                         Setlist.builder()
                                 .date(parseDate(setlist.getEventDate()))
-                                .artist(Artist.builder().name(setlist.getArtist().getName()).build())
-                                .venue(Venue.builder()
-                                        .name(setlist.getVenue().getName())
-                                        .city(setlist.getVenue().getCity().getName())
-                                        .country(setlist.getVenue().getCity().getCountry().getName())
-                                        .countryCode(setlist.getVenue().getCity().getCountry().getCode())
-                                        .build())
-                                .songs(setlist.getSets().getSet().stream()
-                                        .flatMap(setInfo -> setInfo.getSong().stream())
-                                        .filter(song -> !song.isTape())
-                                        .map(song -> Song.builder()
-                                                .name(song.getName())
-                                                .originalArtist(song.getCover() != null ? song.getCover().getName() : null)
-                                                .build())
-                                        .collect(Collectors.toList()))
+                                .artist(mapArtist(setlist.getArtist()))
+                                .venue(mapVenue(setlist.getVenue()))
+                                .songs(mapSongs(setlist.getSets().getSet(), setlist.getArtist()))
                                 .build());
             }
         } catch (IOException | ParseException e) {
@@ -52,6 +42,26 @@ public class SetlistFmSetlistRepository implements SetlistRepository {
         }
 
         return Optional.empty();
+    }
+
+    private List<Song> mapSongs(List<SetInfo> setsInfo, ArtistInfo artistInfo) {
+        return setsInfo.stream()
+                .flatMap(setInfo -> setInfo.getSong().stream())
+                .map(song -> songMapper.map(song, artistInfo))
+                .collect(Collectors.toList());
+    }
+
+    private static Artist mapArtist(ArtistInfo artistInfo) {
+        return Artist.builder().name(artistInfo.getName()).build();
+    }
+
+    private static Venue mapVenue(VenueInfo venueInfo) {
+        return Venue.builder()
+                .name(venueInfo.getName())
+                .city(venueInfo.getCity().getName())
+                .country(venueInfo.getCity().getCountry().getName())
+                .countryCode(venueInfo.getCity().getCountry().getCode())
+                .build();
     }
 
     private LocalDate parseDate(String date) throws ParseException {

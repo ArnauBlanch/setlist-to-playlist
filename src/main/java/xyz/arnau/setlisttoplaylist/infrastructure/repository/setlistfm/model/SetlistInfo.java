@@ -6,9 +6,9 @@ import lombok.Getter;
 @Getter
 @Builder
 public class SetlistInfo {
-    private String id;
-    private String eventDate;
-    private ArtistInfo artist;
-    private VenueInfo venue;
-    private SetsInfo sets;
+    private final String id;
+    private final String eventDate;
+    private final ArtistInfo artist;
+    private final VenueInfo venue;
+    private final SetsInfo sets;
 }

@@ -12,6 +12,7 @@ import xyz.arnau.setlisttoplaylist.domain.Venue;
 import java.util.Optional;
 
 import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -31,26 +32,8 @@ class SetlistFmSetlistRepositoryTest {
         assertThat(setlist.get().artist()).isEqualTo(new Artist("Manel"));
         assertThat(setlist.get().venue())
                 .isEqualTo(new Venue("Plaça Corsini", "Tarragona", "Spain", "ES"));
-        assertThat(setlist.get().songs()).isEqualTo(asList(
-                new Song("En la que el Bernat se't troba", null),
-                new Song("Per la bona gent", null),
-                new Song("Els entusiasmats", null),
-                new Song("Tipus suite", null),
-                new Song("Criticarem les noves modes de pentinats", null),
-                new Song("Aquí tens el meu braç", null),
-                new Song("La jungla", null),
-                new Song("Les estrelles", null),
-                new Song("Formigues", null),
-                new Song("Captatio benevolentiae", null),
-                new Song("Jo competeixo", null),
-                new Song("La cançó del soldadet", null),
-                new Song("Sabotatge", null),
-                new Song("Boomerang", null),
-                new Song("Teresa Rampell", null),
-                new Song("Boy Band", null),
-                new Song("La gent normal", "Pulp"),
-                new Song("Al mar!", null),
-                new Song("Benvolgut", null)
-        ));
+        assertThat(setlist.get().songs().stream().map(Song::spotifyId).collect(toList()))
+                .isEqualTo(asList("6H86gna5KDoPurwLxb6pIV", "4lKwqIEmnm0wsRLOuwUMLv", null,
+                        "4KQPAGQNStZaWiewr83fwM", "6ADbZPiWZNsaCiIvsg5iq6", "6lSJZiZqWU8Qt1fJVeFZEv"));
     }
 }

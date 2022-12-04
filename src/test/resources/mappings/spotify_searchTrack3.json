@@ -1,0 +1,39 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/v1/search",
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer ACCESS_TOKEN_SPOTIFY_CLIENT_CREDENTIALS"
+      }
+    },
+    "queryParameters": {
+      "q": {
+        "equalTo": "artist:Pulp track:La gent normal"
+      },
+      "type": {
+        "equalTo": "track"
+      },
+      "limit": {
+        "equalTo": "1"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "tracks": {
+        "href": "https://api.spotify.com/v1/search?query=artist%3APulp+track%3ALa+gent+normal&type=track&offset=0&limit=1",
+        "items": [],
+        "limit": 1,
+        "next": null,
+        "offset": 0,
+        "previous": null,
+        "total": 0
+      }
+    }
+  }
+}

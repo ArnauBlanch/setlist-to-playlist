@@ -2,3 +2,11 @@ setlistFm:
   api:
     baseUrl: http://localhost:8081/
     apiKey: TEST_API_KEY
+
+
+spotify:
+  api:
+    baseUrl: http://localhost:8081/
+    accountsBaseUrl: http://localhost:8081/
+    clientId: SPOTIFY_CLIENT_ID
+    clientSecret: SPOTIFY_CLIENT_SECRET
