@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toList;
 public class PlaylistService {
     private final SetlistService setlistService;
     private final PlaylistRepository playlistRepository;
+    private final PlaylistImageGenerator playlistImageGenerator;
 
     private static final String PLAYLIST_NAME = "${artistName} at ${venueName} - ${date}";
     private static final String PLAYLIST_DESCRIPTION =
@@ -46,5 +47,13 @@ public class PlaylistService {
             put("venueCountryCode", setlist.venue().countryCode());
             put("date", setlist.date().format(DateTimeFormatter.ofLocalizedDate(LONG).localizedBy(US)));
         }});
+    }
+
+    public byte[] getCoverImage(String setlistId) {
+        var setlist = setlistService.getSetlist(setlistId);
+        if (setlist.isEmpty() || setlist.get().songs().isEmpty())
+            throw new SetlistNotFoundException(setlistId);
+
+        return playlistImageGenerator.generateImage(setlist.get());
     }
 }
