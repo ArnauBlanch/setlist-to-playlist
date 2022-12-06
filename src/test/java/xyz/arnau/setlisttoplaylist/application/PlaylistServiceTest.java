@@ -57,7 +57,7 @@ class PlaylistServiceTest {
                 .isEqualTo("Setlist for The Strokes concert at Primavera Sound (Barcelona, ES) on June 10, 2022.");
         assertThat(command.isPublic()).isEqualTo(false);
         assertThat(command.songIds()).containsExactly("spt1", "spt2");
-        assertThat(command.coverImageBytes()).isEqualTo(imageBytes);
+        assertThat(command.coverImage()).isEqualTo(imageBytes);
     }
 
     @Test

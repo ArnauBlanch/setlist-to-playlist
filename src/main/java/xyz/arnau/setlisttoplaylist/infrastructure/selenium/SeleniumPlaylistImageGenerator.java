@@ -13,9 +13,16 @@ import org.springframework.stereotype.Component;
 import xyz.arnau.setlisttoplaylist.domain.PlaylistImageGenerator;
 import xyz.arnau.setlisttoplaylist.domain.Setlist;
 
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.HashMap;
 
 import static com.google.common.io.Resources.getResource;
@@ -25,6 +32,7 @@ import static java.time.Duration.of;
 import static java.time.format.FormatStyle.LONG;
 import static java.time.temporal.ChronoUnit.SECONDS;
 import static java.util.Locale.US;
+import static javax.imageio.ImageIO.createImageOutputStream;
 import static org.openqa.selenium.support.ui.ExpectedConditions.jsReturnsValue;
 
 @Component
@@ -36,7 +44,11 @@ public class SeleniumPlaylistImageGenerator implements PlaylistImageGenerator {
     public byte[] generateImage(Setlist setlist) {
         try {
             var coverHtml = getCoverHtml(setlist);
-            return loadCover(coverHtml).getScreenshotAs(OutputType.BYTES);
+            var inputFile = loadCover(coverHtml).getScreenshotAs(OutputType.FILE);
+            try (var outputStream = new ByteArrayOutputStream()) {
+                convertImageToJpg(inputFile, outputStream);
+                return outputStream.toByteArray();
+            }
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -66,5 +78,34 @@ public class SeleniumPlaylistImageGenerator implements PlaylistImageGenerator {
                 new ChromeOptions()
                         .setHeadless(true)
                         .setLogLevel(ChromeDriverLogLevel.OFF));
+    }
+
+    private static void convertImageToJpg(File inputFile, ByteArrayOutputStream outputStream) throws IOException {
+        var writer  = ImageIO.getImageWritersByFormatName("jpg").next();
+        writer.setOutput(createImageOutputStream(outputStream));
+
+        var bufferedImage = removeAlphaChannel(ImageIO.read(inputFile));
+        writer.write(null,
+                new IIOImage(bufferedImage, null, null),
+                writer.getDefaultWriteParam());
+        writer.dispose();
+    }
+
+    private static BufferedImage removeAlphaChannel(BufferedImage img) {
+        if (!img.getColorModel().hasAlpha()) {
+            return img;
+        }
+
+        BufferedImage target = createImage(img.getWidth(), img.getHeight(), false);
+        Graphics2D g = target.createGraphics();
+        g.fillRect(0, 0, img.getWidth(), img.getHeight());
+        g.drawImage(img, 0, 0, null);
+        g.dispose();
+
+        return target;
+    }
+
+    private static BufferedImage createImage(int width, int height, boolean hasAlpha) {
+        return new BufferedImage(width, height, hasAlpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
     }
 }
