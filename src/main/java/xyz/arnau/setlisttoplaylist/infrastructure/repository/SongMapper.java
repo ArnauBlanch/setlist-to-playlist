@@ -18,7 +18,7 @@ public class SongMapper {
         var artist = songInfo.getCover() != null ? songInfo.getCover().getName() : artistInfo.getName();
         return spotifyApiService.searchTrack(artist, songInfo.getName())
                 .map(track -> Song.builder()
-                        .spotifyId(track.getId())
+                        .id(track.getId())
                         .name(track.getName())
                         .durationSeconds(track.getDurationMs() / 1000)
                         .previewUrl(track.getPreviewUrl())

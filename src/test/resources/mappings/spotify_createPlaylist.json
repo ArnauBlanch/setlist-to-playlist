@@ -1,0 +1,65 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/v1/users/spotifyuserid/playlists",
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer SPOTIFY_USER_TOKEN"
+      }
+    },
+    "bodyPatterns": [{
+      "equalToJson": {
+        "name": "Manel at Plaça Corsini - September 18, 2022",
+        "description": "Setlist for Manel concert at Plaça Corsini (Tarragona, ES) on September 18, 2022.",
+        "public": false
+      },
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    }]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "collaborative": false,
+      "description": "Setlist for Manel concert at Plaça Corsini (Tarragona, ES) on September 18, 2022.",
+      "external_urls": {
+        "spotify": "https://open.spotify.com/playlist/0a6xVqBCrxn8Ug0Wrudv9J"
+      },
+      "followers": {
+        "href": null,
+        "total": 0
+      },
+      "href": "https://api.spotify.com/v1/playlists/0a6xVqBCrxn8Ug0Wrudv9J",
+      "id": "0a6xVqBCrxn8Ug0Wrudv9J",
+      "images": [],
+      "name": "Manel at Plaça Corsini - September 18, 2022",
+      "owner": {
+        "display_name": "Full Name",
+        "external_urls": {
+          "spotify": "https://open.spotify.com/user/spotifyuserid"
+        },
+        "href": "https://api.spotify.com/v1/users/spotifyuserid",
+        "id": "arnaubc",
+        "type": "user",
+        "uri": "spotify:user:arnaubc"
+      },
+      "primary_color": null,
+      "public": false,
+      "snapshot_id": "MSw4OWU2M2IyNGQ1MjQ3ODBiMWRjZmEwMTIyN2UyMTI1ZjJjODc1Zjll",
+      "tracks": {
+        "href": "https://api.spotify.com/v1/playlists/0a6xVqBCrxn8Ug0Wrudv9J/tracks",
+        "items": [],
+        "limit": 100,
+        "next": null,
+        "offset": 0,
+        "previous": null,
+        "total": 0
+      },
+      "type": "playlist",
+      "uri": "spotify:playlist:0a6xVqBCrxn8Ug0Wrudv9J"
+    }
+  }
+}
