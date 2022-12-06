@@ -14,7 +14,6 @@ import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.Creat
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.MeResponse;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.TrackItem;
 
-import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
