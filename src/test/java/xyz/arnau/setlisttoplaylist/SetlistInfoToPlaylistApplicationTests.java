@@ -10,6 +10,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static io.restassured.RestAssured.given;
+import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static wiremock.org.eclipse.jetty.http.HttpStatus.CREATED_201;
@@ -35,12 +36,21 @@ class SetlistInfoToPlaylistApplicationTests {
 				.get("/setlists/abc12345")
 		.then()
 				.statusCode(OK_200)
-				.body("artist.name", equalTo("Manel"));
+				.body(
+						"artist.name", equalTo("Manel"),
+						"venue.name", equalTo("Plaça Corsini"),
+						"venue.city", equalTo("Tarragona"),
+						"venue.country", equalTo("Spain"),
+						"venue.countryCode", equalTo("ES"),
+						"date", equalTo("2022-09-18"),
+						"songs.id", equalTo(asList(
+								"6H86gna5KDoPurwLxb6pIV", "4lKwqIEmnm0wsRLOuwUMLv", null,
+								"4KQPAGQNStZaWiewr83fwM", "6ADbZPiWZNsaCiIvsg5iq6", "6lSJZiZqWU8Qt1fJVeFZEv")));
 
 	}
 
 	@Test
-	void givenASetlistId_shouldCreateSpotifyPlaylist() {
+	void givenASetlistId_shouldCreateSpotifyPlaylistAndAddSongs() {
 		given()
 				.header("Authorization", "Bearer SPOTIFY_USER_TOKEN")
 		.when()

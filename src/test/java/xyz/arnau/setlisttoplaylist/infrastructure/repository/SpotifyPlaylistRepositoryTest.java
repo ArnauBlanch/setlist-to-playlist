@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import xyz.arnau.setlisttoplaylist.domain.CreatePlaylistCommand;
 import xyz.arnau.setlisttoplaylist.domain.Playlist;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -22,6 +23,8 @@ class SpotifyPlaylistRepositoryTest {
                 .name("Manel at Plaça Corsini - September 18, 2022")
                 .description("Setlist for Manel concert at Plaça Corsini (Tarragona, ES) on September 18, 2022.")
                 .isPublic(false)
+                .songIds(asList("6H86gna5KDoPurwLxb6pIV", "4lKwqIEmnm0wsRLOuwUMLv", "4KQPAGQNStZaWiewr83fwM",
+                        "6ADbZPiWZNsaCiIvsg5iq6", "6lSJZiZqWU8Qt1fJVeFZEv"))
                 .build();
         Playlist playlist = spotifyPlaylistRepository.create(command, "Bearer SPOTIFY_USER_TOKEN");
 

@@ -42,6 +42,9 @@ public class SpotifyConfiguration {
                 tokenExpiration = LocalDateTime.now().plus(authToken.getExpiresIn() - 100, SECONDS);
             }
 
+            if (chain.request().header("Authorization") != null)
+                return chain.proceed(chain.request());
+
             var newRequest = chain.request().newBuilder()
                     .addHeader("Authorization", authToken.getTokenType() + " " + authToken.getAccessToken())
                     .build();

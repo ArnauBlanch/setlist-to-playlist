@@ -8,6 +8,8 @@ import xyz.arnau.setlisttoplaylist.application.SetlistService;
 import xyz.arnau.setlisttoplaylist.domain.Setlist;
 import xyz.arnau.setlisttoplaylist.domain.SetlistNotFoundException;
 
+import java.util.Optional;
+
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.ResponseEntity.notFound;
@@ -22,7 +24,8 @@ public class SetlistController {
 
     @GetMapping("{setlistId}")
     public ResponseEntity<Setlist> getSetlist(@PathVariable String setlistId) {
-        return setlistService.getSetlist(setlistId)
+        Optional<Setlist> setlist = setlistService.getSetlist(setlistId);
+        return setlist
                 .map(ResponseEntity::ok)
                 .orElse(notFound().build());
     }
