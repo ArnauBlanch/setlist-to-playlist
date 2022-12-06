@@ -28,6 +28,8 @@ class PlaylistServiceTest {
     private SetlistService setlistService;
     @Mock
     private PlaylistRepository playlistRepository;
+    @Mock
+    private PlaylistImageGenerator playlistImageGenerator;
 
     @InjectMocks
     private PlaylistService playlistService;
@@ -39,9 +41,11 @@ class PlaylistServiceTest {
     public void whenSetlistIsFound_shouldCreatePlaylist() {
         var playlist = new Playlist("12345");
         var setlist = aSetlist();
+        var imageBytes = "image".getBytes();
 
         when(setlistService.getSetlist(SETLIST_ID)).thenReturn(Optional.of(setlist));
         when(playlistRepository.create(createCommandCaptor.capture(), eq(USER_TOKEN))).thenReturn(playlist);
+        when(playlistImageGenerator.generateImage(setlist)).thenReturn(imageBytes);
 
         var result = playlistService.createFromSetlist(SETLIST_ID, false, USER_TOKEN);
 
@@ -53,6 +57,7 @@ class PlaylistServiceTest {
                 .isEqualTo("Setlist for The Strokes concert at Primavera Sound (Barcelona, ES) on June 10, 2022.");
         assertThat(command.isPublic()).isEqualTo(false);
         assertThat(command.songIds()).containsExactly("spt1", "spt2");
+        assertThat(command.coverImageBytes()).isEqualTo(imageBytes);
     }
 
     @Test

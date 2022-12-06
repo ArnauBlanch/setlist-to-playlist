@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "PUT",
+    "urlPath": "/v1/playlists/0a6xVqBCrxn8Ug0Wrudv9J/images",
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer SPOTIFY_USER_TOKEN"
+      },
+      "Content-Type": {
+        "equalTo": "application/png"
+      }
+    }
+  },
+  "response": {
+    "status": 202
+  }
+}
