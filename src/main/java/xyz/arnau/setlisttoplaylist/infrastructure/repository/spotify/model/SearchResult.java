@@ -7,6 +7,6 @@ import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
-public final class TracksSearchResult {
-    private final List<TrackItem> items;
+public final class SearchResult<T> {
+    private final List<T> items;
 }

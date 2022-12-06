@@ -29,7 +29,7 @@ class SetlistFmSetlistRepositoryTest {
 
         assertThat(setlist).isNotEmpty();
         assertThat(setlist.get().date()).isEqualTo("2022-09-18");
-        assertThat(setlist.get().artist()).isEqualTo(new Artist("Manel"));
+        assertThat(setlist.get().artist()).isEqualTo(new Artist("Manel", "https://i.scdn.co/image/ab6761610000e5ebf03cdcbdda43b390cf876a6a"));
         assertThat(setlist.get().venue())
                 .isEqualTo(new Venue("Plaça Corsini", "Tarragona", "Spain", "ES"));
         assertThat(setlist.get().songs().stream().map(Song::id).collect(toList()))

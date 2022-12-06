@@ -43,12 +43,12 @@ class SpotifyApiServiceTest {
         public void when200AndSongMatches_ReturnsSong() throws InterruptedException {
             mockWebServer.enqueue(new MockResponse()
                     .setResponseCode(OK.value())
-                    .setBody(toJson(searchResult(
-                            TrackItem.builder()
+                    .setBody(toJson(new SearchResponse(
+                            new SearchResult<>(singletonList(TrackItem.builder()
                                     .id(SPOTIFY_ID)
                                     .name(SONG_NAME)
                                     .artists(singletonList(ArtistItem.builder().name(ARTIST).build()))
-                                    .build()))));
+                                    .build())), null))));
 
             var track = apiService.searchTrack(ARTIST, SONG_NAME);
 
@@ -69,12 +69,12 @@ class SpotifyApiServiceTest {
         public void when200AndSongDoesNotMatch_ReturnsNull() {
             mockWebServer.enqueue(new MockResponse()
                     .setResponseCode(OK.value())
-                    .setBody(toJson(searchResult(
-                            TrackItem.builder()
+                    .setBody(toJson(new SearchResponse(
+                            new SearchResult<>(singletonList(TrackItem.builder()
                                     .id(SPOTIFY_ID)
                                     .name(SONG_NAME)
                                     .artists(singletonList(ArtistItem.builder().name("Wrong Artist").build()))
-                                    .build()))));
+                                    .build())), null))));
 
             var track = apiService.searchTrack(ARTIST, SONG_NAME);
 
@@ -85,11 +85,58 @@ class SpotifyApiServiceTest {
         public void when200AndSongIsNotFound_ReturnsNull() {
             mockWebServer.enqueue(new MockResponse()
                     .setResponseCode(OK.value())
-                    .setBody(toJson(searchResult(null))));
+                    .setBody(toJson(new SearchResponse(new SearchResult<>(emptyList()), null))));
 
             var track = apiService.searchTrack(ARTIST, SONG_NAME);
 
             assertThat(track).isEmpty();
+        }
+
+        @Test
+        public void whenNot200_ThrowsException() {
+            mockWebServer.enqueue(new MockResponse().setResponseCode(UNAUTHORIZED.value()));
+
+            assertThrows(RuntimeException.class, () -> apiService.searchTrack(ARTIST, SONG_NAME));
+        }
+    }
+
+    @Nested
+    class SearchArtist {
+
+        @Test
+        public void when200_ReturnsArtist() throws InterruptedException {
+            mockWebServer.enqueue(new MockResponse()
+                    .setResponseCode(OK.value())
+                    .setBody(toJson(new SearchResponse(null,
+                            new SearchResult<>(singletonList(
+                            ArtistItem.builder().name(ARTIST)
+                                    .images(asList(new Image("image1.jpg"), new Image("image2.jpg")))
+                                    .build()))))));
+
+            var artist = apiService.searchArtist(ARTIST);
+
+            assertThat(artist).isNotEmpty();
+            assertThat(artist.get().getName()).isEqualTo(ARTIST);
+            assertThat(artist.get().getImages()).isEqualTo(asList(new Image("image1.jpg"), new Image("image2.jpg")));
+
+            RecordedRequest request = mockWebServer.takeRequest();
+            assertThat(request.getMethod()).isEqualTo("GET");
+            assertThat(request.getRequestUrl().encodedPath()).isEqualTo("/v1/search");
+            assertThat(request.getRequestUrl().queryParameter("q"))
+                    .isEqualTo("artist:" + ARTIST);
+            assertThat(request.getRequestUrl().queryParameter("type")).isEqualTo("artist");
+            assertThat(request.getRequestUrl().queryParameter("limit")).isEqualTo("1");
+        }
+
+        @Test
+        public void when200AndArtistIsNotFound_ReturnsNull() {
+            mockWebServer.enqueue(new MockResponse()
+                    .setResponseCode(OK.value())
+                    .setBody(toJson(new SearchResponse(null, new SearchResult<>(emptyList())))));
+
+            var artist = apiService.searchArtist(ARTIST);
+
+            assertThat(artist).isEmpty();
         }
 
         @Test
@@ -198,10 +245,5 @@ class SpotifyApiServiceTest {
                 .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES)
                 .create()
                 .toJson(result);
-    }
-
-    private SearchResponse searchResult(TrackItem track) {
-        return new SearchResponse(new TracksSearchResult(
-                track != null ? singletonList(track) : emptyList()));
     }
 }

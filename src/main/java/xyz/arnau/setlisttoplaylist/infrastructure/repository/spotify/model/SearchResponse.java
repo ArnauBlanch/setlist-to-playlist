@@ -6,5 +6,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public final class SearchResponse {
-    private final TracksSearchResult tracks;
+    private final SearchResult<TrackItem> tracks;
+    private final SearchResult<ArtistItem> artists;
 }

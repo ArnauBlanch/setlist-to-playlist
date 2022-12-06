@@ -1,0 +1,79 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/v1/search",
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer ACCESS_TOKEN_SPOTIFY_CLIENT_CREDENTIALS"
+      }
+    },
+    "queryParameters": {
+      "q": {
+        "equalTo": "artist:Manel"
+      },
+      "type": {
+        "equalTo": "artist"
+      },
+      "limit": {
+        "equalTo": "1"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "artists": {
+        "href": "https://api.spotify.com/v1/search?query=artist%3AManel&type=artist&locale=ca-ES%2Cca%3Bq%3D0.9%2Ces-ES%3Bq%3D0.8%2Ces%3Bq%3D0.7&offset=0&limit=1",
+        "items": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/40tHhop0T30DwienQBmTxb"
+            },
+            "followers": {
+              "href": null,
+              "total": 139250
+            },
+            "genres": [
+              "cantautor",
+              "indie catala",
+              "musica catalana",
+              "rock catala",
+              "spanish folk"
+            ],
+            "href": "https://api.spotify.com/v1/artists/40tHhop0T30DwienQBmTxb",
+            "id": "40tHhop0T30DwienQBmTxb",
+            "images": [
+              {
+                "height": 640,
+                "url": "https://i.scdn.co/image/ab6761610000e5ebf03cdcbdda43b390cf876a6a",
+                "width": 640
+              },
+              {
+                "height": 320,
+                "url": "https://i.scdn.co/image/ab67616100005174f03cdcbdda43b390cf876a6a",
+                "width": 320
+              },
+              {
+                "height": 160,
+                "url": "https://i.scdn.co/image/ab6761610000f178f03cdcbdda43b390cf876a6a",
+                "width": 160
+              }
+            ],
+            "name": "Manel",
+            "popularity": 47,
+            "type": "artist",
+            "uri": "spotify:artist:40tHhop0T30DwienQBmTxb"
+          }
+        ],
+        "limit": 1,
+        "next": "https://api.spotify.com/v1/search?query=artist%3AManel&type=artist&locale=ca-ES%2Cca%3Bq%3D0.9%2Ces-ES%3Bq%3D0.8%2Ces%3Bq%3D0.7&offset=1&limit=1",
+        "offset": 0,
+        "previous": null,
+        "total": 318
+      }
+    }
+  }
+}

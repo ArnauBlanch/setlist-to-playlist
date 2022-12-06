@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import retrofit2.Response;
 import xyz.arnau.setlisttoplaylist.domain.MusicPlatformAuthException;
 import xyz.arnau.setlisttoplaylist.domain.Playlist;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.ArtistItem;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.CreatePlaylistRequest;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.MeResponse;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.TrackItem;
@@ -27,7 +28,7 @@ public class SpotifyApiService {
     @Cacheable(value = "setlists", key = "#p0.concat(#p1)", unless="#result == null")
     public Optional<TrackItem> searchTrack(String artist, String trackName) {
         try {
-            var response = spotifyApi.search(query(artist, trackName), "track", 1).execute();
+            var response = spotifyApi.search(searchSongQuery(artist, trackName), "track", 1).execute();
             if (response.isSuccessful() && response.body() != null) {
                 var trackItems = response.body().getTracks().getItems();
                 if (!trackItems.isEmpty()) {
@@ -45,8 +46,23 @@ public class SpotifyApiService {
         return Optional.empty();
     }
 
-    private static String query(String artist, String trackName) {
-        return "artist:%s track:%s" .formatted(artist, trackName);
+    @Cacheable(value = "artists", key = "#p0", unless="#result == null")
+    public Optional<ArtistItem> searchArtist(String artistName) {
+        try {
+            var response = spotifyApi.search(searchArtistQuery(artistName), "artist", 1).execute();
+            if (response.isSuccessful() && response.body() != null) {
+                var artistItems = response.body().getArtists().getItems();
+                if (!artistItems.isEmpty()) {
+                    var artistItem = artistItems.get(0);
+                    return Optional.of(artistItem);
+                }
+            } else {
+                throw new RuntimeException("Spotify API error");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return Optional.empty();
     }
 
     public String getUserId(String authorizationHeader) {
@@ -92,5 +108,13 @@ public class SpotifyApiService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static String searchSongQuery(String artist, String trackName) {
+        return "artist:%s track:%s" .formatted(artist, trackName);
+    }
+
+    private static String searchArtistQuery(String artist) {
+        return "artist:%s" .formatted(artist);
     }
 }

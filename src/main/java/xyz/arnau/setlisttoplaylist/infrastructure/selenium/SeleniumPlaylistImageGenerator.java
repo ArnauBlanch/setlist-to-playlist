@@ -15,13 +15,16 @@ import xyz.arnau.setlisttoplaylist.domain.Setlist;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 import static com.google.common.io.Resources.getResource;
 import static java.nio.file.Files.readString;
 import static java.nio.file.Paths.get;
 import static java.time.Duration.of;
+import static java.time.format.FormatStyle.LONG;
 import static java.time.temporal.ChronoUnit.SECONDS;
+import static java.util.Locale.US;
 import static org.openqa.selenium.support.ui.ExpectedConditions.jsReturnsValue;
 
 @Component
@@ -54,7 +57,7 @@ public class SeleniumPlaylistImageGenerator implements PlaylistImageGenerator {
             put("artistName", setlist.artist().name());
             put("artistImage", setlist.artist().image());
             put("venueName", setlist.venue().name());
-            put("date", setlist.date());
+            put("date", setlist.date().format(DateTimeFormatter.ofLocalizedDate(LONG).localizedBy(US)));
         }});
     }
 

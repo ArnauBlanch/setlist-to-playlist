@@ -43,9 +43,13 @@ public class PlaylistController {
 
     @GetMapping("{setlistId}/cover")
     public ResponseEntity<byte[]> getPlaylistCover(@PathVariable String setlistId) {
-        var imageBytes = playlistService.getCoverImage(setlistId);
-        var headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_PNG);
-        return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
+        try {
+            var imageBytes = playlistService.getCoverImage(setlistId);
+            var headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_PNG);
+            return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
+        } catch (SetlistNotFoundException ex) {
+            return ResponseEntity.status(NOT_FOUND).build();
+        }
     }
 }
