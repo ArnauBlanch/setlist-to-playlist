@@ -25,6 +25,7 @@ class SpotifyPlaylistRepositoryTest {
                 .isPublic(false)
                 .songIds(asList("6H86gna5KDoPurwLxb6pIV", "4lKwqIEmnm0wsRLOuwUMLv", "4KQPAGQNStZaWiewr83fwM",
                         "6ADbZPiWZNsaCiIvsg5iq6", "6lSJZiZqWU8Qt1fJVeFZEv"))
+                .coverImageBytes("image".getBytes())
                 .build();
         Playlist playlist = spotifyPlaylistRepository.create(command, "Bearer SPOTIFY_USER_TOKEN");
 

@@ -1,6 +1,8 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify;
 
 import lombok.RequiredArgsConstructor;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,9 @@ import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.Creat
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.MeResponse;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.TrackItem;
 
+import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -103,6 +107,20 @@ public class SpotifyApiService {
             if (response.code() == UNAUTHORIZED.value()) {
                 throw new MusicPlatformAuthException(UNAUTHORIZED.name());
             } else if (response.code() != HttpStatus.CREATED.value()) {
+                throw new RuntimeException("Spotify API error");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addCoverImageToPlaylist(String playlistId, byte[] imageBytes, String authorizationHeader) {
+        try {
+            Response<Void> response = spotifyApi.addCoverImageToPlaylist(playlistId,
+                    RequestBody.create(MediaType.parse("application/png"), Base64.getEncoder().encode(imageBytes)), authorizationHeader).execute();
+            if (response.code() == UNAUTHORIZED.value()) {
+                throw new MusicPlatformAuthException(UNAUTHORIZED.name());
+            } else if (response.code() != HttpStatus.ACCEPTED.value()) {
                 throw new RuntimeException("Spotify API error");
             }
         } catch (IOException e) {
