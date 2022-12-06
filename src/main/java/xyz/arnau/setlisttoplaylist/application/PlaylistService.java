@@ -5,6 +5,7 @@ import org.apache.commons.text.StringSubstitutor;
 import org.springframework.stereotype.Service;
 import xyz.arnau.setlisttoplaylist.domain.*;
 
+import java.io.File;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Objects;
@@ -34,7 +35,7 @@ public class PlaylistService {
                 .description(fillData(PLAYLIST_DESCRIPTION, setlist.get()))
                 .isPublic(isPublic)
                 .songIds(setlist.get().songs().stream().map(Song::id).filter(Objects::nonNull).collect(toList()))
-                .coverImageBytes(playlistImageGenerator.generateImage(setlist.get()))
+                .coverImage(playlistImageGenerator.generateImage(setlist.get()))
                 .build();
         return playlistRepository.create(command, authorizationHeader);
     }

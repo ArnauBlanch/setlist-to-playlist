@@ -1,7 +1,6 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify;
 
 import lombok.RequiredArgsConstructor;
-import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -14,12 +13,24 @@ import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.Creat
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.MeResponse;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.TrackItem;
 
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.FileImageOutputStream;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.util.Base64.getEncoder;
+import static okhttp3.MediaType.parse;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Service
@@ -113,10 +124,12 @@ public class SpotifyApiService {
         }
     }
 
-    public void addCoverImageToPlaylist(String playlistId, byte[] imageBytes, String authorizationHeader) {
+    public void addCoverImageToPlaylist(String playlistId, byte[] image, String authorizationHeader) {
         try {
+            RequestBody body = RequestBody.create(parse("application/jpg"),
+                    Base64.getEncoder().encodeToString(image));
             Response<Void> response = spotifyApi.addCoverImageToPlaylist(playlistId,
-                    RequestBody.create(MediaType.parse("application/png"), Base64.getEncoder().encode(imageBytes)), authorizationHeader).execute();
+                    body, authorizationHeader).execute();
             if (response.code() == UNAUTHORIZED.value()) {
                 throw new MusicPlatformAuthException(UNAUTHORIZED.name());
             } else if (response.code() != HttpStatus.ACCEPTED.value()) {

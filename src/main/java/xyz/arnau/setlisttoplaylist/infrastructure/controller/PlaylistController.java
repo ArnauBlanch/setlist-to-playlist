@@ -36,7 +36,7 @@ public class PlaylistController {
         try {
             var imageBytes = playlistService.getCoverImage(setlistId);
             var headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_PNG);
+            headers.setContentType(MediaType.IMAGE_JPEG);
             return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
         } catch (SetlistNotFoundException ex) {
             return ResponseEntity.status(NOT_FOUND).build();

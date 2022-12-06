@@ -24,7 +24,7 @@ public class SpotifyPlaylistRepository implements PlaylistRepository {
                         createPlaylistCommand.isPublic()),
                 authorizationHeader);
         spotifyApiService.addSongsToPlaylist(playlist.id(), createPlaylistCommand.songIds(), authorizationHeader);
-        spotifyApiService.addCoverImageToPlaylist(playlist.id(), createPlaylistCommand.coverImageBytes(), authorizationHeader);
+        spotifyApiService.addCoverImageToPlaylist(playlist.id(), createPlaylistCommand.coverImage(), authorizationHeader);
         return playlist;
     }
 }
