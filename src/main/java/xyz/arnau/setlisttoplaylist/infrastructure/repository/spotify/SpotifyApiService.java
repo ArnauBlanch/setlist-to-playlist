@@ -2,6 +2,7 @@ package xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import retrofit2.Response;
 import xyz.arnau.setlisttoplaylist.domain.MusicPlatformAuthException;
@@ -11,7 +12,9 @@ import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.MeRes
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.TrackItem;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
@@ -29,7 +32,7 @@ public class SpotifyApiService {
                 var trackItems = response.body().getTracks().getItems();
                 if (!trackItems.isEmpty()) {
                     var trackItem = trackItems.get(0);
-                    if (trackItem.getArtists().stream().anyMatch(a -> a.getName().equals(artist))) {
+                    if (trackItem.getArtists().stream().anyMatch(a -> a.getName().equalsIgnoreCase(artist))) {
                         return Optional.of(trackItem);
                     }
                 }
@@ -69,6 +72,21 @@ public class SpotifyApiService {
             } else if (response.code() == UNAUTHORIZED.value()) {
                 throw new MusicPlatformAuthException(UNAUTHORIZED.name());
             } else {
+                throw new RuntimeException("Spotify API error");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addSongsToPlaylist(String playlistId, List<String> songIds, String authorizationHeader) {
+        try {
+            Response<Void> response = spotifyApi.addSongsToPlaylist(playlistId,
+                    songIds.stream().map(id -> "spotify:track:" + id).collect(Collectors.joining(",")),
+                    authorizationHeader).execute();
+            if (response.code() == UNAUTHORIZED.value()) {
+                throw new MusicPlatformAuthException(UNAUTHORIZED.name());
+            } else if (response.code() != HttpStatus.CREATED.value()) {
                 throw new RuntimeException("Spotify API error");
             }
         } catch (IOException e) {

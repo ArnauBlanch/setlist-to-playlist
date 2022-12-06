@@ -1,0 +1,25 @@
+{
+  "request": {
+    "method": "PUT",
+    "urlPath": "/v1/playlists/0a6xVqBCrxn8Ug0Wrudv9J/tracks",
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer SPOTIFY_USER_TOKEN"
+      }
+    },
+    "queryParameters": {
+      "uris": {
+        "equalTo": "spotify:track:6H86gna5KDoPurwLxb6pIV,spotify:track:4lKwqIEmnm0wsRLOuwUMLv,spotify:track:4KQPAGQNStZaWiewr83fwM,spotify:track:6ADbZPiWZNsaCiIvsg5iq6,spotify:track:6lSJZiZqWU8Qt1fJVeFZEv"
+      }
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "snapshot_id": "NSxiMjAyMDg5MTdiZWIxZDlhN2I5ODVjN2IyMDlkOGZmZWNlZWQwYjM1"
+    }
+  }
+}

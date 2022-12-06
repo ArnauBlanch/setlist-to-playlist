@@ -17,11 +17,13 @@ public class SpotifyPlaylistRepository implements PlaylistRepository {
     @Override
     public Playlist create(CreatePlaylistCommand createPlaylistCommand, String authorizationHeader) {
         var userId = spotifyApiService.getUserId(authorizationHeader);
-        return spotifyApiService.createPlaylist(userId,
+        var playlist = spotifyApiService.createPlaylist(userId,
                 new CreatePlaylistRequest(
                         createPlaylistCommand.name(),
                         createPlaylistCommand.description(),
                         createPlaylistCommand.isPublic()),
                 authorizationHeader);
+        spotifyApiService.addSongsToPlaylist(playlist.id(), createPlaylistCommand.songIds(), authorizationHeader);
+        return playlist;
     }
 }

@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.*;
@@ -57,6 +58,15 @@ class PlaylistServiceTest {
     @Test
     public void whenSetlistIsNotFound_shouldThrowSetlistNotFoundException() {
         when(setlistService.getSetlist(SETLIST_ID)).thenReturn(Optional.empty());
+
+        assertThrows(SetlistNotFoundException.class, () -> playlistService.createFromSetlist(SETLIST_ID, false, USER_TOKEN));
+
+        verify(playlistRepository, never()).create(any(), anyString());
+    }
+
+    @Test
+    public void whenSetlistIsEmpty_shouldThrowSetlistNotFoundException() {
+        when(setlistService.getSetlist(SETLIST_ID)).thenReturn(Optional.of(Setlist.builder().songs(emptyList()).build()));
 
         assertThrows(SetlistNotFoundException.class, () -> playlistService.createFromSetlist(SETLIST_ID, false, USER_TOKEN));
 

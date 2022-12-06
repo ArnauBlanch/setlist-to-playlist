@@ -25,7 +25,7 @@ public class PlaylistService {
 
     public Playlist createFromSetlist(String setlistId, boolean isPublic, String authorizationHeader) {
         var setlist = setlistService.getSetlist(setlistId);
-        if (setlist.isEmpty())
+        if (setlist.isEmpty() || setlist.get().songs().isEmpty())
             throw new SetlistNotFoundException(setlistId);
 
         CreatePlaylistCommand command = CreatePlaylistCommand.builder()

@@ -19,4 +19,9 @@ public interface SpotifyApi {
     Call<PlaylistCreatedResponse> createPlaylist(@Path("userId") String userId,
                                                  @Body CreatePlaylistRequest body,
                                                  @Header("Authorization") String authorizationHeader);
+
+    @PUT("/v1/playlists/{playlistId}/tracks")
+    Call<Void> addSongsToPlaylist(@Path("playlistId") String playlistId,
+                                  @Query("uris") String uris,
+                                  @Header("Authorization") String authorizationHeader);
 }
