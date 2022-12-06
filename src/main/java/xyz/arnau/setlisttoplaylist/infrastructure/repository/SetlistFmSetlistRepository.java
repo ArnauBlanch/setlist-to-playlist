@@ -10,6 +10,9 @@ import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.Art
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetInfo;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistInfo;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.VenueInfo;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.SpotifyApiService;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.ArtistItem;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.Image;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -24,6 +27,7 @@ import java.util.stream.Collectors;
 public class SetlistFmSetlistRepository implements SetlistRepository {
 
     private final SetlistFmApi setlistFmApi;
+    private final SpotifyApiService spotifyApiService;
     private final SongMapper songMapper;
 
     @Cacheable(value = "setlists", key = "#id", unless="#result == null")
@@ -33,10 +37,12 @@ public class SetlistFmSetlistRepository implements SetlistRepository {
             SetlistInfo setlist = setlistInfoResponse.body();
 
             if (setlist != null) {
+                Optional<ArtistItem> artist = spotifyApiService.searchArtist(setlist.getArtist().getName());
+
                 return Optional.of(
                         Setlist.builder()
                                 .date(parseDate(setlist.getEventDate()))
-                                .artist(mapArtist(setlist.getArtist()))
+                                .artist(artist.map(x -> mapArtist(x)).orElse(null))
                                 .venue(mapVenue(setlist.getVenue()))
                                 .songs(mapSongs(setlist.getSets().getSet(), setlist.getArtist()))
                                 .build());
@@ -55,8 +61,11 @@ public class SetlistFmSetlistRepository implements SetlistRepository {
                 .collect(Collectors.toList());
     }
 
-    private static Artist mapArtist(ArtistInfo artistInfo) {
-        return Artist.builder().name(artistInfo.getName()).build();
+    private static Artist mapArtist(ArtistItem artistItem) {
+        return Artist.builder()
+                .name(artistItem.getName())
+                .image(artistItem.getImages().stream().findFirst().map(Image::getUrl).orElse(null))
+                .build();
     }
 
     private static Venue mapVenue(VenueInfo venueInfo) {
