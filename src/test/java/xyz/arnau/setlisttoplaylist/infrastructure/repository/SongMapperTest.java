@@ -12,7 +12,6 @@ import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.Album
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.Image;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.TrackItem;
 
-import java.util.Collections;
 import java.util.Optional;
 
 import static java.util.Collections.singletonList;
@@ -49,7 +48,7 @@ class SongMapperTest {
                 new SongInfo(SONG_NAME, null, false),
                 new ArtistInfo(null, ARTIST));
 
-        assertThat(song.spotifyId()).isEqualTo(SPOTIFY_ID);
+        assertThat(song.id()).isEqualTo(SPOTIFY_ID);
         assertThat(song.name()).isEqualTo(SONG_NAME);
         assertThat(song.originalArtist()).isEqualTo(null);
         assertThat(song.previewUrl()).isEqualTo("http://preview.com/song.mp3");
@@ -73,7 +72,7 @@ class SongMapperTest {
                 new SongInfo(SONG_NAME, new ArtistInfo(null, originalArtist), false),
                 new ArtistInfo(null, ARTIST));
 
-        assertThat(song.spotifyId()).isEqualTo(SPOTIFY_ID);
+        assertThat(song.id()).isEqualTo(SPOTIFY_ID);
         assertThat(song.name()).isEqualTo(SONG_NAME);
         assertThat(song.originalArtist()).isEqualTo(originalArtist);
     }
@@ -86,7 +85,7 @@ class SongMapperTest {
                 new SongInfo(SONG_NAME, null, false),
                 new ArtistInfo(null, ARTIST));
 
-        assertThat(song.spotifyId()).isNull();
+        assertThat(song.id()).isNull();
         assertThat(song.name()).isEqualTo(SONG_NAME);
         assertThat(song.originalArtist()).isEqualTo(null);
     }

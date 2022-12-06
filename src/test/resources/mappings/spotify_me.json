@@ -1,0 +1,38 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/v1/me",
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer SPOTIFY_USER_TOKEN"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "display_name": "Full Name",
+      "external_urls": {
+        "spotify": "https://open.spotify.com/user/spotifyuserid"
+      },
+      "followers": {
+        "href": null,
+        "total": 0
+      },
+      "href": "https://api.spotify.com/v1/users/spotifyuserid",
+      "id": "spotifyuserid",
+      "images": [
+        {
+          "height": null,
+          "url": "https://i.scdn.co/image/image",
+          "width": null
+        }
+      ],
+      "type": "user",
+      "uri": "spotify:user:spotifyuserid"
+    }
+  }
+}

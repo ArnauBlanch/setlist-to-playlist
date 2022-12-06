@@ -5,6 +5,6 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public final class SearchResult {
-    private final TracksSearchResult tracks;
+public class MeResponse {
+    private final String id;
 }

@@ -12,6 +12,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static wiremock.org.eclipse.jetty.http.HttpStatus.CREATED_201;
+import static wiremock.org.eclipse.jetty.http.HttpStatus.OK_200;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -32,9 +34,19 @@ class SetlistInfoToPlaylistApplicationTests {
 		.when()
 				.get("/setlists/abc12345")
 		.then()
-				.statusCode(200)
+				.statusCode(OK_200)
 				.body("artist.name", equalTo("Manel"));
 
+	}
+
+	@Test
+	void givenASetlistId_shouldCreateSpotifyPlaylist() {
+		given()
+				.header("Authorization", "Bearer SPOTIFY_USER_TOKEN")
+		.when()
+				.post("/setlists/abc12345/playlist")
+		.then()
+				.statusCode(CREATED_201);
 	}
 
 }

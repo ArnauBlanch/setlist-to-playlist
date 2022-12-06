@@ -32,7 +32,7 @@ class SetlistFmSetlistRepositoryTest {
         assertThat(setlist.get().artist()).isEqualTo(new Artist("Manel"));
         assertThat(setlist.get().venue())
                 .isEqualTo(new Venue("Plaça Corsini", "Tarragona", "Spain", "ES"));
-        assertThat(setlist.get().songs().stream().map(Song::spotifyId).collect(toList()))
+        assertThat(setlist.get().songs().stream().map(Song::id).collect(toList()))
                 .isEqualTo(asList("6H86gna5KDoPurwLxb6pIV", "4lKwqIEmnm0wsRLOuwUMLv", null,
                         "4KQPAGQNStZaWiewr83fwM", "6ADbZPiWZNsaCiIvsg5iq6", "6lSJZiZqWU8Qt1fJVeFZEv"));
     }
