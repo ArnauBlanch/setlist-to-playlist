@@ -8,13 +8,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import wiremock.org.eclipse.jetty.http.HttpStatus;
 import xyz.arnau.setlisttoplaylist.application.PlaylistService;
-import xyz.arnau.setlisttoplaylist.application.SetlistService;
-import xyz.arnau.setlisttoplaylist.domain.Artist;
 import xyz.arnau.setlisttoplaylist.domain.Playlist;
-import xyz.arnau.setlisttoplaylist.domain.Setlist;
 import xyz.arnau.setlisttoplaylist.domain.SetlistNotFoundException;
-
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;

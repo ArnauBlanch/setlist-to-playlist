@@ -1,24 +1,14 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverLogLevel;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.springframework.http.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.arnau.setlisttoplaylist.application.PlaylistService;
 import xyz.arnau.setlisttoplaylist.domain.SetlistNotFoundException;
 
-import java.awt.image.BufferedImage;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
-import java.util.concurrent.TimeUnit;
-
-import static com.google.common.io.Resources.getResource;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
