@@ -54,9 +54,17 @@ class SetlistInfoToPlaylistApplicationTests {
 		given()
 				.header("Authorization", "Bearer SPOTIFY_USER_TOKEN")
 		.when()
-				.post("/setlists/abc12345/playlist")
+				.post("/playlists/abc12345")
 		.then()
 				.statusCode(CREATED_201);
 	}
 
+	@Test
+	void givenASetlistId_shouldReturnPlaylistCoverImage() {
+		given()
+				.when()
+				.get("/playlists/abc12345/cover")
+				.then()
+				.statusCode(OK_200);
+	}
 }
