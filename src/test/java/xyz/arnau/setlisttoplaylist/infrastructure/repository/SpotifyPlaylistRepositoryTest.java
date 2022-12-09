@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import xyz.arnau.setlisttoplaylist.domain.CreatePlaylistCommand;
 import xyz.arnau.setlisttoplaylist.domain.Playlist;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.SpotifyPlaylistRepository;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,7 +26,7 @@ class SpotifyPlaylistRepositoryTest {
                 .isPublic(false)
                 .songIds(asList("6H86gna5KDoPurwLxb6pIV", "4lKwqIEmnm0wsRLOuwUMLv", "4KQPAGQNStZaWiewr83fwM",
                         "6ADbZPiWZNsaCiIvsg5iq6", "6lSJZiZqWU8Qt1fJVeFZEv"))
-                .coverImageBytes("image".getBytes())
+                .coverImage("image".getBytes())
                 .build();
         Playlist playlist = spotifyPlaylistRepository.create(command, "Bearer SPOTIFY_USER_TOKEN");
 

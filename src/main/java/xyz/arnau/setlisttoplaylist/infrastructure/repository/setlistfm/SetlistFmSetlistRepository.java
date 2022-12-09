@@ -1,11 +1,12 @@
-package xyz.arnau.setlisttoplaylist.infrastructure.repository;
+package xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm;
 
+import com.pivovarit.collectors.ParallelCollectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import retrofit2.Response;
 import xyz.arnau.setlisttoplaylist.domain.*;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.SetlistFmApi;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.SongMapper;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.ArtistInfo;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetInfo;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistInfo;
@@ -20,11 +21,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class SetlistFmSetlistRepository implements SetlistRepository {
+
+    private final ExecutorService executorService = Executors.newFixedThreadPool(30);
 
     private final SetlistFmApi setlistFmApi;
     private final SpotifyApiService spotifyApiService;
@@ -55,10 +61,14 @@ public class SetlistFmSetlistRepository implements SetlistRepository {
     }
 
     private List<Song> mapSongs(List<SetInfo> setsInfo, ArtistInfo artistInfo) {
-        return setsInfo.stream()
-                .flatMap(setInfo -> setInfo.getSong().stream())
-                .map(song -> songMapper.map(song, artistInfo))
-                .collect(Collectors.toList());
+        try {
+            return setsInfo.stream()
+                    .flatMap(setInfo -> setInfo.getSong().stream())
+                    .collect(ParallelCollectors.parallel(s -> songMapper.map(s, artistInfo), Collectors.toList(), executorService, 10))
+                    .get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static Artist mapArtist(ArtistItem artistItem) {

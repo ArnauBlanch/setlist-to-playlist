@@ -1,11 +1,10 @@
-package xyz.arnau.setlisttoplaylist.infrastructure.repository;
+package xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import xyz.arnau.setlisttoplaylist.domain.CreatePlaylistCommand;
 import xyz.arnau.setlisttoplaylist.domain.Playlist;
 import xyz.arnau.setlisttoplaylist.domain.PlaylistRepository;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.SpotifyApiService;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.CreatePlaylistRequest;
 
 @Component

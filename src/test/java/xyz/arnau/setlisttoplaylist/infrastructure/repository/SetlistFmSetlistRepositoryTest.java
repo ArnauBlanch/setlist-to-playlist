@@ -8,6 +8,7 @@ import xyz.arnau.setlisttoplaylist.domain.Artist;
 import xyz.arnau.setlisttoplaylist.domain.Setlist;
 import xyz.arnau.setlisttoplaylist.domain.Song;
 import xyz.arnau.setlisttoplaylist.domain.Venue;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.SetlistFmSetlistRepository;
 
 import java.util.Optional;
 

@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.format.DateTimeFormatter;
-import java.util.Base64;
 import java.util.HashMap;
 
 import static com.google.common.io.Resources.getResource;

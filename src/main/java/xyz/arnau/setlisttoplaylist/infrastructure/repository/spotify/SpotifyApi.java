@@ -11,7 +11,10 @@ import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.Searc
 public interface SpotifyApi {
 
     @GET("/v1/search")
-    Call<SearchResponse> search(@Query("q") String q, @Query("type") String type, @Query("limit") int limit);
+    Call<SearchResponse> search(@Query("q") String q,
+                                @Query("type") String type,
+                                @Query("limit") int limit,
+                                @Query("market") String market);
 
     @GET("/v1/me")
     Call<MeResponse> getUserId(@Header("Authorization") String authorizationHeader);
