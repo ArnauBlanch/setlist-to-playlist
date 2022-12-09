@@ -5,7 +5,6 @@ import org.apache.commons.text.StringSubstitutor;
 import org.springframework.stereotype.Service;
 import xyz.arnau.setlisttoplaylist.domain.*;
 
-import java.io.File;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Objects;

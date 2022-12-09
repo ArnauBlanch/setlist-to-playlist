@@ -25,6 +25,7 @@ dependencies {
 	implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 	implementation 'org.apache.commons:commons-text:1.10.0'
 	implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+	implementation 'com.pivovarit:parallel-collectors:2.5.0'
 
 	compileOnly 'org.springframework.boot:spring-boot-devtools'
 	compileOnly 'org.projectlombok:lombok'

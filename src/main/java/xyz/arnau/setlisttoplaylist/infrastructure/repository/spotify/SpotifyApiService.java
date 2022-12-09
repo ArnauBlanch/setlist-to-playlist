@@ -13,23 +13,12 @@ import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.Creat
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.MeResponse;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.TrackItem;
 
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.stream.FileImageOutputStream;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static java.util.Base64.getEncoder;
 import static okhttp3.MediaType.parse;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
@@ -37,12 +26,14 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 @RequiredArgsConstructor
 public class SpotifyApiService {
 
+    private static final String DEFAULT_MARKET = "ES";
+
     private final SpotifyApi spotifyApi;
 
     @Cacheable(value = "setlists", key = "#p0.concat(#p1)", unless="#result == null")
     public Optional<TrackItem> searchTrack(String artist, String trackName) {
         try {
-            var response = spotifyApi.search(searchSongQuery(artist, trackName), "track", 1).execute();
+            var response = spotifyApi.search(searchSongQuery(artist, trackName), "track", 1, DEFAULT_MARKET).execute();
             if (response.isSuccessful() && response.body() != null) {
                 var trackItems = response.body().getTracks().getItems();
                 if (!trackItems.isEmpty()) {
@@ -63,7 +54,7 @@ public class SpotifyApiService {
     @Cacheable(value = "artists", key = "#p0", unless="#result == null")
     public Optional<ArtistItem> searchArtist(String artistName) {
         try {
-            var response = spotifyApi.search(searchArtistQuery(artistName), "artist", 1).execute();
+            var response = spotifyApi.search(searchArtistQuery(artistName), "artist", 1, DEFAULT_MARKET).execute();
             if (response.isSuccessful() && response.body() != null) {
                 var artistItems = response.body().getArtists().getItems();
                 if (!artistItems.isEmpty()) {
