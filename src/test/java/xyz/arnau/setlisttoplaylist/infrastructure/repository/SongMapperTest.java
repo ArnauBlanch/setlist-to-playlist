@@ -52,7 +52,7 @@ class SongMapperTest {
         assertThat(song.name()).isEqualTo(SONG_NAME);
         assertThat(song.originalArtist()).isEqualTo(null);
         assertThat(song.previewUrl()).isEqualTo("http://preview.com/song.mp3");
-        assertThat(song.album()).isEqualTo("Room On Fire");
+        assertThat(song.albumName()).isEqualTo("Room On Fire");
         assertThat(song.albumCoverUrl()).isEqualTo("http://image.com/cover.jpg");
         assertThat(song.durationSeconds()).isEqualTo(3 * 60);
     }

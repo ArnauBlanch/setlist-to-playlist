@@ -22,7 +22,7 @@ public class SongMapper {
                         .name(track.getName())
                         .durationSeconds(track.getDurationMs() / 1000)
                         .previewUrl(track.getPreviewUrl())
-                        .album(track.getAlbum().getName())
+                        .albumName(track.getAlbum().getName())
                         .albumCoverUrl(track.getAlbum().getImages().stream().findFirst().map(Image::getUrl).orElse(null))
                         .originalArtist(getOriginalArtist(songInfo))
                         .build())

@@ -48,7 +48,7 @@ public class SetlistFmSetlistRepository implements SetlistRepository {
                 return Optional.of(
                         Setlist.builder()
                                 .date(parseDate(setlist.getEventDate()))
-                                .artist(artist.map(x -> mapArtist(x)).orElse(null))
+                                .artist(artist.map(SetlistFmSetlistRepository::mapArtist).orElse(null))
                                 .venue(mapVenue(setlist.getVenue()))
                                 .songs(mapSongs(setlist.getSets().getSet(), setlist.getArtist()))
                                 .build());
@@ -74,7 +74,7 @@ public class SetlistFmSetlistRepository implements SetlistRepository {
     private static Artist mapArtist(ArtistItem artistItem) {
         return Artist.builder()
                 .name(artistItem.getName())
-                .image(artistItem.getImages().stream().findFirst().map(Image::getUrl).orElse(null))
+                .imageUrl(artistItem.getImages().stream().findFirst().map(Image::getUrl).orElse(null))
                 .build();
     }
 

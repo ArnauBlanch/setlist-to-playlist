@@ -1,19 +1,20 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.controller;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import wiremock.org.eclipse.jetty.http.HttpStatus;
 import xyz.arnau.setlisttoplaylist.application.SetlistService;
 import xyz.arnau.setlisttoplaylist.domain.Artist;
 import xyz.arnau.setlisttoplaylist.domain.Setlist;
+import xyz.arnau.setlisttoplaylist.domain.SetlistNotFoundException;
 
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static io.restassured.module.mockmvc.RestAssuredMockMvc.standaloneSetup;
+import static io.restassured.module.mockmvc.RestAssuredMockMvc.when;
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,28 +26,34 @@ class SetlistControllerTest {
     @InjectMocks
     private SetlistController setlistController;
 
+    @BeforeEach
+    void setUp() {
+        standaloneSetup(setlistController);
+    }
+
     @Nested
     class GetSetlist {
-
-        @Test
-        public void whenSetlistIsNotFound_shouldReturnNotFound() {
-            when(setlistService.getSetlist("not-found")).thenReturn(Optional.empty());
-
-            var response = setlistController.getSetlist("not-found");
-
-            assertThat(response.getStatusCode().value()).isEqualTo(HttpStatus.NOT_FOUND_404);
-        }
-
         @Test
         public void whenSetlistIsFound_shouldReturnOk() {
             var setlist = Setlist.builder().artist(Artist.builder().name("The Strokes").build()).build();
 
-            when(setlistService.getSetlist("abc12345")).thenReturn(Optional.of(setlist));
+            when(setlistService.getSetlist("abc12345")).thenReturn(setlist);
 
-            var response = setlistController.getSetlist("abc12345");
+            when().
+                    get("/setlists/abc12345").
+            then().
+                    statusCode(200).
+                    body("artist.name", equalTo("The Strokes"));
+        }
 
-            assertThat(response.getStatusCode().value()).isEqualTo(HttpStatus.OK_200);
-            assertThat(response.getBody()).isEqualTo(setlist);
+        @Test
+        public void whenSetlistIsNotFound_shouldReturnNotFound() {
+            when(setlistService.getSetlist("not-found")).thenThrow(SetlistNotFoundException.class);
+
+            when().
+                    get("/setlists/not-found").
+                    then().
+                    statusCode(404);
         }
     }
 }

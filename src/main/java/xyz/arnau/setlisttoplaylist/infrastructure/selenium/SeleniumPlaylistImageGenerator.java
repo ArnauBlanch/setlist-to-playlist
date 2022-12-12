@@ -66,7 +66,7 @@ public class SeleniumPlaylistImageGenerator implements PlaylistImageGenerator {
                 readString(get(getResource(COVER_HTML).toURI()).toFile().toPath());
         return StringSubstitutor.replace(html, new HashMap<>() {{
             put("artistName", setlist.artist().name());
-            put("artistImage", setlist.artist().image());
+            put("artistImage", setlist.artist().imageUrl());
             put("venueName", setlist.venue().name());
             put("date", setlist.date().format(DateTimeFormatter.ofLocalizedDate(LONG).localizedBy(US)));
         }});
@@ -95,7 +95,7 @@ public class SeleniumPlaylistImageGenerator implements PlaylistImageGenerator {
             return img;
         }
 
-        BufferedImage target = createImage(img.getWidth(), img.getHeight(), false);
+        BufferedImage target = createImage(img.getWidth(), img.getHeight());
         Graphics2D g = target.createGraphics();
         g.fillRect(0, 0, img.getWidth(), img.getHeight());
         g.drawImage(img, 0, 0, null);
@@ -104,7 +104,7 @@ public class SeleniumPlaylistImageGenerator implements PlaylistImageGenerator {
         return target;
     }
 
-    private static BufferedImage createImage(int width, int height, boolean hasAlpha) {
-        return new BufferedImage(width, height, hasAlpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
+    private static BufferedImage createImage(int width, int height) {
+        return new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     }
 }
