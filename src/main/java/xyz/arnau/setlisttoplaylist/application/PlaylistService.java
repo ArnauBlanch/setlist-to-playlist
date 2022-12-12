@@ -26,17 +26,22 @@ public class PlaylistService {
 
     public Playlist createFromSetlist(String setlistId, boolean isPublic, String authorizationHeader) {
         var setlist = setlistService.getSetlist(setlistId);
-        if (setlist.isEmpty() || setlist.get().songs().isEmpty())
-            throw new SetlistNotFoundException(setlistId);
+        //if (setlist.isEmpty() || setlist.get().songs().isEmpty())
+            //throw new SetlistNotFoundException();
 
         CreatePlaylistCommand command = CreatePlaylistCommand.builder()
-                .name(fillData(PLAYLIST_NAME, setlist.get()))
-                .description(fillData(PLAYLIST_DESCRIPTION, setlist.get()))
+                .name(fillData(PLAYLIST_NAME, setlist))
+                .description(fillData(PLAYLIST_DESCRIPTION, setlist))
                 .isPublic(isPublic)
-                .songIds(setlist.get().songs().stream().map(Song::id).filter(Objects::nonNull).collect(toList()))
-                .coverImage(playlistImageGenerator.generateImage(setlist.get()))
+                .songIds(setlist.songs().stream().map(Song::id).filter(Objects::nonNull).collect(toList()))
+                .coverImage(playlistImageGenerator.generateImage(setlist))
                 .build();
         return playlistRepository.create(command, authorizationHeader);
+    }
+
+    public byte[] getCoverImage(String setlistId) {
+        var setlist = setlistService.getSetlist(setlistId);
+        return playlistImageGenerator.generateImage(setlist);
     }
 
     private String fillData(String input, Setlist setlist) {
@@ -48,13 +53,5 @@ public class PlaylistService {
             put("venueCountryCode", setlist.venue().countryCode());
             put("date", setlist.date().format(DateTimeFormatter.ofLocalizedDate(LONG).localizedBy(US)));
         }});
-    }
-
-    public byte[] getCoverImage(String setlistId) {
-        var setlist = setlistService.getSetlist(setlistId);
-        if (setlist.isEmpty() || setlist.get().songs().isEmpty())
-            throw new SetlistNotFoundException(setlistId);
-
-        return playlistImageGenerator.generateImage(setlist.get());
     }
 }

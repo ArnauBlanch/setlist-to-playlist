@@ -1,6 +1,7 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify;
 
 import lombok.RequiredArgsConstructor;
+import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static okhttp3.MediaType.parse;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Service
@@ -76,7 +76,7 @@ public class SpotifyApiService {
             if (response.isSuccessful() && response.body() != null && response.body().getId() != null) {
                 return response.body().getId();
             } else if (response.code() == UNAUTHORIZED.value()) {
-                throw new MusicPlatformAuthException(UNAUTHORIZED.name());
+                throw new MusicPlatformAuthException();
             } else {
                 throw new RuntimeException("Spotify API error");
             }
@@ -91,7 +91,7 @@ public class SpotifyApiService {
             if (response.isSuccessful() && response.body() != null && response.body().getId() != null) {
                 return new Playlist(response.body().getId());
             } else if (response.code() == UNAUTHORIZED.value()) {
-                throw new MusicPlatformAuthException(UNAUTHORIZED.name());
+                throw new MusicPlatformAuthException();
             } else {
                 throw new RuntimeException("Spotify API error");
             }
@@ -106,7 +106,7 @@ public class SpotifyApiService {
                     songIds.stream().map(id -> "spotify:track:" + id).collect(Collectors.joining(",")),
                     authorizationHeader).execute();
             if (response.code() == UNAUTHORIZED.value()) {
-                throw new MusicPlatformAuthException(UNAUTHORIZED.name());
+                throw new MusicPlatformAuthException();
             } else if (response.code() != HttpStatus.CREATED.value()) {
                 throw new RuntimeException("Spotify API error");
             }
@@ -117,12 +117,11 @@ public class SpotifyApiService {
 
     public void addCoverImageToPlaylist(String playlistId, byte[] image, String authorizationHeader) {
         try {
-            RequestBody body = RequestBody.create(parse("application/jpg"),
-                    Base64.getEncoder().encodeToString(image));
+            RequestBody body = RequestBody.create(Base64.getEncoder().encodeToString(image), MediaType.get("image/jpeg"));
             Response<Void> response = spotifyApi.addCoverImageToPlaylist(playlistId,
                     body, authorizationHeader).execute();
             if (response.code() == UNAUTHORIZED.value()) {
-                throw new MusicPlatformAuthException(UNAUTHORIZED.name());
+                throw new MusicPlatformAuthException();
             } else if (response.code() != HttpStatus.ACCEPTED.value()) {
                 throw new RuntimeException("Spotify API error");
             }

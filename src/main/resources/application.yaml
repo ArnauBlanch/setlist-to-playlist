@@ -6,3 +6,6 @@ spotify:
   api:
     baseUrl: https://api.spotify.com/
     accountsBaseUrl: https://accounts.spotify.com/
+
+springdoc.api-docs.path: /api-docs
+server.error.include-message: always

@@ -10,13 +10,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import xyz.arnau.setlisttoplaylist.domain.*;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class PlaylistServiceTest {
@@ -43,7 +42,7 @@ class PlaylistServiceTest {
         var setlist = aSetlist();
         var imageBytes = "image".getBytes();
 
-        when(setlistService.getSetlist(SETLIST_ID)).thenReturn(Optional.of(setlist));
+        when(setlistService.getSetlist(SETLIST_ID)).thenReturn(setlist);
         when(playlistRepository.create(createCommandCaptor.capture(), eq(USER_TOKEN))).thenReturn(playlist);
         when(playlistImageGenerator.generateImage(setlist)).thenReturn(imageBytes);
 
@@ -61,28 +60,9 @@ class PlaylistServiceTest {
     }
 
     @Test
-    public void whenSetlistIsNotFound_shouldThrowSetlistNotFoundException() {
-        when(setlistService.getSetlist(SETLIST_ID)).thenReturn(Optional.empty());
-
-        assertThrows(SetlistNotFoundException.class, () -> playlistService.createFromSetlist(SETLIST_ID, false, USER_TOKEN));
-
-        verify(playlistRepository, never()).create(any(), anyString());
-    }
-
-    @Test
-    public void whenSetlistIsEmpty_shouldThrowSetlistNotFoundException() {
-        when(setlistService.getSetlist(SETLIST_ID)).thenReturn(Optional.of(Setlist.builder().songs(emptyList()).build()));
-
-        assertThrows(SetlistNotFoundException.class, () -> playlistService.createFromSetlist(SETLIST_ID, false, USER_TOKEN));
-
-        verify(playlistRepository, never()).create(any(), anyString());
-    }
-
-    @Test
     public void whenCantCreatePlaylistBecauseOfAuthError_shouldThrowException() {
         var setlist = aSetlist();
-
-        when(setlistService.getSetlist(SETLIST_ID)).thenReturn(Optional.of(setlist));
+        when(setlistService.getSetlist(SETLIST_ID)).thenReturn(setlist);
         when(playlistService.createFromSetlist(SETLIST_ID, false, USER_TOKEN)).thenThrow(MusicPlatformAuthException.class);
 
         assertThrows(MusicPlatformAuthException.class, () -> playlistService.createFromSetlist(SETLIST_ID, false, USER_TOKEN));
