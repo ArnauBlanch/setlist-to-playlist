@@ -4,10 +4,10 @@ import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import xyz.arnau.setlisttoplaylist.domain.Artist;
-import xyz.arnau.setlisttoplaylist.domain.Setlist;
-import xyz.arnau.setlisttoplaylist.domain.Song;
-import xyz.arnau.setlisttoplaylist.domain.Venue;
+import xyz.arnau.setlisttoplaylist.domain.entities.Artist;
+import xyz.arnau.setlisttoplaylist.domain.entities.Setlist;
+import xyz.arnau.setlisttoplaylist.domain.entities.Song;
+import xyz.arnau.setlisttoplaylist.domain.entities.Venue;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.SetlistFmSetlistRepository;
 
 import java.util.Optional;

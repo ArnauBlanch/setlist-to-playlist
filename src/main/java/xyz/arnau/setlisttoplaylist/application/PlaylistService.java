@@ -3,7 +3,12 @@ package xyz.arnau.setlisttoplaylist.application;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.text.StringSubstitutor;
 import org.springframework.stereotype.Service;
-import xyz.arnau.setlisttoplaylist.domain.*;
+import xyz.arnau.setlisttoplaylist.domain.dto.CreatePlaylistCommand;
+import xyz.arnau.setlisttoplaylist.domain.entities.Playlist;
+import xyz.arnau.setlisttoplaylist.domain.entities.Setlist;
+import xyz.arnau.setlisttoplaylist.domain.entities.Song;
+import xyz.arnau.setlisttoplaylist.domain.ports.PlaylistImageGenerator;
+import xyz.arnau.setlisttoplaylist.domain.ports.PlaylistRepository;
 
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -26,8 +31,6 @@ public class PlaylistService {
 
     public Playlist createFromSetlist(String setlistId, boolean isPublic, String authorizationHeader) {
         var setlist = setlistService.getSetlist(setlistId);
-        //if (setlist.isEmpty() || setlist.get().songs().isEmpty())
-            //throw new SetlistNotFoundException();
 
         CreatePlaylistCommand command = CreatePlaylistCommand.builder()
                 .name(fillData(PLAYLIST_NAME, setlist))

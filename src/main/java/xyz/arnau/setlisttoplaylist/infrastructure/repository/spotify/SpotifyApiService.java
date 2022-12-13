@@ -1,18 +1,19 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import retrofit2.Response;
-import xyz.arnau.setlisttoplaylist.domain.MusicPlatformAuthException;
-import xyz.arnau.setlisttoplaylist.domain.Playlist;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.ArtistItem;
+import xyz.arnau.setlisttoplaylist.domain.entities.Playlist;
+import xyz.arnau.setlisttoplaylist.domain.exceptions.MusicPlatformAuthException;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.CreatePlaylistRequest;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.MeResponse;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.TrackItem;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.SpotifyArtist;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.SpotifyTrack;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.SpotifyUserProfile;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -24,6 +25,7 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Service
 @RequiredArgsConstructor
+@CommonsLog
 public class SpotifyApiService {
 
     private static final String DEFAULT_MARKET = "ES";
@@ -31,7 +33,7 @@ public class SpotifyApiService {
     private final SpotifyApi spotifyApi;
 
     @Cacheable(value = "setlists", key = "#p0.concat(#p1)", unless="#result == null")
-    public Optional<TrackItem> searchTrack(String artist, String trackName) {
+    public Optional<SpotifyTrack> searchTrack(String artist, String trackName) {
         try {
             var response = spotifyApi.search(searchSongQuery(artist, trackName), "track", 1, DEFAULT_MARKET).execute();
             if (response.isSuccessful() && response.body() != null) {
@@ -43,6 +45,7 @@ public class SpotifyApiService {
                     }
                 }
             } else {
+                log.error("Could not fetch track (name=%s, artist=%s)".formatted(trackName, artist));
                 throw new RuntimeException("Spotify API error");
             }
         } catch (IOException e) {
@@ -52,7 +55,7 @@ public class SpotifyApiService {
     }
 
     @Cacheable(value = "artists", key = "#p0", unless="#result == null")
-    public Optional<ArtistItem> searchArtist(String artistName) {
+    public Optional<SpotifyArtist> searchArtist(String artistName) {
         try {
             var response = spotifyApi.search(searchArtistQuery(artistName), "artist", 1, DEFAULT_MARKET).execute();
             if (response.isSuccessful() && response.body() != null) {
@@ -62,6 +65,7 @@ public class SpotifyApiService {
                     return Optional.of(artistItem);
                 }
             } else {
+                log.error("Could not fetch artist (name=%s)".formatted(artistName));
                 throw new RuntimeException("Spotify API error");
             }
         } catch (IOException e) {
@@ -72,12 +76,13 @@ public class SpotifyApiService {
 
     public String getUserId(String authorizationHeader) {
         try {
-            Response<MeResponse> response = spotifyApi.getUserId(authorizationHeader).execute();
+            Response<SpotifyUserProfile> response = spotifyApi.getUserId(authorizationHeader).execute();
             if (response.isSuccessful() && response.body() != null && response.body().getId() != null) {
                 return response.body().getId();
             } else if (response.code() == UNAUTHORIZED.value()) {
                 throw new MusicPlatformAuthException();
             } else {
+                log.error("Could not fetch user id");
                 throw new RuntimeException("Spotify API error");
             }
         } catch (IOException e) {
@@ -93,6 +98,7 @@ public class SpotifyApiService {
             } else if (response.code() == UNAUTHORIZED.value()) {
                 throw new MusicPlatformAuthException();
             } else {
+                log.error("Could not create playlist");
                 throw new RuntimeException("Spotify API error");
             }
         } catch (IOException e) {
@@ -108,6 +114,7 @@ public class SpotifyApiService {
             if (response.code() == UNAUTHORIZED.value()) {
                 throw new MusicPlatformAuthException();
             } else if (response.code() != HttpStatus.CREATED.value()) {
+                log.error("Could not add songs to playlist (playlistId=%s)".formatted(playlistId));
                 throw new RuntimeException("Spotify API error");
             }
         } catch (IOException e) {
@@ -123,6 +130,7 @@ public class SpotifyApiService {
             if (response.code() == UNAUTHORIZED.value()) {
                 throw new MusicPlatformAuthException();
             } else if (response.code() != HttpStatus.ACCEPTED.value()) {
+                log.error("Could not add cover image to playlist (playlistId=%s)".formatted(playlistId));
                 throw new RuntimeException("Spotify API error");
             }
         } catch (IOException e) {

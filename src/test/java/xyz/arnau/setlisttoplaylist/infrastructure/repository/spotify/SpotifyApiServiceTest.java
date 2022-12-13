@@ -1,5 +1,6 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -8,7 +9,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import xyz.arnau.setlisttoplaylist.domain.MusicPlatformAuthException;
+import xyz.arnau.setlisttoplaylist.domain.exceptions.MusicPlatformAuthException;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.*;
 
 import java.nio.charset.Charset;
@@ -17,6 +18,7 @@ import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
 import static org.springframework.http.HttpStatus.*;
@@ -26,11 +28,15 @@ class SpotifyApiServiceTest {
     private static final String SONG_NAME = "Reptilia";
     private static final String ARTIST = "The Strokes";
     private static final String AUTHORIZATION_HEADER = "Bearer spotify_user_token";
+    public static final Gson JSON_MAPPER = new GsonBuilder()
+            .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES)
+            .create();
 
     private final MockWebServer mockWebServer = new MockWebServer();
     private final SpotifyApi spotifyApi = new Retrofit.Builder()
             .baseUrl(mockWebServer.url("/"))
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(
+                    new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create()))
             .build()
             .create(SpotifyApi.class);
 
@@ -43,11 +49,11 @@ class SpotifyApiServiceTest {
         public void when200AndSongMatches_ReturnsSong() throws InterruptedException {
             mockWebServer.enqueue(new MockResponse()
                     .setResponseCode(OK.value())
-                    .setBody(toJson(new SearchResponse(
-                            new SearchResult<>(singletonList(TrackItem.builder()
+                    .setBody(JSON_MAPPER.toJson(new SpotifySearchResult(
+                            new SpotifySearchResultItem<>(singletonList(SpotifyTrack.builder()
                                     .id(SPOTIFY_ID)
                                     .name(SONG_NAME)
-                                    .artists(singletonList(ArtistItem.builder().name(ARTIST).build()))
+                                    .artists(singletonList(SpotifyArtist.builder().name(ARTIST).build()))
                                     .build())), null))));
 
             var track = apiService.searchTrack(ARTIST, SONG_NAME);
@@ -58,7 +64,7 @@ class SpotifyApiServiceTest {
 
             RecordedRequest request = mockWebServer.takeRequest();
             assertThat(request.getMethod()).isEqualTo("GET");
-            assertThat(request.getRequestUrl().encodedPath()).isEqualTo("/v1/search");
+            assertThat(requireNonNull(request.getRequestUrl()).encodedPath()).isEqualTo("/v1/search");
             assertThat(request.getRequestUrl().queryParameter("q"))
                     .isEqualTo("artist:" + ARTIST + " track:" + SONG_NAME);
             assertThat(request.getRequestUrl().queryParameter("type")).isEqualTo("track");
@@ -69,11 +75,11 @@ class SpotifyApiServiceTest {
         public void when200AndSongDoesNotMatch_ReturnsNull() {
             mockWebServer.enqueue(new MockResponse()
                     .setResponseCode(OK.value())
-                    .setBody(toJson(new SearchResponse(
-                            new SearchResult<>(singletonList(TrackItem.builder()
+                    .setBody(JSON_MAPPER.toJson(new SpotifySearchResult(
+                            new SpotifySearchResultItem<>(singletonList(SpotifyTrack.builder()
                                     .id(SPOTIFY_ID)
                                     .name(SONG_NAME)
-                                    .artists(singletonList(ArtistItem.builder().name("Wrong Artist").build()))
+                                    .artists(singletonList(SpotifyArtist.builder().name("Wrong Artist").build()))
                                     .build())), null))));
 
             var track = apiService.searchTrack(ARTIST, SONG_NAME);
@@ -85,7 +91,7 @@ class SpotifyApiServiceTest {
         public void when200AndSongIsNotFound_ReturnsNull() {
             mockWebServer.enqueue(new MockResponse()
                     .setResponseCode(OK.value())
-                    .setBody(toJson(new SearchResponse(new SearchResult<>(emptyList()), null))));
+                    .setBody(JSON_MAPPER.toJson(new SpotifySearchResult(new SpotifySearchResultItem<>(emptyList()), null))));
 
             var track = apiService.searchTrack(ARTIST, SONG_NAME);
 
@@ -107,21 +113,21 @@ class SpotifyApiServiceTest {
         public void when200_ReturnsArtist() throws InterruptedException {
             mockWebServer.enqueue(new MockResponse()
                     .setResponseCode(OK.value())
-                    .setBody(toJson(new SearchResponse(null,
-                            new SearchResult<>(singletonList(
-                            ArtistItem.builder().name(ARTIST)
-                                    .images(asList(new Image("image1.jpg"), new Image("image2.jpg")))
-                                    .build()))))));
+                    .setBody(JSON_MAPPER.toJson(new SpotifySearchResult(null,
+                            new SpotifySearchResultItem<>(singletonList(
+                                    SpotifyArtist.builder().name(ARTIST)
+                                            .images(asList(new SpotifyImage("image1.jpg"), new SpotifyImage("image2.jpg")))
+                                            .build()))))));
 
             var artist = apiService.searchArtist(ARTIST);
 
             assertThat(artist).isNotEmpty();
             assertThat(artist.get().getName()).isEqualTo(ARTIST);
-            assertThat(artist.get().getImages()).isEqualTo(asList(new Image("image1.jpg"), new Image("image2.jpg")));
+            assertThat(artist.get().getImages()).isEqualTo(asList(new SpotifyImage("image1.jpg"), new SpotifyImage("image2.jpg")));
 
             RecordedRequest request = mockWebServer.takeRequest();
             assertThat(request.getMethod()).isEqualTo("GET");
-            assertThat(request.getRequestUrl().encodedPath()).isEqualTo("/v1/search");
+            assertThat(requireNonNull(request.getRequestUrl()).encodedPath()).isEqualTo("/v1/search");
             assertThat(request.getRequestUrl().queryParameter("q"))
                     .isEqualTo("artist:" + ARTIST);
             assertThat(request.getRequestUrl().queryParameter("type")).isEqualTo("artist");
@@ -132,7 +138,7 @@ class SpotifyApiServiceTest {
         public void when200AndArtistIsNotFound_ReturnsNull() {
             mockWebServer.enqueue(new MockResponse()
                     .setResponseCode(OK.value())
-                    .setBody(toJson(new SearchResponse(null, new SearchResult<>(emptyList())))));
+                    .setBody(JSON_MAPPER.toJson(new SpotifySearchResult(null, new SpotifySearchResultItem<>(emptyList())))));
 
             var artist = apiService.searchArtist(ARTIST);
 
@@ -155,7 +161,7 @@ class SpotifyApiServiceTest {
         public void when200_ReturnsUserId() throws InterruptedException {
             mockWebServer.enqueue(new MockResponse()
                     .setResponseCode(OK.value())
-                    .setBody(toJson(new MeResponse(USER_ID))));
+                    .setBody(JSON_MAPPER.toJson(new SpotifyUserProfile(USER_ID))));
 
             var userId = apiService.getUserId(AUTHORIZATION_HEADER);
 
@@ -164,7 +170,7 @@ class SpotifyApiServiceTest {
             RecordedRequest request = mockWebServer.takeRequest();
             assertThat(request.getMethod()).isEqualTo("GET");
             assertThat(request.getHeaders().get("Authorization")).isEqualTo(AUTHORIZATION_HEADER);
-            assertThat(request.getRequestUrl().encodedPath()).isEqualTo("/v1/me");
+            assertThat(requireNonNull(request.getRequestUrl()).encodedPath()).isEqualTo("/v1/me");
         }
 
         @Test
@@ -184,7 +190,7 @@ class SpotifyApiServiceTest {
             String playlistId = "playlist123";
             mockWebServer.enqueue(new MockResponse()
                     .setResponseCode(OK.value())
-                    .setBody(toJson(new PlaylistCreatedResponse(playlistId))));
+                    .setBody(JSON_MAPPER.toJson(new SpotifyPlaylist(playlistId))));
 
             var playlist = apiService.createPlaylist(USER_ID,
                     new CreatePlaylistRequest("playlistName", "playlistDescription", false),
@@ -195,10 +201,10 @@ class SpotifyApiServiceTest {
             RecordedRequest request = mockWebServer.takeRequest();
             assertThat(request.getMethod()).isEqualTo("POST");
             assertThat(request.getHeaders().get("Authorization")).isEqualTo(AUTHORIZATION_HEADER);
-            assertThat(request.getRequestUrl().encodedPath()).isEqualTo("/v1/users/" + USER_ID + "/playlists");
+            assertThat(requireNonNull(request.getRequestUrl()).encodedPath()).isEqualTo("/v1/users/" + USER_ID + "/playlists");
 
-            var body = new GsonBuilder().create()
-                    .fromJson(request.getBody().readString(Charset.defaultCharset()), CreatePlaylistRequest.class);
+            var body = JSON_MAPPER.fromJson(
+                    request.getBody().readString(Charset.defaultCharset()), CreatePlaylistRequest.class);
             assertThat(body.getName()).isEqualTo("playlistName");
             assertThat(body.getDescription()).isEqualTo("playlistDescription");
             assertThat(body.isPublic()).isFalse();
@@ -226,7 +232,7 @@ class SpotifyApiServiceTest {
             RecordedRequest request = mockWebServer.takeRequest();
             assertThat(request.getMethod()).isEqualTo("PUT");
             assertThat(request.getHeaders().get("Authorization")).isEqualTo(AUTHORIZATION_HEADER);
-            assertThat(request.getRequestUrl().encodedPath()).isEqualTo("/v1/playlists/" + PLAYLIST_ID + "/tracks");
+            assertThat(requireNonNull(request.getRequestUrl()).encodedPath()).isEqualTo("/v1/playlists/" + PLAYLIST_ID + "/tracks");
             assertThat(request.getRequestUrl().queryParameter("uris"))
                     .isEqualTo("spotify:track:spt1,spotify:track:spt2,spotify:track:spt3");
         }
@@ -240,10 +246,4 @@ class SpotifyApiServiceTest {
         }
     }
 
-    private String toJson(Object result) {
-        return new GsonBuilder()
-                .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES)
-                .create()
-                .toJson(result);
-    }
 }

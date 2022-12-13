@@ -2,18 +2,22 @@ package xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm;
 
 import com.pivovarit.collectors.ParallelCollectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import retrofit2.Response;
-import xyz.arnau.setlisttoplaylist.domain.*;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.SongMapper;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.ArtistInfo;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetInfo;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistInfo;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.VenueInfo;
+import xyz.arnau.setlisttoplaylist.domain.entities.Artist;
+import xyz.arnau.setlisttoplaylist.domain.entities.Setlist;
+import xyz.arnau.setlisttoplaylist.domain.entities.Song;
+import xyz.arnau.setlisttoplaylist.domain.entities.Venue;
+import xyz.arnau.setlisttoplaylist.domain.ports.SetlistRepository;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistFmArtist;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistFmSet;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistFmSetlist;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistFmVenue;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.SpotifyApiService;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.ArtistItem;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.Image;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.SpotifyArtist;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.SpotifyImage;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -28,22 +32,23 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@CommonsLog
 public class SetlistFmSetlistRepository implements SetlistRepository {
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(30);
 
     private final SetlistFmApi setlistFmApi;
     private final SpotifyApiService spotifyApiService;
-    private final SongMapper songMapper;
+    private final SetlistFmSongMapper songMapper;
 
-    @Cacheable(value = "setlists", key = "#id", unless="#result == null")
-    public Optional<Setlist> getSetlist(String id) {
+    @Cacheable(value = "setlists", key = "#setlistId", unless="#result == null")
+    public Optional<Setlist> getSetlist(String setlistId) {
         try {
-            Response<SetlistInfo> setlistInfoResponse = setlistFmApi.getSetlist(id).execute();
-            SetlistInfo setlist = setlistInfoResponse.body();
+            Response<SetlistFmSetlist> response = setlistFmApi.getSetlist(setlistId).execute();
+            SetlistFmSetlist setlist = response.body();
 
             if (setlist != null) {
-                Optional<ArtistItem> artist = spotifyApiService.searchArtist(setlist.getArtist().getName());
+                Optional<SpotifyArtist> artist = spotifyApiService.searchArtist(setlist.getArtist().getName());
 
                 return Optional.of(
                         Setlist.builder()
@@ -54,36 +59,37 @@ public class SetlistFmSetlistRepository implements SetlistRepository {
                                 .build());
             }
         } catch (IOException | ParseException e) {
+            log.error("Could not get setlist (setlistId=%s)".formatted(setlistId));
             throw new RuntimeException(e);
         }
 
         return Optional.empty();
     }
 
-    private List<Song> mapSongs(List<SetInfo> setsInfo, ArtistInfo artistInfo) {
+    private List<Song> mapSongs(List<SetlistFmSet> sets, SetlistFmArtist artist) {
         try {
-            return setsInfo.stream()
-                    .flatMap(setInfo -> setInfo.getSong().stream())
-                    .collect(ParallelCollectors.parallel(s -> songMapper.map(s, artistInfo), Collectors.toList(), executorService, 10))
+            return sets.stream()
+                    .flatMap(setlistSet -> setlistSet.getSong().stream())
+                    .collect(ParallelCollectors.parallel(s -> songMapper.map(s, artist), Collectors.toList(), executorService, 10))
                     .get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static Artist mapArtist(ArtistItem artistItem) {
+    private static Artist mapArtist(SpotifyArtist artistResponse) {
         return Artist.builder()
-                .name(artistItem.getName())
-                .imageUrl(artistItem.getImages().stream().findFirst().map(Image::getUrl).orElse(null))
+                .name(artistResponse.getName())
+                .imageUrl(artistResponse.getImages().stream().findFirst().map(SpotifyImage::getUrl).orElse(null))
                 .build();
     }
 
-    private static Venue mapVenue(VenueInfo venueInfo) {
+    private static Venue mapVenue(SetlistFmVenue venueResponse) {
         return Venue.builder()
-                .name(venueInfo.getName())
-                .city(venueInfo.getCity().getName())
-                .country(venueInfo.getCity().getCountry().getName())
-                .countryCode(venueInfo.getCity().getCountry().getCode())
+                .name(venueResponse.getName())
+                .city(venueResponse.getCity().getName())
+                .country(venueResponse.getCity().getCountry().getName())
+                .countryCode(venueResponse.getCity().getCountry().getCode())
                 .build();
     }
 

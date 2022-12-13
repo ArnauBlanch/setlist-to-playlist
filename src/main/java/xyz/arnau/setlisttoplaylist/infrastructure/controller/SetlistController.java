@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.arnau.setlisttoplaylist.application.SetlistService;
-import xyz.arnau.setlisttoplaylist.domain.Setlist;
+import xyz.arnau.setlisttoplaylist.domain.entities.Setlist;
 import xyz.arnau.setlisttoplaylist.infrastructure.controller.mapper.SetlistMapper;
 import xyz.arnau.setlisttoplaylist.infrastructure.controller.response.SetlistResponse;
 

@@ -4,8 +4,8 @@ import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import xyz.arnau.setlisttoplaylist.domain.CreatePlaylistCommand;
-import xyz.arnau.setlisttoplaylist.domain.Playlist;
+import xyz.arnau.setlisttoplaylist.domain.dto.CreatePlaylistCommand;
+import xyz.arnau.setlisttoplaylist.domain.entities.Playlist;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.SpotifyPlaylistRepository;
 
 import static java.util.Arrays.asList;

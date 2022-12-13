@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.arnau.setlisttoplaylist.application.PlaylistService;
-import xyz.arnau.setlisttoplaylist.domain.MusicPlatformAuthException;
+import xyz.arnau.setlisttoplaylist.domain.exceptions.MusicPlatformAuthException;
 import xyz.arnau.setlisttoplaylist.infrastructure.controller.mapper.PlaylistMapper;
 import xyz.arnau.setlisttoplaylist.infrastructure.controller.response.PlaylistResponse;
 

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.Token;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.SpotifyAuthToken;
 
 import java.time.LocalDateTime;
 
@@ -30,7 +30,7 @@ public class SpotifyConfiguration {
     @Value("${spotify.api.clientSecret}")
     private String clientSecret;
 
-    private Token authToken;
+    private SpotifyAuthToken authToken;
     private LocalDateTime tokenExpiration;
 
     @Bean

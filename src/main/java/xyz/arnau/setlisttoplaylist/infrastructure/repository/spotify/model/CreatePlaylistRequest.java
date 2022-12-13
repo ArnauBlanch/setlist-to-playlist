@@ -1,14 +1,12 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Value;
 
-@Getter
-@RequiredArgsConstructor
+@Value
 public class CreatePlaylistRequest {
-    private final String name;
-    private final String description;
+    String name;
+    String description;
     @SerializedName("public")
-    private final boolean isPublic;
+    boolean isPublic;
 }
