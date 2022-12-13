@@ -5,7 +5,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import xyz.arnau.setlisttoplaylist.domain.*;
+import xyz.arnau.setlisttoplaylist.domain.entities.Artist;
+import xyz.arnau.setlisttoplaylist.domain.entities.Setlist;
+import xyz.arnau.setlisttoplaylist.domain.entities.Song;
+import xyz.arnau.setlisttoplaylist.domain.exceptions.SetlistNotFoundException;
+import xyz.arnau.setlisttoplaylist.domain.ports.SetlistRepository;
 
 import java.util.Optional;
 

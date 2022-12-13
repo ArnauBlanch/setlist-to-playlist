@@ -1,5 +1,6 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.selenium;
 
+import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.text.StringSubstitutor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
@@ -10,8 +11,8 @@ import org.openqa.selenium.chrome.ChromeDriverLogLevel;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Component;
-import xyz.arnau.setlisttoplaylist.domain.PlaylistImageGenerator;
-import xyz.arnau.setlisttoplaylist.domain.Setlist;
+import xyz.arnau.setlisttoplaylist.domain.entities.Setlist;
+import xyz.arnau.setlisttoplaylist.domain.ports.PlaylistImageGenerator;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -35,6 +36,7 @@ import static javax.imageio.ImageIO.createImageOutputStream;
 import static org.openqa.selenium.support.ui.ExpectedConditions.jsReturnsValue;
 
 @Component
+@CommonsLog
 public class SeleniumPlaylistImageGenerator implements PlaylistImageGenerator {
     private final static String COVER_HTML = "playlist_cover.html";
     private final static String COVER_IMAGE_CLASS = "cover";
@@ -49,6 +51,7 @@ public class SeleniumPlaylistImageGenerator implements PlaylistImageGenerator {
                 return outputStream.toByteArray();
             }
         } catch (URISyntaxException | IOException | InterruptedException e) {
+            log.error("Could not generate playlist image", e);
             throw new RuntimeException(e);
         }
     }

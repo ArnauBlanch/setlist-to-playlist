@@ -5,12 +5,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.ArtistInfo;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SongInfo;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.SetlistFmSongMapper;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistFmArtist;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistFmSong;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.SpotifyApiService;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.AlbumItem;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.Image;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.TrackItem;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.SpotifyAlbum;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.SpotifyImage;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.SpotifyTrack;
 
 import java.util.Optional;
 
@@ -28,25 +29,25 @@ class SongMapperTest {
     private SpotifyApiService spotifyApiService;
 
     @InjectMocks
-    private SongMapper songMapper;
+    private SetlistFmSongMapper songMapper;
 
     @Test
     public void whenSongIsFound_ReturnsSongWithId() {
         when(spotifyApiService.searchTrack(ARTIST, SONG_NAME))
-                .thenReturn(Optional.of(TrackItem.builder()
+                .thenReturn(Optional.of(SpotifyTrack.builder()
                         .id(SPOTIFY_ID)
                         .name(SONG_NAME)
-                        .album(AlbumItem.builder()
+                        .album(SpotifyAlbum.builder()
                                 .name("Room On Fire")
-                                .images(singletonList(new Image("http://image.com/cover.jpg")))
+                                .images(singletonList(new SpotifyImage("http://image.com/cover.jpg")))
                                 .build())
                         .durationMs(3 * 60 * 1000)
                         .previewUrl("http://preview.com/song.mp3")
                         .build()));
 
         var song = songMapper.map(
-                new SongInfo(SONG_NAME, null, false),
-                new ArtistInfo(null, ARTIST));
+                new SetlistFmSong(SONG_NAME, null, false),
+                new SetlistFmArtist(null, ARTIST));
 
         assertThat(song.id()).isEqualTo(SPOTIFY_ID);
         assertThat(song.name()).isEqualTo(SONG_NAME);
@@ -61,16 +62,19 @@ class SongMapperTest {
     public void whenSongIsCover_ReturnsOriginalSong() {
         String originalArtist = "OriginalArtist";
         when(spotifyApiService.searchTrack(originalArtist, SONG_NAME))
-                .thenReturn(Optional.of(TrackItem.builder()
+                .thenReturn(Optional.of(SpotifyTrack.builder()
                                 .id(SPOTIFY_ID)
                                 .name(SONG_NAME)
-                                .album(AlbumItem.builder().name("Album").images(singletonList(new Image("img"))).build())
+                                .album(SpotifyAlbum.builder()
+                                        .name("Album")
+                                        .images(singletonList(new SpotifyImage("img")))
+                                        .build())
                                 .durationMs(0)
                                 .build()));
 
         var song = songMapper.map(
-                new SongInfo(SONG_NAME, new ArtistInfo(null, originalArtist), false),
-                new ArtistInfo(null, ARTIST));
+                new SetlistFmSong(SONG_NAME, new SetlistFmArtist(null, originalArtist), false),
+                new SetlistFmArtist(null, ARTIST));
 
         assertThat(song.id()).isEqualTo(SPOTIFY_ID);
         assertThat(song.name()).isEqualTo(SONG_NAME);
@@ -82,8 +86,8 @@ class SongMapperTest {
         when(spotifyApiService.searchTrack(ARTIST, SONG_NAME)).thenReturn(Optional.empty());
 
         var song = songMapper.map(
-                new SongInfo(SONG_NAME, null, false),
-                new ArtistInfo(null, ARTIST));
+                new SetlistFmSong(SONG_NAME, null, false),
+                new SetlistFmArtist(null, ARTIST));
 
         assertThat(song.id()).isNull();
         assertThat(song.name()).isEqualTo(SONG_NAME);

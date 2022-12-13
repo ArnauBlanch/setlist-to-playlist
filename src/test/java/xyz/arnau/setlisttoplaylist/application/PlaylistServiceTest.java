@@ -7,7 +7,11 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import xyz.arnau.setlisttoplaylist.domain.*;
+import xyz.arnau.setlisttoplaylist.domain.dto.CreatePlaylistCommand;
+import xyz.arnau.setlisttoplaylist.domain.entities.*;
+import xyz.arnau.setlisttoplaylist.domain.exceptions.MusicPlatformAuthException;
+import xyz.arnau.setlisttoplaylist.domain.ports.PlaylistImageGenerator;
+import xyz.arnau.setlisttoplaylist.domain.ports.PlaylistRepository;
 
 import java.time.LocalDate;
 

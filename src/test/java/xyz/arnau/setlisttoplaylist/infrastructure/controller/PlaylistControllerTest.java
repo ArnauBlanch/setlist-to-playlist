@@ -8,9 +8,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import xyz.arnau.setlisttoplaylist.application.PlaylistService;
-import xyz.arnau.setlisttoplaylist.domain.MusicPlatformAuthException;
-import xyz.arnau.setlisttoplaylist.domain.Playlist;
-import xyz.arnau.setlisttoplaylist.domain.SetlistNotFoundException;
+import xyz.arnau.setlisttoplaylist.domain.entities.Playlist;
+import xyz.arnau.setlisttoplaylist.domain.exceptions.MusicPlatformAuthException;
+import xyz.arnau.setlisttoplaylist.domain.exceptions.SetlistNotFoundException;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.standaloneSetup;

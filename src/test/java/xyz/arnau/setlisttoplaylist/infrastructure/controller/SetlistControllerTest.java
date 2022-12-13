@@ -8,9 +8,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import xyz.arnau.setlisttoplaylist.application.SetlistService;
-import xyz.arnau.setlisttoplaylist.domain.Artist;
-import xyz.arnau.setlisttoplaylist.domain.Setlist;
-import xyz.arnau.setlisttoplaylist.domain.SetlistNotFoundException;
+import xyz.arnau.setlisttoplaylist.domain.entities.Artist;
+import xyz.arnau.setlisttoplaylist.domain.entities.Setlist;
+import xyz.arnau.setlisttoplaylist.domain.exceptions.SetlistNotFoundException;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.standaloneSetup;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.when;
