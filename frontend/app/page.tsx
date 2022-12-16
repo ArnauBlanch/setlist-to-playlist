@@ -8,13 +8,13 @@ export default function Home() {
 					Create your new
 				</h1>
 
-				<h1 className="mb-6 whitespace-nowrap text-4xl font-extrabold text-gray-900 dark:text-white md:mb-10 md:text-6xl 2xl:mb-16 2xl:text-7xl">
+				<h1 className="mb-6 whitespace-nowrap text-4xl font-extrabold text-gray-900 dark:text-white md:mb-10 md:text-6xl 2xl:mb-20 2xl:text-7xl">
 					<span className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-transparent">
 						favourite playlist
 					</span>
 					.
 				</h1>
-				<p className="text-sm font-extrabold text-pink-700 dark:text-gray-300 md:text-xl 2xl:whitespace-nowrap 2xl:text-2xl">
+				<p className="text-sm font-extrabold text-pink-700 dark:text-gray-300 md:text-xl 2xl:mb-2 2xl:whitespace-nowrap 2xl:text-2xl">
 					Create a Spotify playlist from a live concert setlist
 				</p>
 				<p className="text-sm font-normal text-gray-500 dark:text-gray-400 md:text-lg 2xl:whitespace-nowrap 2xl:text-xl">
@@ -23,7 +23,7 @@ export default function Home() {
 				</p>
 			</div>
 
-			<div className="mb-12 w-full max-w-3xl grow 2xl:mb-0">
+			<div className="w-full max-w-3xl grow 2xl:mb-0">
 				<form className="mb-2 flex w-full items-center">
 					<label htmlFor="simple-search" className="sr-only">
 						Search artist
@@ -89,7 +89,7 @@ export default function Home() {
 							imageUrl="https://e00-elmundo.uecdn.es/assets/multimedia/imagenes/2019/10/31/15725389077883.jpg"
 						/>
 						<ArtistCard
-							name="Maria Arnal"
+							name="Maria Arnal i Marcel Bagés"
 							imageUrl="https://www.binaural.es/wp-content/uploads/2021/03/maria1-1.jpg"
 						/>
 					</div>

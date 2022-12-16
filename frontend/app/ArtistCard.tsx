@@ -22,7 +22,7 @@ export default function ArtistCard({
 					/>
 				)}
 
-				<div className="relative flex h-full items-end bg-black bg-opacity-40 p-6 text-white group-hover:bg-yellow-800 group-hover:bg-opacity-40 md:p-8">
+				<div className="relative flex h-full items-end bg-black bg-opacity-40 p-6 text-white group-hover:bg-pink-800 group-hover:bg-opacity-40 md:p-8">
 					<h3 className="text-xl font-bold md:text-2xl">{name}</h3>
 				</div>
 			</a>
