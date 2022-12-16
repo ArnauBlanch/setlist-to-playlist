@@ -1,15 +1,15 @@
 export default function SearchPage() {
 	return (
 		<div className="py-2">
-			<form className="flex items-center max-w-3xl mx-auto">
+			<form className="mx-auto flex max-w-3xl items-center">
 				<label htmlFor="simple-search" className="sr-only">
 					Search artist
 				</label>
 				<div className="relative w-full">
-					<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+					<div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
 						<svg
 							aria-hidden="true"
-							className="w-6 h-6 text-gray-500 dark:text-gray-400"
+							className="h-6 w-6 text-gray-500 dark:text-gray-400"
 							fill="currentColor"
 							viewBox="0 0 20 20"
 							xmlns="http://www.w3.org/2000/svg"
@@ -24,17 +24,17 @@ export default function SearchPage() {
 					<input
 						type="text"
 						id="simple-search"
-						className="bg-gray-50 border border-gray-300 text-gray-900 text-md lg:text-xl rounded-lg focus:ring-rose-500 focus:border-rose-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-rose-700 dark:focus:border-rose-700"
+						className="text-md block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-gray-900 focus:border-rose-500 focus:ring-rose-500 dark:border-gray-600  dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-rose-700 dark:focus:ring-rose-700 lg:text-xl"
 						placeholder="Search artist"
 						required
 					/>
 				</div>
 				<button
 					type="submit"
-					className="p-2.5 ml-2 text-sm font-medium text-white bg-rose-600 rounded-lg border border-rose-600 hover:bg-rose-700 focus:ring-4 focus:outline-none focus:ring-rose-300 dark:bg-rose-700 dark:border-rose-700 dark:hover:bg-rose-800 dark:focus:ring-rose-800"
+					className="ml-2 rounded-lg border border-rose-600 bg-rose-600 p-2.5 text-sm font-medium text-white hover:bg-rose-700 focus:outline-none focus:ring-4 focus:ring-rose-300 dark:border-rose-700 dark:bg-rose-700 dark:hover:bg-rose-800 dark:focus:ring-rose-800"
 				>
 					<svg
-						className="w-6 h-6"
+						className="h-6 w-6"
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
