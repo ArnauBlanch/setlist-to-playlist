@@ -18,7 +18,9 @@ export default function RootLayout({
 			<body className="flex min-h-screen flex-col bg-white dark:bg-gray-900">
 				<AppThemeProvider>
 					<NavBar />
-					<div className="container mx-auto px-4">{children}</div>
+					<div className="mx-auto flex h-full w-full grow justify-center px-4">
+						{children}
+					</div>
 					<Footer />
 				</AppThemeProvider>
 			</body>
