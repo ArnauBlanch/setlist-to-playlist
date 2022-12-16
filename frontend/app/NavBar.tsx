@@ -12,7 +12,7 @@ export default function NavBar() {
 						y="0px"
 						viewBox="0 0 60 60"
 						xmlSpace="preserve"
-						className="mr-3 h-8 w-8 bg-gradient-to-r from-amber-400 to-rose-700 fill-white dark:fill-gray-900"
+						className="mr-3 h-8 w-8 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 fill-white dark:fill-gray-900"
 					>
 						<path
 							id="path180"

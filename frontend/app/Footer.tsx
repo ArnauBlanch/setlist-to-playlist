@@ -1,6 +1,6 @@
 export default function Footer() {
 	return (
-		<footer className="mt-auto rounded-lg p-4 md:flex md:items-center md:justify-between md:p-6">
+		<footer className="mt-auto flex flex-col-reverse p-4 md:flex-row md:items-center md:justify-between md:px-6">
 			<div className="text-left">
 				<div className="flex flex-row text-xs text-gray-500 dark:text-gray-400 md:text-sm">
 					<span className="my-auto">Powered by &nbsp;</span>
@@ -36,7 +36,7 @@ export default function Footer() {
 					</a>
 				</p>
 			</div>
-			<ul className="mt-3 flex flex-wrap items-center text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
+			<ul className="flex flex-wrap items-center py-4 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
 				<li>
 					<a href="#" className="mr-4 hover:underline md:mr-6">
 						About

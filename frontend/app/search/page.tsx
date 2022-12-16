@@ -24,7 +24,7 @@ export default function SearchPage() {
 					<input
 						type="text"
 						id="simple-search"
-						className="text-md block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-gray-900 focus:border-rose-500 focus:ring-rose-500 dark:border-gray-600  dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-rose-700 dark:focus:ring-rose-700 lg:text-xl"
+						className="text-md block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-gray-900 focus:border-rose-500 focus:ring-rose-500 dark:border-gray-600  dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-rose-700 dark:focus:ring-rose-700 xl:text-xl"
 						placeholder="Search artist"
 						required
 					/>
