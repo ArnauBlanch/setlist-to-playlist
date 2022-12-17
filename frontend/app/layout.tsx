@@ -15,10 +15,10 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
 			<head />
-			<body className="flex min-h-screen flex-col bg-white dark:bg-gray-900">
+			<body className="flex min-h-screen flex-col bg-gray-50 dark:bg-gray-900">
 				<AppThemeProvider>
 					<NavBar />
-					<div className="mx-auto flex h-full w-full grow justify-center px-4">
+					<div className="container mx-auto flex h-full w-full grow flex-col items-center px-4">
 						{children}
 					</div>
 					<Footer />

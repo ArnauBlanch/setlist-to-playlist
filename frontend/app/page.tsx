@@ -3,7 +3,7 @@ import SearchArtist from './SearchArtist'
 
 export default function Home() {
 	return (
-		<div className="container mx-auto flex h-full w-screen flex-col items-center p-4 2xl:mx-0 2xl:flex-row">
+		<div className="flex w-full grow flex-col items-center 2xl:flex-row">
 			<Hero />
 			<SearchArtist />
 		</div>

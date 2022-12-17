@@ -23,14 +23,14 @@ export default function SearchBox() {
 				<input
 					type="text"
 					id="simple-search"
-					className="text-md h-14.5 block w-full rounded-full border-2 border-gray-200 bg-gray-100 p-2.5 pl-10 text-lg text-gray-900 focus:border-rose-500  focus:ring-rose-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-rose-700 dark:focus:ring-rose-700 xl:text-xl"
+					className="text-md h-14.5 block w-full rounded-full border-2 border-gray-200 bg-white p-2.5 pl-10 text-lg text-gray-900 focus:border-rose-500  focus:ring-rose-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-rose-700 dark:focus:ring-rose-700 xl:text-xl"
 					placeholder="Search artist"
 					required
 				/>
 			</div>
 			<button
 				type="submit"
-				className="ml-2 rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-3.5 text-sm font-medium text-white hover:bg-rose-700 focus:outline-none focus:ring-4 focus:ring-rose-300 dark:border-rose-700 dark:bg-rose-700 dark:hover:bg-rose-800 dark:focus:ring-rose-800"
+				className="ml-2 rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-amber-400 p-3.5 text-sm font-medium text-white hover:bg-rose-700 focus:outline-none focus:ring-4 focus:ring-rose-300 dark:border-rose-700 dark:bg-rose-700 dark:hover:bg-rose-800 dark:focus:ring-rose-800"
 			>
 				<svg
 					className="h-6 w-6 xl:h-7 xl:w-7"
