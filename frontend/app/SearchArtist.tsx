@@ -3,10 +3,10 @@ import SearchBox from './SearchBox'
 
 export default function SearchArtist() {
 	return (
-		<div className="w-full max-w-3xl grow 2xl:mb-0">
+		<div className="w-full max-w-3xl p-2 2xl:mb-0 2xl:max-w-none">
 			<SearchBox />
 			<div className="mx-auto">
-				<div className="grid-auto-cols my-4 grid auto-cols-max grid-cols-1 content-start gap-4 rounded-lg md:grid-cols-2 2xl:h-[32rem]">
+				<div className="my-4 grid auto-cols-max grid-cols-1 content-start gap-4 rounded-lg md:grid-cols-2 2xl:h-[32rem]">
 					<ArtistCard
 						name="The Black Keys"
 						imageUrl="https://ca-times.brightspotcdn.com/dims4/default/3c74377/2147483647/strip/true/crop/6000x4000+0+0/resize/1200x800!/format/webp/quality/80/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F46%2Fcb%2F4583686798f1da737b90db957ab0%2Fc3a8c6131aa348d291c9e82450e45ddf"

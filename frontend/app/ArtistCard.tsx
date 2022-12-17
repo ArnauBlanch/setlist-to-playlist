@@ -8,7 +8,7 @@ export default function ArtistCard({
 	imageUrl?: string
 }) {
 	return (
-		<div className="rounded-2xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1 shadow-xl">
+		<div className="rounded-2xl bg-gradient-to-r from-pink-500 via-red-500 to-amber-400 p-1 shadow-xl">
 			<a
 				href="#"
 				className="group relative block h-44 overflow-hidden rounded-xl md:h-40 2xl:h-60"

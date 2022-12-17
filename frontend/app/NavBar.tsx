@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function NavBar() {
 	return (
-		<nav className="sticky top-0 left-0 z-20 h-12 w-full bg-white px-4 py-2.5 dark:bg-gray-900 sm:px-4 md:h-16">
+		<nav className="sticky top-0 left-0 z-20 h-12 w-full border border-gray-100 bg-white px-4 py-2.5 dark:border-none dark:bg-gray-900 sm:px-4 md:h-16">
 			<div className="container mx-auto flex flex-wrap items-center justify-between">
 				<Link href="/" className="flex items-center">
 					<svg
@@ -12,7 +12,7 @@ export default function NavBar() {
 						y="0px"
 						viewBox="0 0 60 60"
 						xmlSpace="preserve"
-						className="mr-3 h-8 w-8 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 fill-white dark:fill-gray-900"
+						className="mr-3 h-8 w-8 bg-gradient-to-r from-pink-500 via-red-500 to-amber-400 fill-white dark:fill-gray-900"
 					>
 						<path
 							id="path180"
