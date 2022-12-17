@@ -2,7 +2,7 @@
   <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=block" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=block" rel="stylesheet">
 
     <style>
       .cover {
@@ -14,6 +14,12 @@
         position: relative;
         height: 600px;
         width: 600px;
+        object-fit: cover;
+      }
+      .icon {
+        height: 24px;
+        width: 24px;
+        margin-right: 4px;
       }
 
       .overlay {
@@ -21,8 +27,15 @@
         top: 0;
         width: 600px;
         height: 600px;
-        background-image: 
-        linear-gradient(to bottom, rgba(219, 219, 219, 0.5), rgb(20, 20, 20))
+      }
+
+      .gradient {
+        background-image: linear-gradient(to top, var(--tw-gradient-stops));
+        --tw-gradient-from: rgb(136 36 81 / 95%);
+        --tw-gradient-to: rgba(251, 191, 36, 0.45);
+        --tw-gradient-stops: var(--tw-gradient-from), rgb(200 55 55 / 85%), var(--tw-gradient-to), rgba(251, 191, 36, 0.0);
+        height: 450px !important;
+        top: 150px !important;
       }
 
 
@@ -36,41 +49,55 @@
       .artist {
         color: white;
         font-size: 60px;
-        font-family: 'Sora';
+        font-family: 'Inter';
         font-weight: 700;
+        text-shadow: 4px 4px 6px rgba(0, 0, 0, 0.4);
+        line-height: 60px;
+      }
+
+      .date {
+        margin-top: 2px;
+        color: white;
+        font-size: 32px;
+        font-family: 'Inter';
+        font-weight: 500;
         text-shadow: 4px 4px 6px rgba(0, 0, 0, 0.4);
       }
 
       .venue {
-        color: rgb(223, 220, 220);
-        font-size: 32px;
-        font-family: 'Sora';
-        font-weight: 500;
-        text-shadow: 4px 4px 6px rgba(0, 0, 0, 0.4);
+        display: flex;
+        flex-direction: row;
+        color: rgb(255 241 241);
+        align-items: center;
+        margin-bottom: 8px;
       }
 
-      .date {
-        color: rgb(225, 225, 225);
+      .venue-name {
         font-size: 24px;
-        font-family: 'Sora';
-        font-weight: 500;
+        font-family: 'Inter';
+        font-weight: 400;
         text-shadow: 4px 4px 6px rgba(0, 0, 0, 0.4);
       }
 
       body { margin: 0; }
 
-      @import url('https://fonts.googleapis.com/css2?family=Sora:wght@500;700&display=block'); </style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=block'); </style>
   </head>
   <body>
-  <div class="cover">
-    <img src="${artistImage}">
-    <div class="overlay">
-      <div class="text-container">
-        <div class="date">${date}</div>
-        <div class="venue">${venueName}</div>
-        <div class="artist">${artistName}</div>
+    <div class="cover">
+      <img src="${artistImage}">
+      <div class="overlay gradient"></div>
+        <div class="overlay">
+            <div class="text-container">
+            <div class="venue">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"></path></svg>
+              <span class="venue-name">${venueName}</span>
+            </div>
+            <div class="artist">${artistName}</div>
+            <div class="date">${date}</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
   </body>
 </html>
