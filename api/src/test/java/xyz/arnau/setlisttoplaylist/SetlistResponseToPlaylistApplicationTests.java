@@ -67,4 +67,14 @@ class SetlistResponseToPlaylistApplicationTests {
 				.then()
 				.statusCode(OK_200);
 	}
+
+	@Test
+	void shouldReturnRandomTopArtists() {
+		given().
+				queryParam("count", 5).
+		when().
+				get("/artists/top").
+				then().
+				statusCode(OK_200);
+	}
 }
