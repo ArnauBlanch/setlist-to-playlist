@@ -6,6 +6,7 @@ spotify:
   api:
     baseUrl: https://api.spotify.com/
     accountsBaseUrl: https://accounts.spotify.com/
+  topTracksPlaylistId: 37i9dQZEVXbNG2KDcFcKOF
 
 springdoc.api-docs.path: /api-docs
 server.error.include-message: always

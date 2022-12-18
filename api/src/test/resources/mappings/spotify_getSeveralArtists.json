@@ -1,0 +1,249 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/v1/artists",
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer ACCESS_TOKEN_SPOTIFY_CLIENT_CREDENTIALS"
+      }
+    },
+    "queryParameters": {
+      "ids": {
+        "equalTo": "716NhGYqD1jl2wI1Qkgq36,52iwsT98xCoGgiGntTiR7K,1HY2Jd0NmPuamShAr6KMms,7ltDVBr6mKbRvohxheJ9h1,7Ln80lUS6He07XvHI8qqHH,4q3ewBCX7sLwd24euuV69X"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/716NhGYqD1jl2wI1Qkgq36"
+          },
+          "followers": {
+            "href": null,
+            "total": 8127769
+          },
+          "genres": [
+            "argentine hip hop",
+            "pop venezolano",
+            "trap argentino",
+            "trap latino",
+            "urbano latino"
+          ],
+          "href": "https://api.spotify.com/v1/artists/716NhGYqD1jl2wI1Qkgq36",
+          "id": "716NhGYqD1jl2wI1Qkgq36",
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab6761610000e5eb12085fdb28f314e01ef73a19",
+              "width": 640
+            },
+            {
+              "height": 320,
+              "url": "https://i.scdn.co/image/ab6761610000517412085fdb28f314e01ef73a19",
+              "width": 320
+            },
+            {
+              "height": 160,
+              "url": "https://i.scdn.co/image/ab6761610000f17812085fdb28f314e01ef73a19",
+              "width": 160
+            }
+          ],
+          "name": "Bizarrap",
+          "popularity": 86,
+          "type": "artist",
+          "uri": "spotify:artist:716NhGYqD1jl2wI1Qkgq36"
+        },
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/52iwsT98xCoGgiGntTiR7K"
+          },
+          "followers": {
+            "href": null,
+            "total": 843149
+          },
+          "genres": [
+            "rap canario",
+            "urbano latino"
+          ],
+          "href": "https://api.spotify.com/v1/artists/52iwsT98xCoGgiGntTiR7K",
+          "id": "52iwsT98xCoGgiGntTiR7K",
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab6761610000e5ebee2ddb7f81a2e8b76b629fbc",
+              "width": 640
+            },
+            {
+              "height": 320,
+              "url": "https://i.scdn.co/image/ab67616100005174ee2ddb7f81a2e8b76b629fbc",
+              "width": 320
+            },
+            {
+              "height": 160,
+              "url": "https://i.scdn.co/image/ab6761610000f178ee2ddb7f81a2e8b76b629fbc",
+              "width": 160
+            }
+          ],
+          "name": "Quevedo",
+          "popularity": 87,
+          "type": "artist",
+          "uri": "spotify:artist:52iwsT98xCoGgiGntTiR7K"
+        },
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/1HY2Jd0NmPuamShAr6KMms"
+          },
+          "followers": {
+            "href": null,
+            "total": 24197537
+          },
+          "genres": [
+            "art pop",
+            "dance pop",
+            "pop"
+          ],
+          "href": "https://api.spotify.com/v1/artists/1HY2Jd0NmPuamShAr6KMms",
+          "id": "1HY2Jd0NmPuamShAr6KMms",
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab6761610000e5ebc8d3d98a1bccbe71393dbfbf",
+              "width": 640
+            },
+            {
+              "height": 320,
+              "url": "https://i.scdn.co/image/ab67616100005174c8d3d98a1bccbe71393dbfbf",
+              "width": 320
+            },
+            {
+              "height": 160,
+              "url": "https://i.scdn.co/image/ab6761610000f178c8d3d98a1bccbe71393dbfbf",
+              "width": 160
+            }
+          ],
+          "name": "Lady Gaga",
+          "popularity": 86,
+          "type": "artist",
+          "uri": "spotify:artist:1HY2Jd0NmPuamShAr6KMms"
+        },
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/7ltDVBr6mKbRvohxheJ9h1"
+          },
+          "followers": {
+            "href": null,
+            "total": 6420876
+          },
+          "genres": [
+            "r&b en espanol"
+          ],
+          "href": "https://api.spotify.com/v1/artists/7ltDVBr6mKbRvohxheJ9h1",
+          "id": "7ltDVBr6mKbRvohxheJ9h1",
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab6761610000e5ebd7bb678bef6d2f26110cae49",
+              "width": 640
+            },
+            {
+              "height": 320,
+              "url": "https://i.scdn.co/image/ab67616100005174d7bb678bef6d2f26110cae49",
+              "width": 320
+            },
+            {
+              "height": 160,
+              "url": "https://i.scdn.co/image/ab6761610000f178d7bb678bef6d2f26110cae49",
+              "width": 160
+            }
+          ],
+          "name": "ROSALÍA",
+          "popularity": 85,
+          "type": "artist",
+          "uri": "spotify:artist:7ltDVBr6mKbRvohxheJ9h1"
+        },
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/7Ln80lUS6He07XvHI8qqHH"
+          },
+          "followers": {
+            "href": null,
+            "total": 17422132
+          },
+          "genres": [
+            "garage rock",
+            "modern rock",
+            "permanent wave",
+            "rock",
+            "sheffield indie"
+          ],
+          "href": "https://api.spotify.com/v1/artists/7Ln80lUS6He07XvHI8qqHH",
+          "id": "7Ln80lUS6He07XvHI8qqHH",
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab6761610000e5eb7da39dea0a72f581535fb11f",
+              "width": 640
+            },
+            {
+              "height": 320,
+              "url": "https://i.scdn.co/image/ab676161000051747da39dea0a72f581535fb11f",
+              "width": 320
+            },
+            {
+              "height": 160,
+              "url": "https://i.scdn.co/image/ab6761610000f1787da39dea0a72f581535fb11f",
+              "width": 160
+            }
+          ],
+          "name": "Arctic Monkeys",
+          "popularity": 88,
+          "type": "artist",
+          "uri": "spotify:artist:7Ln80lUS6He07XvHI8qqHH"
+        },
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/4q3ewBCX7sLwd24euuV69X"
+          },
+          "followers": {
+            "href": null,
+            "total": 60870835
+          },
+          "genres": [
+            "reggaeton",
+            "trap latino",
+            "urbano latino"
+          ],
+          "href": "https://api.spotify.com/v1/artists/4q3ewBCX7sLwd24euuV69X",
+          "id": "4q3ewBCX7sLwd24euuV69X",
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab6761610000e5eb8ee9a6f54dcbd4bc95126b14",
+              "width": 640
+            },
+            {
+              "height": 320,
+              "url": "https://i.scdn.co/image/ab676161000051748ee9a6f54dcbd4bc95126b14",
+              "width": 320
+            },
+            {
+              "height": 160,
+              "url": "https://i.scdn.co/image/ab6761610000f1788ee9a6f54dcbd4bc95126b14",
+              "width": 160
+            }
+          ],
+          "name": "Bad Bunny",
+          "popularity": 99,
+          "type": "artist",
+          "uri": "spotify:artist:4q3ewBCX7sLwd24euuV69X"
+        }
+      ]
+    }
+  }
+}

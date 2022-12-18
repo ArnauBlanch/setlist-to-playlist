@@ -1,0 +1,128 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/v1/playlists/TOP_TRACKS_PLAYLIST_ID",
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer ACCESS_TOKEN_SPOTIFY_CLIENT_CREDENTIALS"
+      }
+    },
+    "queryParameters": {
+      "fields": {
+        "equalTo": "tracks.items(track(album(artists)))"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "tracks": {
+        "items": [
+          {
+            "track": {
+              "album": {
+                "artists": [
+                  {
+                    "external_urls": {
+                      "spotify": "https://open.spotify.com/artist/716NhGYqD1jl2wI1Qkgq36"
+                    },
+                    "href": "https://api.spotify.com/v1/artists/716NhGYqD1jl2wI1Qkgq36",
+                    "id": "716NhGYqD1jl2wI1Qkgq36",
+                    "name": "Bizarrap",
+                    "type": "artist",
+                    "uri": "spotify:artist:716NhGYqD1jl2wI1Qkgq36"
+                  },
+                  {
+                    "external_urls": {
+                      "spotify": "https://open.spotify.com/artist/52iwsT98xCoGgiGntTiR7K"
+                    },
+                    "href": "https://api.spotify.com/v1/artists/52iwsT98xCoGgiGntTiR7K",
+                    "id": "52iwsT98xCoGgiGntTiR7K",
+                    "name": "Quevedo",
+                    "type": "artist",
+                    "uri": "spotify:artist:52iwsT98xCoGgiGntTiR7K"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "track": {
+              "album": {
+                "artists": [
+                  {
+                    "external_urls": {
+                      "spotify": "https://open.spotify.com/artist/1HY2Jd0NmPuamShAr6KMms"
+                    },
+                    "href": "https://api.spotify.com/v1/artists/1HY2Jd0NmPuamShAr6KMms",
+                    "id": "1HY2Jd0NmPuamShAr6KMms",
+                    "name": "Lady Gaga",
+                    "type": "artist",
+                    "uri": "spotify:artist:1HY2Jd0NmPuamShAr6KMms"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "track": {
+              "album": {
+                "artists": [
+                  {
+                    "external_urls": {
+                      "spotify": "https://open.spotify.com/artist/7ltDVBr6mKbRvohxheJ9h1"
+                    },
+                    "href": "https://api.spotify.com/v1/artists/7ltDVBr6mKbRvohxheJ9h1",
+                    "id": "7ltDVBr6mKbRvohxheJ9h1",
+                    "name": "ROSALÍA",
+                    "type": "artist",
+                    "uri": "spotify:artist:7ltDVBr6mKbRvohxheJ9h1"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "track": {
+              "album": {
+                "artists": [
+                  {
+                    "external_urls": {
+                      "spotify": "https://open.spotify.com/artist/7Ln80lUS6He07XvHI8qqHH"
+                    },
+                    "href": "https://api.spotify.com/v1/artists/7Ln80lUS6He07XvHI8qqHH",
+                    "id": "7Ln80lUS6He07XvHI8qqHH",
+                    "name": "Arctic Monkeys",
+                    "type": "artist",
+                    "uri": "spotify:artist:7Ln80lUS6He07XvHI8qqHH"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "track": {
+              "album": {
+                "artists": [
+                  {
+                    "external_urls": {
+                      "spotify": "https://open.spotify.com/artist/4q3ewBCX7sLwd24euuV69X"
+                    },
+                    "href": "https://api.spotify.com/v1/artists/4q3ewBCX7sLwd24euuV69X",
+                    "id": "4q3ewBCX7sLwd24euuV69X",
+                    "name": "Bad Bunny",
+                    "type": "artist",
+                    "uri": "spotify:artist:4q3ewBCX7sLwd24euuV69X"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

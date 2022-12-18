@@ -1,4 +1,4 @@
-package xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model;
+package xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.playlist;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Value;

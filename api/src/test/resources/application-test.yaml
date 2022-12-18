@@ -10,3 +10,4 @@ spotify:
     accountsBaseUrl: http://localhost:8081/
     clientId: SPOTIFY_CLIENT_ID
     clientSecret: SPOTIFY_CLIENT_SECRET
+  topTracksPlaylistId: TOP_TRACKS_PLAYLIST_ID
