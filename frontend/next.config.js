@@ -9,6 +9,7 @@ const nextConfig = {
 			'm.media-amazon.com',
 			'e00-elmundo.uecdn.es',
 			'www.binaural.es',
+			'i.scdn.co',
 		],
 	},
 }
