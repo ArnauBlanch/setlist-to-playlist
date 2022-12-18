@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Setlist } from '../../../models'
 
 export default function ArtistSetlistCard({
@@ -7,7 +8,10 @@ export default function ArtistSetlistCard({
 }) {
 	const available = songs.length > 0
 	return (
-		<div className="group overflow-hidden rounded-2xl bg-gradient-to-r from-pink-600 via-red-500 to-amber-400 text-white shadow-xl">
+		<Link
+			href="/setlists/1"
+			className="group overflow-hidden rounded-2xl bg-gradient-to-r from-pink-600 via-red-500 to-amber-400 text-white shadow-xl"
+		>
 			<div
 				className={`h-full bg-black p-4 sm:p-4 ${
 					available
@@ -84,14 +88,12 @@ export default function ArtistSetlistCard({
 					<span>Sant Adrià de Besòs, Spain</span>
 				</div>
 
-				<a href="#">
-					<h3 className="text-2xl font-extrabold">{venue.name}</h3>
-				</a>
+				<h3 className="text-2xl font-extrabold">{venue.name}</h3>
 
 				<div className="my-auto -mt-0.5 flex flex-row items-center gap-1 text-sm font-bold">
 					June 10th, 2022
 				</div>
 			</div>
-		</div>
+		</Link>
 	)
 }
