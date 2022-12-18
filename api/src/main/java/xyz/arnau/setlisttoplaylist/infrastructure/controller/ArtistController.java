@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +34,7 @@ public class ArtistController {
     private final ArtistService artistService;
 
     @GetMapping("top")
-    @Operation(summary = "Get top artists",
-            security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Get top artists")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Top artists found", content = {
                     @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = PlaylistResponse.class))
@@ -49,6 +47,20 @@ public class ArtistController {
 
         return ResponseEntity.ok(randomTopArtists
                 .subList(0, count).stream()
+                .map(ArtistMapper.MAPPER::toResponse)
+                .collect(toList()));
+    }
+
+    @GetMapping
+    @Operation(summary = "Get artists by name")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Artists found", content = {
+                    @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = PlaylistResponse.class))
+            }),
+    })
+    public ResponseEntity<List<ArtistResponse>> getTopArtists(
+            @RequestParam @Parameter(description = "Name of the artist", example = "Arctic Monkeys") String name) {
+        return ResponseEntity.ok(artistService.getAllByName(name).stream()
                 .map(ArtistMapper.MAPPER::toResponse)
                 .collect(toList()));
     }

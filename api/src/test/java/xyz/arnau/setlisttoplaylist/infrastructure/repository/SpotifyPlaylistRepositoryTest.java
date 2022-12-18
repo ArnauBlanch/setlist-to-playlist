@@ -1,19 +1,24 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.repository;
 
-import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import xyz.arnau.setlisttoplaylist.domain.dto.CreatePlaylistCommand;
 import xyz.arnau.setlisttoplaylist.domain.entities.Playlist;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.SpotifyPlaylistRepository;
 
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@WireMockTest(httpPort = 8081)
 class SpotifyPlaylistRepositoryTest {
+    @RegisterExtension
+    static WireMockExtension wireMock = WireMockExtension.newInstance()
+            .options(wireMockConfig().port(8081).dynamicHttpsPort())
+            .build();
 
     @Autowired
     private SpotifyPlaylistRepository spotifyPlaylistRepository;

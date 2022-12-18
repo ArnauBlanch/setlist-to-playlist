@@ -1,0 +1,57 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/rest/1.0/search/artists",
+    "headers": {
+      "Accept": {
+        "equalTo": "application/json"
+      },
+      "x-api-key": {
+        "equalTo": "TEST_API_KEY"
+      }
+    },
+    "queryParameters": {
+      "artistName": {
+        "equalTo": "Manel"
+      },
+      "sort": {
+        "equalTo": "relevance"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "type": "artists",
+      "itemsPerPage": 30,
+      "page": 1,
+      "total": 20,
+      "artist": [
+        {
+          "mbid": "4e7209ee-ef02-4cb7-bdff-815b0473c27c",
+          "name": "Manel",
+          "sortName": "Manel",
+          "disambiguation": "",
+          "url": "https://www.setlist.fm/setlists/manel-4bd7bfce.html"
+        },
+        {
+          "mbid": "202ce906-b91e-478c-856e-92d433cd3715",
+          "name": "Manuel Cruz",
+          "sortName": "Cruz, Manuel",
+          "disambiguation": "portuguese singer, guitarist and lyricist",
+          "url": "https://www.setlist.fm/setlists/manuel-cruz-6bd7220e.html"
+        },
+        {
+          "mbid": "b084d62f-9f17-429e-89fd-0c8840b741b3",
+          "name": "Manel Navarro",
+          "sortName": "Navarro, Manel",
+          "disambiguation": "",
+          "url": "https://www.setlist.fm/setlists/manel-navarro-3cf7167.html"
+        }
+      ]
+    }
+  }
+}

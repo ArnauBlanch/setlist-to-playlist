@@ -2,6 +2,7 @@ package xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import xyz.arnau.setlisttoplaylist.domain.entities.Artist;
 import xyz.arnau.setlisttoplaylist.domain.ports.ArtistRepository;
@@ -19,7 +20,7 @@ public class SpotifyArtistRepository implements ArtistRepository {
     @Value("${spotify.topTracksPlaylistId}")
     private String topTracksPlaylistId;
 
-    @Override
+    @Cacheable(value = "topArtists", unless="#result == null")
     public List<Artist> getTopArtists() {
         var topTracks = spotifyApiService.getPlaylist(topTracksPlaylistId).getTracks().getItems();
         var topTracksArtistIds = topTracks.stream()

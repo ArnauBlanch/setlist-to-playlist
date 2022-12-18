@@ -31,12 +31,12 @@ class SetlistResponseToPlaylistApplicationTests {
 
 	@Test
 	void givenASetlistId_shouldReturnSetlist() {
-		given()
-		.when()
-				.get("/setlists/abc12345")
-		.then()
-				.statusCode(OK_200)
-				.body(
+		given().
+		when().
+				get("/setlists/abc12345").
+		then().
+				statusCode(OK_200).
+				body(
 						"artist.name", equalTo("Manel"),
 						"venue.name", equalTo("Plaça Corsini"),
 						"venue.city", equalTo("Tarragona"),
@@ -46,26 +46,25 @@ class SetlistResponseToPlaylistApplicationTests {
 						"songs.id", equalTo(asList(
 								"6H86gna5KDoPurwLxb6pIV", "4lKwqIEmnm0wsRLOuwUMLv", null,
 								"4KQPAGQNStZaWiewr83fwM", "6ADbZPiWZNsaCiIvsg5iq6", "6lSJZiZqWU8Qt1fJVeFZEv")));
-
 	}
 
 	@Test
 	void givenASetlistId_shouldCreateSpotifyPlaylistAndAddSongs() {
-		given()
-				.header("Authorization", "Bearer SPOTIFY_USER_TOKEN")
-		.when()
-				.post("/playlists/abc12345")
-		.then()
-				.statusCode(CREATED_201);
+		given().
+				header("Authorization", "Bearer SPOTIFY_USER_TOKEN").
+		when().
+				post("/playlists/abc12345").
+		then().
+				statusCode(CREATED_201);
 	}
 
 	@Test
 	void givenASetlistId_shouldReturnPlaylistCoverImage() {
-		given()
-				.when()
-				.get("/playlists/abc12345/cover")
-				.then()
-				.statusCode(OK_200);
+		given().
+		when().
+				get("/playlists/abc12345/cover").
+		then().
+				statusCode(OK_200);
 	}
 
 	@Test
@@ -74,7 +73,18 @@ class SetlistResponseToPlaylistApplicationTests {
 				queryParam("count", 5).
 		when().
 				get("/artists/top").
-				then().
+		then().
 				statusCode(OK_200);
+	}
+
+	@Test
+	void givenAnArtistName_shouldReturnArtists() {
+		given().
+				queryParam("name", "Manel").
+		when().
+				get("/artists").
+		then().
+				statusCode(OK_200);
+
 	}
 }

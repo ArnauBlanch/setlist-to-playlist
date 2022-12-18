@@ -68,6 +68,8 @@ public class SpotifyApiService {
                     var artistItem = artistItems.get(0);
                     return Optional.of(artistItem);
                 }
+            } else if (response.code() == HttpStatus.NOT_FOUND.value()) {
+                return Optional.empty();
             } else {
                 log.error("Could not fetch artist (name=%s)".formatted(artistName));
                 throw new RuntimeException("Spotify API error");
