@@ -47,7 +47,7 @@ class SongMapperTest {
 
         var song = songMapper.map(
                 new SetlistFmSong(SONG_NAME, null, false),
-                new SetlistFmArtist(null, ARTIST));
+                new SetlistFmArtist(null, ARTIST, ARTIST, ARTIST));
 
         assertThat(song.id()).isEqualTo(SPOTIFY_ID);
         assertThat(song.name()).isEqualTo(SONG_NAME);
@@ -73,8 +73,8 @@ class SongMapperTest {
                                 .build()));
 
         var song = songMapper.map(
-                new SetlistFmSong(SONG_NAME, new SetlistFmArtist(null, originalArtist), false),
-                new SetlistFmArtist(null, ARTIST));
+                new SetlistFmSong(SONG_NAME, new SetlistFmArtist(null, originalArtist, null, null), false),
+                new SetlistFmArtist(null, ARTIST, ARTIST, ARTIST));
 
         assertThat(song.id()).isEqualTo(SPOTIFY_ID);
         assertThat(song.name()).isEqualTo(SONG_NAME);
@@ -87,7 +87,7 @@ class SongMapperTest {
 
         var song = songMapper.map(
                 new SetlistFmSong(SONG_NAME, null, false),
-                new SetlistFmArtist(null, ARTIST));
+                new SetlistFmArtist(null, ARTIST, ARTIST, ARTIST));
 
         assertThat(song.id()).isNull();
         assertThat(song.name()).isEqualTo(SONG_NAME);

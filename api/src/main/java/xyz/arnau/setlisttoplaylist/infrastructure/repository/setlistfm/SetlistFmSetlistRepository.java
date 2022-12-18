@@ -1,9 +1,9 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm;
 
-import com.pivovarit.collectors.ParallelCollectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import retrofit2.Response;
 import xyz.arnau.setlisttoplaylist.domain.entities.Artist;
@@ -28,13 +28,17 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
+
+import static com.pivovarit.collectors.ParallelCollectors.parallel;
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
 @CommonsLog
 public class SetlistFmSetlistRepository implements SetlistRepository {
 
+    public static final int MAX_ARTIST_SEARCH_RESULTS = 10;
     private final ExecutorService executorService = Executors.newFixedThreadPool(30);
 
     private final SetlistFmApi setlistFmApi;
@@ -66,11 +70,36 @@ public class SetlistFmSetlistRepository implements SetlistRepository {
         return Optional.empty();
     }
 
+    public List<Artist> getArtistsByName(String name) {
+        try {
+            var response = setlistFmApi.searchArtists(name, "relevance").execute();
+            if (response.isSuccessful() && response.body() != null && response.body().getArtists() != null
+                    && !response.body().getArtists().isEmpty()) {
+                List<Optional<Artist>> artists = response.body().getArtists().stream()
+                        .limit(MAX_ARTIST_SEARCH_RESULTS)
+                        .map(SetlistFmArtist::getSortName)
+                        .collect(parallel(searchName -> spotifyApiService.searchArtist(searchName)
+                                        .map(SetlistFmSetlistRepository::mapArtist), toList(), executorService, 10)).get();
+
+                return artists.stream().filter(Optional::isPresent).map(Optional::get).collect(toList());
+
+            } else if (response.isSuccessful() || response.code() == HttpStatus.NOT_FOUND.value()) {
+                return emptyList();
+            } else {
+                log.error("Could not get artists (name=%s)".formatted(name));
+                throw new RuntimeException("Setlist.fm API error");
+            }
+        } catch (IOException | InterruptedException | ExecutionException e) {
+            log.error("Could not get artists (name=%s)".formatted(name));
+            throw new RuntimeException(e);
+        }
+    }
+
     private List<Song> mapSongs(List<SetlistFmSet> sets, SetlistFmArtist artist) {
         try {
             return sets.stream()
                     .flatMap(setlistSet -> setlistSet.getSong().stream())
-                    .collect(ParallelCollectors.parallel(s -> songMapper.map(s, artist), Collectors.toList(), executorService, 10))
+                    .collect(parallel(s -> songMapper.map(s, artist), toList(), executorService, 10))
                     .get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
