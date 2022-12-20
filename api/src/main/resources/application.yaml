@@ -1,17 +1,24 @@
+springdoc.api-docs.path: /api-docs
+server.error:
+  include-message: always
+  whitelabel:
+    enabled: false
+spring:
+  autoconfigure:
+    exclude: 'org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration'
+
 setlistFm:
   api:
     baseUrl: https://api.setlist.fm/
+    apiKey: ${SETLIST_FM_API_KEY}
 
 spotify:
   api:
     baseUrl: https://api.spotify.com/
     accountsBaseUrl: https://accounts.spotify.com/
+    clientId: ${SPOTIFY_CLIENT_ID}
+    clientSecret: ${SPOTIFY_CLIENT_SECRET}
   topTracksPlaylistId: 37i9dQZEVXbNG2KDcFcKOF
 
-springdoc.api-docs.path: /api-docs
-server.error.include-message: always
-
-server.error.whitelabel.enabled: false
-spring:
-  autoconfigure:
-    exclude: 'org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration'
+selenium:
+  remoteWebDriverUrl: ${REMOTE_WEB_DRIVER_URL}/webdriver
