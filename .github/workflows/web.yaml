@@ -10,7 +10,7 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - 'frontend/**'
+      - 'web/**'
   workflow_dispatch:
     
 
@@ -85,7 +85,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@c56af957549030174b10d6867f20e78cfd7debc5
         with:
-          context: frontend
+          context: web
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
