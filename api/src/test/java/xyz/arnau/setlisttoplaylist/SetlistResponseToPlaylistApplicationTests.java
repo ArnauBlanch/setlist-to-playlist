@@ -2,27 +2,42 @@ package xyz.arnau.setlisttoplaylist;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import io.restassured.RestAssured;
+import org.jetbrains.annotations.NotNull;
+import org.junit.ClassRule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.utility.DockerImageName;
 
 import static io.restassured.RestAssured.given;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.boot.test.util.TestPropertyValues.of;
 import static wiremock.org.eclipse.jetty.http.HttpStatus.CREATED_201;
 import static wiremock.org.eclipse.jetty.http.HttpStatus.OK_200;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @WireMockTest(httpPort = 8081)
+@ContextConfiguration(initializers = SetlistResponseToPlaylistApplicationTests.Initializer.class)
 class SetlistResponseToPlaylistApplicationTests {
 
 	@LocalServerPort
 	private int port;
+
+	@ClassRule
+	public static GenericContainer<?> chromeWebDriver = new GenericContainer<>(DockerImageName.parse("browserless/chrome"))
+			.withExposedPorts(3000)
+			.waitingFor(Wait.forHttp("/").forStatusCode(200));
 
 	@BeforeEach
 	public void setUp() {
@@ -86,5 +101,15 @@ class SetlistResponseToPlaylistApplicationTests {
 		then().
 				statusCode(OK_200);
 
+	}
+
+	public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+
+		@Override
+		public void initialize(@NotNull ConfigurableApplicationContext configurableApplicationContext) {
+			chromeWebDriver.start();
+			of("selenium.remoteWebDriverUrl=http://localhost:%s/webdriver".formatted(chromeWebDriver.getFirstMappedPort()))
+			.applyTo(configurableApplicationContext);
+		}
 	}
 }
