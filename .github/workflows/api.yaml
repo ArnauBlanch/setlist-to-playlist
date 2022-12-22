@@ -10,7 +10,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ArnauBlanch/setlist-to-playlist-api
+  IMAGE_NAME: arnaublanch/setlist-to-playlist-api
 
 
 jobs:
