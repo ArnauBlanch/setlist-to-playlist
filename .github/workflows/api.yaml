@@ -1,4 +1,4 @@
-name: Build & Deploy Spring Boot API
+name: Build & Deploy Spring Boot API [api]
 
 on:
   push:
