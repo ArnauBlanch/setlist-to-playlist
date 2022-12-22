@@ -1,4 +1,4 @@
-name: Build Spring Boot API (api)
+name: Build & Deploy Spring Boot API
 
 on:
   push:
@@ -22,6 +22,8 @@ jobs:
       # This is used to complete the identity challenge
       # with sigstore/fulcio when running outside of PRs.
       id-token: write
+    outputs:
+      IMAGE_VERSION: ${{ steps.tag_version.outputs.new_version }}
 
     steps:
       - name: Checkout repository
@@ -55,8 +57,6 @@ jobs:
         with:
           tag_prefix: api-v
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Save version as output
-        run: echo "IMAGE_VERSION=${{ steps.tag_version.outputs.new_version }}" >> $GITHUB_OUTPUT
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
@@ -103,6 +103,6 @@ jobs:
       - name: Deploy to Dokku
         uses: dokku/github-action@master
         with:
-          git_remote_url: 'ssh://dokku@${{ secrets.DOKKU_HOST }}:22/${{ secrets.APP_NAME }}'
+          git_remote_url: 'ssh://dokku@${{ secrets.DOKKU_HOST }}:22/${{ secrets.API_APP_NAME }}'
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           deploy_docker_image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build.outputs.IMAGE_VERSION }}
