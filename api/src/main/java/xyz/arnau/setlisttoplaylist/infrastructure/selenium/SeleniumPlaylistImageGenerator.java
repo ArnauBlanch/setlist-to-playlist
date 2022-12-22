@@ -1,5 +1,6 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.selenium;
 
+import com.google.common.io.Resources;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.text.StringSubstitutor;
@@ -8,12 +9,9 @@ import xyz.arnau.setlisttoplaylist.domain.entities.Setlist;
 import xyz.arnau.setlisttoplaylist.domain.ports.PlaylistImageGenerator;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 
-import static com.google.common.io.Resources.getResource;
-import static java.nio.file.Files.readString;
-import static java.nio.file.Paths.get;
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.LONG;
 import static java.util.Locale.US;
@@ -40,9 +38,9 @@ public class SeleniumPlaylistImageGenerator implements PlaylistImageGenerator {
         }
     }
 
-    private String generateCoverHtml(Setlist setlist) throws URISyntaxException, IOException {
+    private String generateCoverHtml(Setlist setlist) throws IOException {
         String html = "data:text/html;charset=utf-8," +
-                readString(get(getResource(COVER_HTML_FILE).toURI()).toFile().toPath());
+                Resources.toString(Resources.getResource(COVER_HTML_FILE), Charset.defaultCharset());
         return StringSubstitutor.replace(html, new HashMap<>() {{
             put("artistName", setlist.artist().name());
             put("artistImage", setlist.artist().imageUrl());
