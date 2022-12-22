@@ -21,4 +21,5 @@ spotify:
   topTracksPlaylistId: 37i9dQZEVXbNG2KDcFcKOF
 
 selenium:
-  remoteWebDriverUrl: ${REMOTE_WEB_DRIVER_URL}/webdriver
+  remoteWebDriverUrl: ${REMOTE_WEB_DRIVER_URL}
+
