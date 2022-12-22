@@ -56,7 +56,7 @@ jobs:
           tag_prefix: api-v
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Save version as output
-        run: echo ${{ steps.tag_version.outputs.new_tag }} >> $VERSION
+        run: echo "IMAGE_VERSION=${{ steps.tag_version.outputs.new_version }}" >> $GITHUB_OUTPUT
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
@@ -105,4 +105,4 @@ jobs:
         with:
           git_remote_url: 'ssh://dokku@${{ secrets.DOKKU_HOST }}:22/appname'
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          deploy_docker_image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build.outputs.VERSION }}
+          deploy_docker_image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build.outputs.IMAGE_VERSION }}
