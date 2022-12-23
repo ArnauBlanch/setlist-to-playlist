@@ -39,9 +39,9 @@ public class SetlistFmApiService {
         }
     }
 
-    public List<SetlistFmArtist> searchArtists(String name) {
+    public List<SetlistFmArtist> searchArtists(String nameQuery) {
         try {
-            var response = setlistFmApi.searchArtists(name, ARTIST_SEARCH_SORT).execute();
+            var response = setlistFmApi.searchArtists(nameQuery, ARTIST_SEARCH_SORT).execute();
             if (response.isSuccessful() && response.body() != null && response.body().getArtists() != null) {
                 return response.body().getArtists().stream()
                         .limit(MAX_ARTIST_SEARCH_RESULTS)
@@ -49,11 +49,11 @@ public class SetlistFmApiService {
             } else if (response.code() == NOT_FOUND.value()) {
                 return emptyList();
             } else {
-                log.error("Could not search artists (name=%s)".formatted(name));
+                log.error("Could not search artists (nameQuery=%s)".formatted(nameQuery));
                 throw new RuntimeException("Setlist.fm API error");
             }
         } catch (IOException e) {
-            log.error("Could not search artists (name=%s)".formatted(name));
+            log.error("Could not search artists (nameQuery=%s)".formatted(nameQuery));
             throw new RuntimeException(e);
         }
     }

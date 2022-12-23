@@ -21,16 +21,13 @@ public abstract class ArtistRepositoryBase<TPlatformRepository extends MusicPlat
     private final SetlistFmApiService setlistFmApiService;
     private final TPlatformRepository musicPlatformRepository;
 
-
-    @Override
     public List<Artist> getTopArtists() {
         return musicPlatformRepository.getTopArtists();
     }
 
-    @Override
-    public List<Artist> getArtistsByName(String name) {
+    public List<Artist> searchByName(String nameQuery) {
         try {
-            return setlistFmApiService.searchArtists(name).stream()
+            return setlistFmApiService.searchArtists(nameQuery).stream()
                     .map(SetlistFmArtist::getSortName)
                     .collect(
                             parallel(musicPlatformRepository::getArtist, toList(), executorService, 10))

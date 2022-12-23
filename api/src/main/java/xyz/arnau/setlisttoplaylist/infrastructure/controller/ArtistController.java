@@ -58,9 +58,9 @@ public class ArtistController {
                     @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = PlaylistResponse.class))
             }),
     })
-    public ResponseEntity<List<ArtistResponse>> getTopArtists(
+    public ResponseEntity<List<ArtistResponse>> searchArtistsByName(
             @RequestParam @Parameter(description = "Name of the artist", example = "Arctic Monkeys") String name) {
-        return ResponseEntity.ok(artistService.getAllByName(name).stream()
+        return ResponseEntity.ok(artistService.searchByName(name).stream()
                 .map(ArtistMapper.MAPPER::toResponse)
                 .collect(toList()));
     }

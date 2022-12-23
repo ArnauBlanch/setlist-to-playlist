@@ -39,16 +39,16 @@ class ArtistServiceTest {
     }
 
     @Nested
-    class GetAllByName {
+    class SearchByName {
         @Test
         public void givenAnArtistName_shouldReturnArtists() {
             var artists = asList(
                     Artist.builder().name("Manel").imageUrl("url1").build(),
                     Artist.builder().name("Fake Manel").imageUrl("url2").build()
             );
-            when(artistRepository.getArtistsByName("Manel")).thenReturn(artists);
+            when(artistRepository.searchByName("Manel")).thenReturn(artists);
 
-            var artistsFound = artistService.getAllByName("Manel");
+            var artistsFound = artistService.searchByName("Manel");
 
             assertThat(artistsFound).isEqualTo(artists);
         }

@@ -55,7 +55,7 @@ public class ArtistControllerTest {
     class GetArtists {
         @Test
         public void whenArtistsFound_shouldOkWithArtists() {
-            when(artistService.getAllByName("Manel")).thenReturn(asList(
+            when(artistService.searchByName("Manel")).thenReturn(asList(
                     Artist.builder().name("Manel").imageUrl("img1").build(),
                     Artist.builder().name("Fake Manel").imageUrl("img2").build()
             ));

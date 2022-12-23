@@ -1,7 +1,6 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.repository.base;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import xyz.arnau.setlisttoplaylist.domain.entities.Setlist;
 import xyz.arnau.setlisttoplaylist.domain.entities.Song;
 import xyz.arnau.setlisttoplaylist.domain.ports.SetlistRepository;
@@ -26,7 +25,6 @@ public abstract class SetlistRepositoryBase<TPlatformRepository extends MusicPla
     private final TPlatformRepository musicPlatformRepository;
     private final SetlistFmApiService setlistFmApiService;
 
-    @Cacheable(value = "setlists", key = "#setlistId", unless="#result == null")
     public Optional<Setlist> getSetlist(String setlistId) {
         return setlistFmApiService.getSetlist(setlistId)
                 .flatMap(setlist -> musicPlatformRepository.getArtist(setlist.getArtist().getName())
