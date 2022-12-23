@@ -44,10 +44,10 @@ class SpotifyArtistRepositoryIntegrationTest {
     }
 
     @Nested
-    class GetArtistsByName {
+    class SearchByName {
         @Test
         public void whenResultsFound_shouldReturnArtists() {
-            List<Artist> artists = artistRepository.getArtistsByName("Manel");
+            List<Artist> artists = artistRepository.searchByName("Manel");
 
             assertThat(artists).isEqualTo(singletonList(
                     Artist.builder()
@@ -60,7 +60,7 @@ class SpotifyArtistRepositoryIntegrationTest {
 
         @Test
         public void whenResultsNotFound_shouldReturnEmpty() {
-            List<Artist> artists = artistRepository.getArtistsByName("unknown");
+            List<Artist> artists = artistRepository.searchByName("unknown");
 
             assertThat(artists).isEmpty();
         }

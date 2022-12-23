@@ -16,7 +16,7 @@ public class ArtistService {
         return artistRepository.getTopArtists();
     }
 
-    public List<Artist> getAllByName(String name) {
-        return artistRepository.getArtistsByName(name);
+    public List<Artist> searchByName(String nameQuery) {
+        return artistRepository.searchByName(nameQuery);
     }
 }

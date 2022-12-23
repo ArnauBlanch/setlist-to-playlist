@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ArtistRepository {
     List<Artist> getTopArtists();
-    List<Artist> getArtistsByName(String name);
+    List<Artist> searchByName(String nameQuery);
 }

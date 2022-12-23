@@ -7,6 +7,7 @@ import java.util.List;
 
 @Builder
 public record Setlist(
+        String id,
         LocalDate date,
         Artist artist,
         Venue venue,

@@ -16,6 +16,7 @@ public class SetlistFmMapper {
 
     public static Setlist mapSetlist(SetlistFmSetlist setlist, Artist artist, List<Song> songs) {
         return Setlist.builder()
+                .id(setlist.getId())
                 .date(parse(setlist.getEventDate(), ofPattern("dd-MM-yyyy")))
                 .artist(artist)
                 .venue(mapVenue(setlist.getVenue()))

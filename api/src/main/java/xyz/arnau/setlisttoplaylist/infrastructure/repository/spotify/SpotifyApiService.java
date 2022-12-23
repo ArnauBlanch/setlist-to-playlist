@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import retrofit2.Response;
@@ -35,7 +34,6 @@ public class SpotifyApiService {
 
     private final SpotifyApi spotifyApi;
 
-    @Cacheable(value = "setlists", key = "#p0.concat(#p1)", unless="#result == null")
     public Optional<SpotifyTrack> searchTrack(String artist, String trackName) {
         try {
             var response = spotifyApi.search(searchSongQuery(artist, trackName), "track", 1, DEFAULT_MARKET).execute();
@@ -58,7 +56,6 @@ public class SpotifyApiService {
         return Optional.empty();
     }
 
-    @Cacheable(value = "artists", key = "#p0", unless="#result == null")
     public Optional<SpotifyArtist> searchArtist(String artistName) {
         try {
             var response = spotifyApi.search(searchArtistQuery(artistName), "artist", 1, DEFAULT_MARKET).execute();
