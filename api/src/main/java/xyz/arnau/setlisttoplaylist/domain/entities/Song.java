@@ -4,11 +4,11 @@ import lombok.Builder;
 
 @Builder
 public record Song(
-        String id,
+        String musicPlatformId,
         String name,
         String albumName,
         String albumCoverUrl,
         int durationSeconds,
         String previewUrl,
-        String originalArtist
+        String originalArtistName
 ) {}

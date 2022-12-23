@@ -47,7 +47,7 @@ class PlaylistControllerTest {
                     post("/playlists/abc12345").
             then().
                     statusCode(201).
-                    body("id", equalTo("12345"));
+                    body("musicPlatformId", equalTo("12345"));
 
             verify(playlistService).createFromSetlist("abc12345", true, AUTHORIZATION_HEADER);
         }

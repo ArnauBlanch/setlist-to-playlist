@@ -58,7 +58,7 @@ class SetlistResponseToPlaylistApplicationTests {
 						"venue.country", equalTo("Spain"),
 						"venue.countryCode", equalTo("ES"),
 						"date", equalTo("2022-09-18"),
-						"songs.id", equalTo(asList(
+						"songs.musicPlatformId", equalTo(asList(
 								"6H86gna5KDoPurwLxb6pIV", "4lKwqIEmnm0wsRLOuwUMLv", null,
 								"4KQPAGQNStZaWiewr83fwM", "6ADbZPiWZNsaCiIvsg5iq6", "6lSJZiZqWU8Qt1fJVeFZEv")));
 	}

@@ -8,6 +8,7 @@ import java.util.List;
 @Builder
 @Value
 public class SpotifyArtist {
+    String id;
     String name;
     List<SpotifyImage> images;
 }

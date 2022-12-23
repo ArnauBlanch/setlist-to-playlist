@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import xyz.arnau.setlisttoplaylist.domain.dto.CreatePlaylistCommand;
 import xyz.arnau.setlisttoplaylist.domain.entities.Playlist;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.SpotifyPlaylistRepository;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static java.util.Arrays.asList;
@@ -34,6 +35,6 @@ class SpotifyPlaylistRepositoryIntegrationTest {
                 .build();
         Playlist playlist = playlistRepository.create(command, "Bearer SPOTIFY_USER_TOKEN");
 
-        assertThat(playlist.id()).isEqualTo("0a6xVqBCrxn8Ug0Wrudv9J");
+        assertThat(playlist.musicPlatformId()).isEqualTo("0a6xVqBCrxn8Ug0Wrudv9J");
     }
 }
