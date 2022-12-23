@@ -84,9 +84,9 @@ class PlaylistServiceTest {
                         .countryCode("ES")
                         .build())
                 .songs(asList(
-                        Song.builder().id("spt1").name("Reptilia").build(),
-                        Song.builder().id("spt2").name("Under Cover the Darkness").build(),
-                        Song.builder().id(null).name("UNKNOWN").build()
+                        Song.builder().musicPlatformId("spt1").name("Reptilia").build(),
+                        Song.builder().musicPlatformId("spt2").name("Under Cover the Darkness").build(),
+                        Song.builder().musicPlatformId(null).name("UNKNOWN").build()
                 ))
                 .build();
     }

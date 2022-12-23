@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import xyz.arnau.setlisttoplaylist.domain.entities.Artist;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.SpotifyArtistRepository;
 
 import java.util.List;
 
@@ -49,7 +50,11 @@ class SpotifyArtistRepositoryIntegrationTest {
             List<Artist> artists = artistRepository.getArtistsByName("Manel");
 
             assertThat(artists).isEqualTo(singletonList(
-                    Artist.builder().name("Manel").imageUrl("https://i.scdn.co/image/ab6761610000e5ebf03cdcbdda43b390cf876a6a").build()
+                    Artist.builder()
+                            .musicPlatformId("40tHhop0T30DwienQBmTxb")
+                            .name("Manel")
+                            .imageUrl("https://i.scdn.co/image/ab6761610000e5ebf03cdcbdda43b390cf876a6a")
+                            .build()
             ));
         }
 

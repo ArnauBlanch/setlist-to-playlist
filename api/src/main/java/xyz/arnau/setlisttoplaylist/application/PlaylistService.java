@@ -36,7 +36,7 @@ public class PlaylistService {
                 .name(fillData(PLAYLIST_NAME, setlist))
                 .description(fillData(PLAYLIST_DESCRIPTION, setlist))
                 .isPublic(isPublic)
-                .songIds(setlist.songs().stream().map(Song::id).filter(Objects::nonNull).collect(toList()))
+                .songIds(setlist.songs().stream().map(Song::musicPlatformId).filter(Objects::nonNull).collect(toList()))
                 .coverImage(playlistImageGenerator.generateImage(setlist))
                 .build();
         return playlistRepository.create(command, authorizationHeader);
