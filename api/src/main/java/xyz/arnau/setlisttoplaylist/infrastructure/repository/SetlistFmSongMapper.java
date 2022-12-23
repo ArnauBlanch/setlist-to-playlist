@@ -1,4 +1,4 @@
-package xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm;
+package xyz.arnau.setlisttoplaylist.infrastructure.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;

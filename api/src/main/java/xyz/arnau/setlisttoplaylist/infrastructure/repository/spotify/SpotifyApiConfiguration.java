@@ -16,7 +16,7 @@ import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.time.temporal.ChronoUnit.SECONDS;
 
 @Configuration
-public class SpotifyConfiguration {
+public class SpotifyApiConfiguration {
 
     @Value("${spotify.api.baseUrl}")
     private String baseUrl;

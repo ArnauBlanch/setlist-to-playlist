@@ -8,7 +8,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import xyz.arnau.setlisttoplaylist.domain.entities.Artist;
 import xyz.arnau.setlisttoplaylist.domain.ports.ArtistRepository;
-import xyz.arnau.setlisttoplaylist.domain.ports.SetlistRepository;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,8 +17,6 @@ import static org.mockito.Mockito.when;
 class ArtistServiceTest {
     @Mock
     private ArtistRepository artistRepository;
-    @Mock
-    private SetlistRepository setlistRepository;
 
     @InjectMocks
     private ArtistService artistService;
@@ -49,7 +46,7 @@ class ArtistServiceTest {
                     Artist.builder().name("Manel").imageUrl("url1").build(),
                     Artist.builder().name("Fake Manel").imageUrl("url2").build()
             );
-            when(setlistRepository.getArtistsByName("Manel")).thenReturn(artists);
+            when(artistRepository.getArtistsByName("Manel")).thenReturn(artists);
 
             var artistsFound = artistService.getAllByName("Manel");
 
