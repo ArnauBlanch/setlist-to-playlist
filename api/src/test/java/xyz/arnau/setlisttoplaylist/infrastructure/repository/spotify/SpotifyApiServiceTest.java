@@ -50,14 +50,13 @@ class SpotifyApiServiceTest {
 
         @Test
         public void when200AndSongMatches_ReturnsSong() throws InterruptedException {
-            mockWebServer.enqueue(new MockResponse()
-                    .setResponseCode(OK.value())
-                    .setBody(JSON_MAPPER.toJson(new SpotifySearchResult(
-                            new SpotifySearchResultItem<>(singletonList(SpotifyTrack.builder()
+            enqueueOkResponse(new SpotifySearchResult(
+                    new SpotifySearchResultItem<>(singletonList(
+                            SpotifyTrack.builder()
                                     .id(SPOTIFY_ID)
                                     .name(SONG_NAME)
                                     .artists(singletonList(SpotifyArtist.builder().name(ARTIST).build()))
-                                    .build())), null))));
+                                    .build())), null));
 
             var track = apiService.searchTrack(ARTIST, SONG_NAME);
 
@@ -76,14 +75,12 @@ class SpotifyApiServiceTest {
 
         @Test
         public void when200AndSongDoesNotMatch_ReturnsNull() {
-            mockWebServer.enqueue(new MockResponse()
-                    .setResponseCode(OK.value())
-                    .setBody(JSON_MAPPER.toJson(new SpotifySearchResult(
+            enqueueOkResponse(new SpotifySearchResult(
                             new SpotifySearchResultItem<>(singletonList(SpotifyTrack.builder()
                                     .id(SPOTIFY_ID)
                                     .name(SONG_NAME)
                                     .artists(singletonList(SpotifyArtist.builder().name("Wrong Artist").build()))
-                                    .build())), null))));
+                                    .build())), null));
 
             var track = apiService.searchTrack(ARTIST, SONG_NAME);
 
@@ -107,20 +104,18 @@ class SpotifyApiServiceTest {
 
             assertThrows(RuntimeException.class, () -> apiService.searchTrack(ARTIST, SONG_NAME));
         }
-    }
 
+    }
     @Nested
     class SearchArtist {
 
         @Test
         public void when200_ReturnsArtist() throws InterruptedException {
-            mockWebServer.enqueue(new MockResponse()
-                    .setResponseCode(OK.value())
-                    .setBody(JSON_MAPPER.toJson(new SpotifySearchResult(null,
+            enqueueOkResponse(new SpotifySearchResult(null,
                             new SpotifySearchResultItem<>(singletonList(
                                     SpotifyArtist.builder().name(ARTIST)
                                             .images(asList(new SpotifyImage("image1.jpg"), new SpotifyImage("image2.jpg")))
-                                            .build()))))));
+                                            .build()))));
 
             var artist = apiService.searchArtist(ARTIST);
 
@@ -154,17 +149,15 @@ class SpotifyApiServiceTest {
 
             assertThrows(RuntimeException.class, () -> apiService.searchTrack(ARTIST, SONG_NAME));
         }
-    }
 
+    }
     @Nested
     class GetUserId {
-        private static final String USER_ID = "spotifyuserid";
 
+        private static final String USER_ID = "spotifyuserid";
         @Test
         public void when200_ReturnsUserId() throws InterruptedException {
-            mockWebServer.enqueue(new MockResponse()
-                    .setResponseCode(OK.value())
-                    .setBody(JSON_MAPPER.toJson(new SpotifyUserProfile(USER_ID))));
+            enqueueOkResponse(new SpotifyUserProfile(USER_ID));
 
             var userId = apiService.getUserId(AUTHORIZATION_HEADER);
 
@@ -182,18 +175,16 @@ class SpotifyApiServiceTest {
 
             assertThrows(MusicPlatformAuthException.class, () -> apiService.getUserId(AUTHORIZATION_HEADER));
         }
-    }
 
+    }
     @Nested
     class CreatePlaylist {
-        private static final String USER_ID = "spotifyuserid";
 
+        private static final String USER_ID = "spotifyuserid";
         @Test
         public void when200AndPlaylistCreated_ReturnsPlaylist() throws InterruptedException {
             String playlistId = "playlist123";
-            mockWebServer.enqueue(new MockResponse()
-                    .setResponseCode(OK.value())
-                    .setBody(JSON_MAPPER.toJson(new SpotifyPlaylistCreated(playlistId))));
+            enqueueOkResponse(new SpotifyPlaylistCreated(playlistId));
 
             var playlistCreated = apiService.createPlaylist(USER_ID,
                     new CreatePlaylistRequest("playlistName", "playlistDescription", false),
@@ -219,8 +210,8 @@ class SpotifyApiServiceTest {
 
             assertThrows(MusicPlatformAuthException.class, () -> apiService.getUserId(AUTHORIZATION_HEADER));
         }
-    }
 
+    }
     @Nested
     class AddSongsToPlaylist {
 
@@ -247,20 +238,18 @@ class SpotifyApiServiceTest {
             assertThrows(MusicPlatformAuthException.class,
                     () ->apiService.addSongsToPlaylist(PLAYLIST_ID, asList("spt1", "spt2", "spt3"), AUTHORIZATION_HEADER));
         }
-    }
 
+    }
     @Nested
     class GetPlaylist {
-        private static final String PLAYLIST_ID = "playlistId1";
 
+        private static final String PLAYLIST_ID = "playlistId1";
         @Test
         public void when200_ReturnsPlaylist() throws InterruptedException {
-            mockWebServer.enqueue(new MockResponse()
-                    .setResponseCode(OK.value())
-                    .setBody(JSON_MAPPER.toJson(new SpotifyPlaylist(new SpotifyPlaylistTracks(asList(
+            enqueueOkResponse(new SpotifyPlaylist(new SpotifyPlaylistTracks(asList(
                             SpotifyPlaylistTrack.create(asList("id1", "id2")),
                             SpotifyPlaylistTrack.create(singletonList("id3"))
-                    ))))));
+                    ))));
 
             var playlist = apiService.getPlaylist(PLAYLIST_ID);
 
@@ -286,10 +275,11 @@ class SpotifyApiServiceTest {
 
             assertThrows(MusicPlatformAuthException.class, () -> apiService.getPlaylist(PLAYLIST_ID));
         }
-    }
 
+    }
     @Nested
     class GetSeveralArtists {
+
         @Test
         public void when200_ReturnsArtists() throws InterruptedException {
             List<SpotifyArtist> artists = asList(
@@ -297,9 +287,7 @@ class SpotifyApiServiceTest {
                     SpotifyArtist.builder().name("Arctic Monkeys").images(singletonList(new SpotifyImage("img2"))).build(),
                     SpotifyArtist.builder().name("Alt-J").images(singletonList(new SpotifyImage("img3"))).build()
             );
-            mockWebServer.enqueue(new MockResponse()
-                    .setResponseCode(OK.value())
-                    .setBody(JSON_MAPPER.toJson(new SpotifyArtists(artists))));
+            enqueueOkResponse(new SpotifyArtists(artists));
 
             var artistsFound = apiService.getSeveralArtists(asList("id1", "id2", "id3"));
 
@@ -312,12 +300,17 @@ class SpotifyApiServiceTest {
             assertThat(requireNonNull(request.getRequestUrl()).queryParameter("ids"))
                     .isEqualTo("id1,id2,id3");
         }
-
         @Test
         public void when401_throwsMusicPlatformAuthException() {
             mockWebServer.enqueue(new MockResponse().setResponseCode(UNAUTHORIZED.value()));
 
             assertThrows(MusicPlatformAuthException.class, () -> apiService.getSeveralArtists(singletonList("id1")));
         }
+
+    }
+    private void enqueueOkResponse(Object body) {
+        mockWebServer.enqueue(new MockResponse()
+                .setResponseCode(OK.value())
+                .setBody(JSON_MAPPER.toJson(body)));
     }
 }

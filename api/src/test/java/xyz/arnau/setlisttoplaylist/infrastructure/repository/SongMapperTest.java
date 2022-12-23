@@ -5,7 +5,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.SetlistFmSongMapper;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistFmArtist;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistFmSong;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.SpotifyApiService;
@@ -46,8 +45,8 @@ class SongMapperTest {
                         .build()));
 
         var song = songMapper.map(
-                new SetlistFmSong(SONG_NAME, null, false),
-                new SetlistFmArtist(null, ARTIST, ARTIST, ARTIST));
+                SetlistFmSong.builder().name(SONG_NAME).build(),
+                SetlistFmArtist.builder().name(ARTIST).build());
 
         assertThat(song.id()).isEqualTo(SPOTIFY_ID);
         assertThat(song.name()).isEqualTo(SONG_NAME);
@@ -73,8 +72,9 @@ class SongMapperTest {
                                 .build()));
 
         var song = songMapper.map(
-                new SetlistFmSong(SONG_NAME, new SetlistFmArtist(null, originalArtist, null, null), false),
-                new SetlistFmArtist(null, ARTIST, ARTIST, ARTIST));
+                SetlistFmSong.builder().name(SONG_NAME)
+                        .cover(SetlistFmArtist.builder().name(originalArtist).build()).build(),
+                SetlistFmArtist.builder().name(ARTIST).build());
 
         assertThat(song.id()).isEqualTo(SPOTIFY_ID);
         assertThat(song.name()).isEqualTo(SONG_NAME);
@@ -86,8 +86,8 @@ class SongMapperTest {
         when(spotifyApiService.searchTrack(ARTIST, SONG_NAME)).thenReturn(Optional.empty());
 
         var song = songMapper.map(
-                new SetlistFmSong(SONG_NAME, null, false),
-                new SetlistFmArtist(null, ARTIST, ARTIST, ARTIST));
+                SetlistFmSong.builder().name(SONG_NAME).build(),
+                SetlistFmArtist.builder().name(ARTIST).build());
 
         assertThat(song.id()).isNull();
         assertThat(song.name()).isEqualTo(SONG_NAME);

@@ -7,21 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import xyz.arnau.setlisttoplaylist.domain.dto.CreatePlaylistCommand;
 import xyz.arnau.setlisttoplaylist.domain.entities.Playlist;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.SpotifyPlaylistRepository;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class SpotifyPlaylistRepositoryTest {
+class SpotifyPlaylistRepositoryIntegrationTest {
     @RegisterExtension
     static WireMockExtension wireMock = WireMockExtension.newInstance()
             .options(wireMockConfig().port(8081).dynamicHttpsPort())
             .build();
 
     @Autowired
-    private SpotifyPlaylistRepository spotifyPlaylistRepository;
+    private SpotifyPlaylistRepository playlistRepository;
 
     @Test
     public void shouldCreatePlaylist() {
@@ -33,7 +32,7 @@ class SpotifyPlaylistRepositoryTest {
                         "6ADbZPiWZNsaCiIvsg5iq6", "6lSJZiZqWU8Qt1fJVeFZEv"))
                 .coverImage("image".getBytes())
                 .build();
-        Playlist playlist = spotifyPlaylistRepository.create(command, "Bearer SPOTIFY_USER_TOKEN");
+        Playlist playlist = playlistRepository.create(command, "Bearer SPOTIFY_USER_TOKEN");
 
         assertThat(playlist.id()).isEqualTo("0a6xVqBCrxn8Ug0Wrudv9J");
     }

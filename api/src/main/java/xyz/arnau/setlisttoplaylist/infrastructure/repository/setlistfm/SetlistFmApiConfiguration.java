@@ -8,7 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Configuration
-public class SetlistFmConfiguration {
+public class SetlistFmApiConfiguration {
 
     @Value("${setlistFm.api.baseUrl}")
     private String baseUrl;

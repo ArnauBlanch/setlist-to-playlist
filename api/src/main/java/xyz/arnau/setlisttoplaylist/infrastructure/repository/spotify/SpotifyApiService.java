@@ -166,14 +166,6 @@ public class SpotifyApiService {
         }
     }
 
-    private static String searchSongQuery(String artist, String trackName) {
-        return "artist:%s track:%s" .formatted(artist, trackName);
-    }
-
-    private static String searchArtistQuery(String artist) {
-        return "artist:%s" .formatted(artist);
-    }
-
     public List<SpotifyArtist> getSeveralArtists(List<String> artistIds) {
         String ids = join(",", artistIds);
         try {
@@ -190,5 +182,13 @@ public class SpotifyApiService {
             log.error("Could not get artists (artistIds=%s)".formatted(ids));
             throw new RuntimeException(e);
         }
+    }
+
+    private static String searchSongQuery(String artist, String trackName) {
+        return "artist:%s track:%s" .formatted(artist, trackName);
+    }
+
+    private static String searchArtistQuery(String artist) {
+        return "artist:%s" .formatted(artist);
     }
 }

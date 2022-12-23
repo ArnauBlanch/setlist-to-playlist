@@ -22,8 +22,8 @@ import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.boot.test.util.TestPropertyValues.of;
-import static wiremock.org.eclipse.jetty.http.HttpStatus.CREATED_201;
-import static wiremock.org.eclipse.jetty.http.HttpStatus.OK_200;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -50,7 +50,7 @@ class SetlistResponseToPlaylistApplicationTests {
 		when().
 				get("/setlists/abc12345").
 		then().
-				statusCode(OK_200).
+				statusCode(OK.value()).
 				body(
 						"artist.name", equalTo("Manel"),
 						"venue.name", equalTo("Plaça Corsini"),
@@ -70,7 +70,7 @@ class SetlistResponseToPlaylistApplicationTests {
 		when().
 				post("/playlists/abc12345").
 		then().
-				statusCode(CREATED_201);
+				statusCode(CREATED.value());
 	}
 
 	@Test
@@ -79,7 +79,7 @@ class SetlistResponseToPlaylistApplicationTests {
 		when().
 				get("/playlists/abc12345/cover").
 		then().
-				statusCode(OK_200);
+				statusCode(OK.value());
 	}
 
 	@Test
@@ -89,7 +89,7 @@ class SetlistResponseToPlaylistApplicationTests {
 		when().
 				get("/artists/top").
 		then().
-				statusCode(OK_200);
+				statusCode(OK.value());
 	}
 
 	@Test
@@ -99,7 +99,7 @@ class SetlistResponseToPlaylistApplicationTests {
 		when().
 				get("/artists").
 		then().
-				statusCode(OK_200);
+				statusCode(OK.value());
 
 	}
 
