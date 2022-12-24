@@ -37,7 +37,7 @@ class SetlistControllerTest {
         public void whenSetlistIsFound_shouldReturnOk() {
             var setlist = Setlist.builder().artist(Artist.builder().name("The Strokes").build()).build();
 
-            when(setlistService.getSetlist("abc12345")).thenReturn(setlist);
+            when(setlistService.getById("abc12345")).thenReturn(setlist);
 
             when().
                     get("/setlists/abc12345").
@@ -48,7 +48,7 @@ class SetlistControllerTest {
 
         @Test
         public void whenSetlistIsNotFound_shouldReturnNotFound() {
-            when(setlistService.getSetlist("not-found")).thenThrow(SetlistNotFoundException.class);
+            when(setlistService.getById("not-found")).thenThrow(SetlistNotFoundException.class);
 
             when().
                     get("/setlists/not-found").

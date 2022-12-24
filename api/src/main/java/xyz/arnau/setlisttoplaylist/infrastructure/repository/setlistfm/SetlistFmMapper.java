@@ -1,9 +1,6 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm;
 
-import xyz.arnau.setlisttoplaylist.domain.entities.Artist;
-import xyz.arnau.setlisttoplaylist.domain.entities.Setlist;
-import xyz.arnau.setlisttoplaylist.domain.entities.Song;
-import xyz.arnau.setlisttoplaylist.domain.entities.Venue;
+import xyz.arnau.setlisttoplaylist.domain.entities.*;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistFmSetlist;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistFmVenue;
 
@@ -21,6 +18,15 @@ public class SetlistFmMapper {
                 .artist(artist)
                 .venue(mapVenue(setlist.getVenue()))
                 .songs(songs)
+                .build();
+    }
+
+    public static BasicSetlist mapSetlist(SetlistFmSetlist setlist) {
+        return BasicSetlist.builder()
+                .id(setlist.getId())
+                .date(parse(setlist.getEventDate(), ofPattern("dd-MM-yyyy")))
+                .venue(mapVenue(setlist.getVenue()))
+                .numSongs(setlist.getSets().getSet().stream().map(s -> s.getSong().size()).reduce(0, Integer::sum))
                 .build();
     }
 

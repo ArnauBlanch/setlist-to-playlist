@@ -9,13 +9,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.arnau.setlisttoplaylist.application.ArtistService;
+import xyz.arnau.setlisttoplaylist.application.SetlistService;
 import xyz.arnau.setlisttoplaylist.infrastructure.controller.mapper.ArtistMapper;
+import xyz.arnau.setlisttoplaylist.infrastructure.controller.mapper.SetlistMapper;
 import xyz.arnau.setlisttoplaylist.infrastructure.controller.response.ArtistResponse;
+import xyz.arnau.setlisttoplaylist.infrastructure.controller.response.ArtistSetlistsResponse;
 import xyz.arnau.setlisttoplaylist.infrastructure.controller.response.PlaylistResponse;
 
 import java.util.ArrayList;
@@ -32,6 +32,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class ArtistController {
 
     private final ArtistService artistService;
+    private final SetlistService setlistService;
 
     @GetMapping("top")
     @Operation(summary = "Get top artists")
@@ -63,5 +64,39 @@ public class ArtistController {
         return ResponseEntity.ok(artistService.searchByName(name).stream()
                 .map(ArtistMapper.MAPPER::toResponse)
                 .collect(toList()));
+    }
+
+    @GetMapping("{artistId}")
+    @Operation(summary = "Get artist")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Artist found", content = {
+                    @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = ArtistResponse.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Artist not found", content = @Content)
+    })
+    public ResponseEntity<ArtistResponse> getArtistSetlists(
+            @PathVariable @Parameter(description = "Artist ID", example = "d15721d8-56b4-453d-b506-fc915b14cba2") String artistId) {
+        var artist = artistService.getById(artistId);
+        return ResponseEntity.ok(ArtistMapper.MAPPER.toResponse(artist));
+    }
+
+    @GetMapping("{artistId}/setlists")
+    @Operation(summary = "Get artist setlists")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Artist setlists found", content = {
+                    @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = ArtistSetlistsResponse.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Artist setlists not found", content = @Content)
+    })
+    public ResponseEntity<ArtistSetlistsResponse> getArtistSetlists(
+            @PathVariable @Parameter(description = "Artist ID", example = "d15721d8-56b4-453d-b506-fc915b14cba2") String artistId,
+            @RequestParam(defaultValue = "1") @Parameter(description = "Page number, starting from 1", example = "1") int page) {
+        var setlistsPage = setlistService.getByArtistId(artistId, page);
+        return ResponseEntity.ok(ArtistSetlistsResponse.builder()
+                .setlists(setlistsPage.items().stream().map(SetlistMapper.MAPPER::toResponse).toList())
+                .page(setlistsPage.page())
+                .totalItems(setlistsPage.totalItems())
+                .itemsPerPage(setlistsPage.itemsPerPage())
+                .build());
     }
 }

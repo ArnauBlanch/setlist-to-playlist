@@ -7,10 +7,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import xyz.arnau.setlisttoplaylist.domain.entities.Artist;
+import xyz.arnau.setlisttoplaylist.domain.exceptions.ArtistNotFoundException;
 import xyz.arnau.setlisttoplaylist.domain.ports.ArtistRepository;
+
+import java.util.Optional;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,6 +55,28 @@ class ArtistServiceTest {
             var artistsFound = artistService.searchByName("Manel");
 
             assertThat(artistsFound).isEqualTo(artists);
+        }
+    }
+
+    @Nested
+    class GetById {
+        private static final String ARTIST_ID = "d15721d8-56b4-453d-b506-fc915b14cba2";
+
+        @Test
+        public void whenArtistIsFound_shouldReturnArtist() {
+            var artist = Artist.builder().id(ARTIST_ID).name("Manel").imageUrl("url1").build();
+            when(artistRepository.getById(ARTIST_ID)).thenReturn(Optional.of(artist));
+
+            var artistFound = artistService.getById(ARTIST_ID);
+
+            assertThat(artistFound).isEqualTo(artist);
+        }
+
+        @Test
+        public void whenArtistIsNotFound_shouldThrowArtistNotFoundException() {
+            when(artistRepository.getById("not-found")).thenReturn(Optional.empty());
+
+            assertThrows(ArtistNotFoundException.class, () -> artistService.getById("not-found"));
         }
     }
 }

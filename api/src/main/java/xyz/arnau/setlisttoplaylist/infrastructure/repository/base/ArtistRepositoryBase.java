@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import xyz.arnau.setlisttoplaylist.domain.entities.Artist;
 import xyz.arnau.setlisttoplaylist.domain.ports.ArtistRepository;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.SetlistFmApiService;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistFmArtist;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,13 +27,18 @@ public abstract class ArtistRepositoryBase<TPlatformRepository extends MusicPlat
     public List<Artist> searchByName(String nameQuery) {
         try {
             return setlistFmApiService.searchArtists(nameQuery).stream()
-                    .map(SetlistFmArtist::getSortName)
                     .collect(
-                            parallel(musicPlatformRepository::getArtist, toList(), executorService, 10))
+                            parallel(setlistArtist -> musicPlatformRepository.getArtist(setlistArtist.getId(), setlistArtist.getSortName()),
+                                    toList(), executorService, 10))
                     .get().stream()
                     .filter(Optional::isPresent).map(Optional::get).collect(toList());
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Optional<Artist> getById(String artistId) {
+        return setlistFmApiService.getArtist(artistId)
+                .flatMap(setlistArtist -> musicPlatformRepository.getArtist(setlistArtist.getId(), setlistArtist.getSortName()));
     }
 }

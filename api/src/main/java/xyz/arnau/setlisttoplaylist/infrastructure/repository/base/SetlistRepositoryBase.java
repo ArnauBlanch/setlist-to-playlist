@@ -1,10 +1,13 @@
 package xyz.arnau.setlisttoplaylist.infrastructure.repository.base;
 
 import lombok.RequiredArgsConstructor;
+import xyz.arnau.setlisttoplaylist.domain.entities.BasicSetlist;
+import xyz.arnau.setlisttoplaylist.domain.entities.PagedList;
 import xyz.arnau.setlisttoplaylist.domain.entities.Setlist;
 import xyz.arnau.setlisttoplaylist.domain.entities.Song;
 import xyz.arnau.setlisttoplaylist.domain.ports.SetlistRepository;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.SetlistFmApiService;
+import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.SetlistFmMapper;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistFmArtist;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistFmSet;
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.model.SetlistFmSong;
@@ -27,11 +30,21 @@ public abstract class SetlistRepositoryBase<TPlatformRepository extends MusicPla
 
     public Optional<Setlist> getSetlist(String setlistId) {
         return setlistFmApiService.getSetlist(setlistId)
-                .flatMap(setlist -> musicPlatformRepository.getArtist(setlist.getArtist().getName())
+                .flatMap(setlist -> musicPlatformRepository.getArtist(setlist.getArtist().getId(), setlist.getArtist().getName())
                         .map(artist -> {
                             var songs = mapSongs(setlist.getSets().getSet(), setlist.getArtist());
                             return mapSetlist(setlist, artist, songs);
                         }));
+    }
+
+    public Optional<PagedList<BasicSetlist>> getArtistSetlists(String artistId, int page) {
+        return setlistFmApiService.getArtistSetlists(artistId, page)
+                .map(setlistsPage -> PagedList.<BasicSetlist>builder()
+                        .items(setlistsPage.getSetlists().stream().map(SetlistFmMapper::mapSetlist).collect(toList()))
+                        .page(setlistsPage.getPage())
+                        .itemsPerPage(setlistsPage.getItemsPerPage())
+                        .totalItems(setlistsPage.getTotal())
+                        .build());
     }
 
     private List<Song> mapSongs(List<SetlistFmSet> sets, SetlistFmArtist artist) {

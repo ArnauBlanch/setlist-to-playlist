@@ -3,6 +3,7 @@ package xyz.arnau.setlisttoplaylist.application;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import xyz.arnau.setlisttoplaylist.domain.entities.Artist;
+import xyz.arnau.setlisttoplaylist.domain.exceptions.ArtistNotFoundException;
 import xyz.arnau.setlisttoplaylist.domain.ports.ArtistRepository;
 
 import java.util.List;
@@ -18,5 +19,10 @@ public class ArtistService {
 
     public List<Artist> searchByName(String nameQuery) {
         return artistRepository.searchByName(nameQuery);
+    }
+
+    public Artist getById(String artistId) {
+        return artistRepository.getById(artistId)
+                .orElseThrow(ArtistNotFoundException::new);
     }
 }

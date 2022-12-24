@@ -1,0 +1,186 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/rest/1.0/artist/4e7209ee-ef02-4cb7-bdff-815b0473c27c/setlists",
+    "headers": {
+      "Accept": {
+        "equalTo": "application/json"
+      },
+      "x-api-key": {
+        "equalTo": "TEST_API_KEY"
+      }
+    },
+    "queryParameters": {
+      "p": {
+        "equalTo": "1"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "type": "setlists",
+      "itemsPerPage": 20,
+      "page": 1,
+      "total": 168,
+      "setlist": [
+        {
+          "id": "53be1b39",
+          "versionId": "g23e7883f",
+          "eventDate": "05-11-2022",
+          "lastUpdated": "2022-11-05T12:19:24.722+0000",
+          "artist": {
+            "mbid": "4e7209ee-ef02-4cb7-bdff-815b0473c27c",
+            "name": "Manel",
+            "sortName": "Manel",
+            "disambiguation": "",
+            "url": "https://www.setlist.fm/setlists/manel-4bd7bfce.html"
+          },
+          "venue": {
+            "id": "3bd00ca0",
+            "name": "Pazo da Cultura de Pontevedra",
+            "city": {
+              "id": "3113209",
+              "name": "Pontevedra",
+              "state": "Galicia",
+              "stateCode": "58",
+              "coords": {
+                "lat": 42.4309957178688,
+                "long": -8.64435195922852
+              },
+              "country": {
+                "code": "ES",
+                "name": "Spain"
+              }
+            },
+            "url": "https://www.setlist.fm/venue/pazo-da-cultura-de-pontevedra-pontevedra-spain-3bd00ca0.html"
+          },
+          "sets": {
+            "set": []
+          },
+          "url": "https://www.setlist.fm/setlist/manel/2022/pazo-da-cultura-de-pontevedra-pontevedra-spain-53be1b39.html"
+        },
+        {
+          "id": "4bbe1b46",
+          "versionId": "g23e78847",
+          "eventDate": "04-11-2022",
+          "lastUpdated": "2022-11-05T12:18:06.675+0000",
+          "artist": {
+            "mbid": "4e7209ee-ef02-4cb7-bdff-815b0473c27c",
+            "name": "Manel",
+            "sortName": "Manel",
+            "disambiguation": "",
+            "url": "https://www.setlist.fm/setlists/manel-4bd7bfce.html"
+          },
+          "venue": {
+            "id": "23d7ac33",
+            "name": "Teatro Jofre",
+            "city": {
+              "id": "3123493",
+              "name": "Ferrol",
+              "state": "Galicia",
+              "stateCode": "58",
+              "coords": {
+                "lat": 43.4833333,
+                "long": -8.2333333
+              },
+              "country": {
+                "code": "ES",
+                "name": "Spain"
+              }
+            },
+            "url": "https://www.setlist.fm/venue/teatro-jofre-ferrol-spain-23d7ac33.html"
+          },
+          "sets": {
+            "set": []
+          },
+          "url": "https://www.setlist.fm/setlist/manel/2022/teatro-jofre-ferrol-spain-4bbe1b46.html"
+        },
+        {
+          "id": "73b07e29",
+          "versionId": "g2bfaf8f6",
+          "eventDate": "18-09-2022",
+          "lastUpdated": "2022-09-19T10:56:05.000+0000",
+          "artist": {
+            "mbid": "4e7209ee-ef02-4cb7-bdff-815b0473c27c",
+            "name": "Manel",
+            "sortName": "Manel",
+            "disambiguation": "",
+            "url": "https://www.setlist.fm/setlists/manel-4bd7bfce.html"
+          },
+          "venue": {
+            "id": "2bd0643e",
+            "name": "Plaça Corsini",
+            "city": {
+              "id": "3108288",
+              "name": "Tarragona",
+              "state": "Catalonia",
+              "stateCode": "56",
+              "coords": {
+                "lat": 41.1166667,
+                "long": 1.25
+              },
+              "country": {
+                "code": "ES",
+                "name": "Spain"
+              }
+            },
+            "url": "https://www.setlist.fm/venue/placa-corsini-tarragona-spain-2bd0643e.html"
+          },
+          "sets": {
+            "set": [
+              {
+                "song": [
+                  {
+                    "name": "En la que el Bernat se't troba"
+                  },
+                  {
+                    "name": "Per la bona gent"
+                  }
+                ]
+              },
+              {
+                "encore": 1,
+                "song": [
+                  {
+                    "name": "La gent normal",
+                    "cover": {
+                      "mbid": "76b2e842-5e85-4c97-ab62-d5bc315595b5",
+                      "name": "Pulp",
+                      "sortName": "Pulp",
+                      "disambiguation": "",
+                      "url": "https://www.setlist.fm/setlists/pulp-bd6bdda.html"
+                    }
+                  },
+                  {
+                    "name": "Al mar!",
+                    "info": "J Balvin's \"Mi gente\" mashup version"
+                  },
+                  {
+                    "name": "Benvolgut"
+                  },
+                  {
+                    "name": "Mierda de ciudad",
+                    "tape": true,
+                    "cover": {
+                      "mbid": "74241690-77b4-4ce7-8237-9f71a14f50b7",
+                      "name": "Kortatu",
+                      "sortName": "Kortatu",
+                      "disambiguation": "",
+                      "url": "https://www.setlist.fm/setlists/kortatu-bd6351a.html"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "info": "\"Mort d'un heroi romàntic\" was written in the setlist after \"Tipus suite\", but crossed out",
+          "url": "https://www.setlist.fm/setlist/manel/2022/placa-corsini-tarragona-spain-73b07e29.html"
+        }
+      ]
+    }
+  }
+}

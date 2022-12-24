@@ -7,8 +7,9 @@ import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.Spoti
 import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.SpotifyTrack;
 
 public class SpotifyMapper {
-    public static Artist mapArtist(SpotifyArtist spotifyArtist) {
+    public static Artist mapArtist(String artistId, SpotifyArtist spotifyArtist) {
         return Artist.builder()
+                .id(artistId)
                 .musicPlatformId(spotifyArtist.getId())
                 .name(spotifyArtist.getName())
                 .imageUrl(spotifyArtist.getImages().stream().findFirst().map(SpotifyImage::getUrl).orElse(null))

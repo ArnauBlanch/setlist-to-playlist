@@ -8,7 +8,7 @@ import xyz.arnau.setlisttoplaylist.infrastructure.repository.setlistfm.SetlistFm
 
 import java.util.Optional;
 
-import static xyz.arnau.setlisttoplaylist.infrastructure.CacheConfig.SETLISTS;
+import static xyz.arnau.setlisttoplaylist.config.CacheConfig.SETLISTS;
 
 @Component
 public class SpotifySetlistRepository extends SetlistRepositoryBase<SpotifyRepository> {

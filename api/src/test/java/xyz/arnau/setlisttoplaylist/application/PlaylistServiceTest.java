@@ -46,7 +46,7 @@ class PlaylistServiceTest {
         var setlist = aSetlist();
         var imageBytes = "image".getBytes();
 
-        when(setlistService.getSetlist(SETLIST_ID)).thenReturn(setlist);
+        when(setlistService.getById(SETLIST_ID)).thenReturn(setlist);
         when(playlistRepository.create(createCommandCaptor.capture(), eq(USER_TOKEN))).thenReturn(playlist);
         when(playlistImageGenerator.generateImage(setlist)).thenReturn(imageBytes);
 
@@ -66,7 +66,7 @@ class PlaylistServiceTest {
     @Test
     public void whenCantCreatePlaylistBecauseOfAuthError_shouldThrowException() {
         var setlist = aSetlist();
-        when(setlistService.getSetlist(SETLIST_ID)).thenReturn(setlist);
+        when(setlistService.getById(SETLIST_ID)).thenReturn(setlist);
         when(playlistService.createFromSetlist(SETLIST_ID, false, USER_TOKEN)).thenThrow(MusicPlatformAuthException.class);
 
         assertThrows(MusicPlatformAuthException.class, () -> playlistService.createFromSetlist(SETLIST_ID, false, USER_TOKEN));

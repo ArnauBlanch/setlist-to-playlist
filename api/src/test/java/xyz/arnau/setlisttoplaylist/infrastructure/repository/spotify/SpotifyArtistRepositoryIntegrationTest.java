@@ -1,4 +1,4 @@
-package xyz.arnau.setlisttoplaylist.infrastructure.repository;
+package xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import org.junit.jupiter.api.Nested;
@@ -7,9 +7,9 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import xyz.arnau.setlisttoplaylist.domain.entities.Artist;
-import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.SpotifyArtistRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static java.util.Arrays.asList;
@@ -51,6 +51,7 @@ class SpotifyArtistRepositoryIntegrationTest {
 
             assertThat(artists).isEqualTo(singletonList(
                     Artist.builder()
+                            .id("4e7209ee-ef02-4cb7-bdff-815b0473c27c")
                             .musicPlatformId("40tHhop0T30DwienQBmTxb")
                             .name("Manel")
                             .imageUrl("https://i.scdn.co/image/ab6761610000e5ebf03cdcbdda43b390cf876a6a")
@@ -63,6 +64,22 @@ class SpotifyArtistRepositoryIntegrationTest {
             List<Artist> artists = artistRepository.searchByName("unknown");
 
             assertThat(artists).isEmpty();
+        }
+    }
+
+    @Nested
+    class GetById {
+        @Test
+        public void shouldReturnArtist() {
+            Optional<Artist> artist = artistRepository.getById("4e7209ee-ef02-4cb7-bdff-815b0473c27c");
+
+            assertThat(artist).isPresent();
+            assertThat(artist.get()).isEqualTo(Artist.builder()
+                    .id("4e7209ee-ef02-4cb7-bdff-815b0473c27c")
+                    .musicPlatformId("40tHhop0T30DwienQBmTxb")
+                    .name("Manel")
+                    .imageUrl("https://i.scdn.co/image/ab6761610000e5ebf03cdcbdda43b390cf876a6a")
+                    .build());
         }
     }
 }

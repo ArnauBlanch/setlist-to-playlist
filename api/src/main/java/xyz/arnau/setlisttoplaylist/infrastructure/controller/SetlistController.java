@@ -39,7 +39,7 @@ public class SetlistController {
     })
     public ResponseEntity<SetlistResponse> getSetlist(
             @PathVariable @Parameter(description = "Setlist ID", example = "6bb43616") String setlistId) {
-        Setlist setlist = setlistService.getSetlist(setlistId);
+        Setlist setlist = setlistService.getById(setlistId);
         return ok(SetlistMapper.MAPPER.toResponse(setlist));
     }
 }

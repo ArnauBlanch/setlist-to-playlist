@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "GET",
-    "url": "/rest/1.0/setlist/abc12345",
+    "urlPath": "/rest/1.0/setlist/abc12345",
     "headers": {
       "Accept": {
         "equalTo": "application/json"
