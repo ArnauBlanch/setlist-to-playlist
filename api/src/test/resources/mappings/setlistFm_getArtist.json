@@ -1,0 +1,27 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/rest/1.0/artist/4e7209ee-ef02-4cb7-bdff-815b0473c27c",
+    "headers": {
+      "Accept": {
+        "equalTo": "application/json"
+      },
+      "x-api-key": {
+        "equalTo": "TEST_API_KEY"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "mbid": "4e7209ee-ef02-4cb7-bdff-815b0473c27c",
+      "name": "Manel",
+      "sortName": "Manel",
+      "disambiguation": "",
+      "url": "https://www.setlist.fm/setlists/manel-4bd7bfce.html"
+    }
+  }
+}

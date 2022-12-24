@@ -1,4 +1,4 @@
-package xyz.arnau.setlisttoplaylist.infrastructure;
+package xyz.arnau.setlisttoplaylist.config;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.cache.CacheManager;

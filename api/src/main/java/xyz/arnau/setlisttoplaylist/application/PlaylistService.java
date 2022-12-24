@@ -30,7 +30,7 @@ public class PlaylistService {
             "Setlist for ${artistName} concert at ${venueName} (${venueCity}, ${venueCountryCode}) on ${date}.";
 
     public Playlist createFromSetlist(String setlistId, boolean isPublic, String authorizationHeader) {
-        var setlist = setlistService.getSetlist(setlistId);
+        var setlist = setlistService.getById(setlistId);
 
         CreatePlaylistCommand command = CreatePlaylistCommand.builder()
                 .name(fillData(PLAYLIST_NAME, setlist))
@@ -43,7 +43,7 @@ public class PlaylistService {
     }
 
     public byte[] getCoverImage(String setlistId) {
-        var setlist = setlistService.getSetlist(setlistId);
+        var setlist = setlistService.getById(setlistId);
         return playlistImageGenerator.generateImage(setlist);
     }
 

@@ -106,6 +106,7 @@ class SpotifyApiServiceTest {
         }
 
     }
+
     @Nested
     class SearchArtist {
 
@@ -151,6 +152,7 @@ class SpotifyApiServiceTest {
         }
 
     }
+
     @Nested
     class GetUserId {
 
@@ -177,6 +179,7 @@ class SpotifyApiServiceTest {
         }
 
     }
+
     @Nested
     class CreatePlaylist {
 
@@ -212,6 +215,7 @@ class SpotifyApiServiceTest {
         }
 
     }
+
     @Nested
     class AddSongsToPlaylist {
 
@@ -240,6 +244,7 @@ class SpotifyApiServiceTest {
         }
 
     }
+
     @Nested
     class GetPlaylist {
 
@@ -277,6 +282,7 @@ class SpotifyApiServiceTest {
         }
 
     }
+
     @Nested
     class GetSeveralArtists {
 
@@ -308,6 +314,7 @@ class SpotifyApiServiceTest {
         }
 
     }
+
     private void enqueueOkResponse(Object body) {
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(OK.value())

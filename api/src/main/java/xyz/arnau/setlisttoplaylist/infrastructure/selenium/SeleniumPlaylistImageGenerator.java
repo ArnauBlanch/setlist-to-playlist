@@ -16,7 +16,7 @@ import static java.nio.charset.Charset.defaultCharset;
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.LONG;
 import static java.util.Locale.US;
-import static xyz.arnau.setlisttoplaylist.infrastructure.CacheConfig.COVER_IMAGE;
+import static xyz.arnau.setlisttoplaylist.config.CacheConfig.COVER_IMAGE;
 import static xyz.arnau.setlisttoplaylist.infrastructure.selenium.JpegImageConverter.convertImageToJpg;
 
 @Component

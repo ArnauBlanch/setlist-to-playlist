@@ -13,7 +13,7 @@ import xyz.arnau.setlisttoplaylist.infrastructure.repository.spotify.model.playl
 import java.util.List;
 import java.util.Optional;
 
-import static xyz.arnau.setlisttoplaylist.infrastructure.CacheConfig.*;
+import static xyz.arnau.setlisttoplaylist.config.CacheConfig.*;
 
 @Component
 @RequiredArgsConstructor
@@ -25,9 +25,10 @@ public class SpotifyRepository implements MusicPlatformRepository {
     @Value("${spotify.topTracksPlaylistId}")
     private String topTracksPlaylistId;
 
-    @Cacheable(value = ARTISTS, key = "{'spotify', #name}")
-    public Optional<Artist> getArtist(String name) {
-        return apiService.searchArtist(name).map(SpotifyMapper::mapArtist);
+    @Cacheable(value = ARTISTS, key = "{'spotify', #id}")
+    public Optional<Artist> getArtist(String id, String name) {
+        return apiService.searchArtist(name)
+                .map(spotifyArtist -> SpotifyMapper.mapArtist(id, spotifyArtist));
     }
 
     @Cacheable(value = SONGS, key = "{'spotify', #artistName, #songName}")

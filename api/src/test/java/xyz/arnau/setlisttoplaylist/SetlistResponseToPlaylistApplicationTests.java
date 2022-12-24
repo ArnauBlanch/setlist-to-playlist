@@ -47,6 +47,7 @@ class SetlistResponseToPlaylistApplicationTests {
 	@Test
 	void givenASetlistId_shouldReturnSetlist() {
 		given().
+				queryParam("page", "1").
 		when().
 				get("/setlists/abc12345").
 		then().
@@ -101,6 +102,24 @@ class SetlistResponseToPlaylistApplicationTests {
 		then().
 				statusCode(OK.value());
 
+	}
+
+	@Test
+	void givenAnArtistId_shouldReturnArtistInfo() {
+		given().
+		when().
+				get("/artists/4e7209ee-ef02-4cb7-bdff-815b0473c27c").
+		then().
+				statusCode(OK.value());
+	}
+
+	@Test
+	void givenAnArtistId_shouldReturnArtistSetlists() {
+		given().
+		when().
+				get("/artists/4e7209ee-ef02-4cb7-bdff-815b0473c27c/setlists").
+		then().
+				statusCode(OK.value());
 	}
 
 	public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
