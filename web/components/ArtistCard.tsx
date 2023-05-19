@@ -1,12 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { Artist } from '../models'
 
 export default function ArtistCard({
-	name,
-	imageUrl,
+	artist: { name, imageUrl },
 }: {
-	name: string
-	imageUrl?: string
+	artist: Artist
 }) {
 	return (
 		<div className="rounded-2xl bg-gradient-to-r from-pink-500 via-red-500 to-amber-400 p-1 shadow-xl">

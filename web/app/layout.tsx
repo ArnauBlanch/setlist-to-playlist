@@ -1,5 +1,5 @@
 import './globals.css'
-import AppThemeProvider from './AppThemeProvider'
+import AppThemeProvider from '../components/AppThemeProvider'
 import NavBar from './NavBar'
 import Footer from './Footer'
 

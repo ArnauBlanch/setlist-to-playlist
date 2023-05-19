@@ -1,7 +1,20 @@
-export default function SearchBox() {
+export default function SearchBox({
+	onSearchRequested,
+}: {
+	onSearchRequested: (query: string) => void
+}) {
 	return (
-		<form className="mb-2 flex w-full items-center">
-			<label htmlFor="simple-search" className="sr-only">
+		<form
+			className="mb-2 flex w-full items-center"
+			onSubmit={(e) => {
+				e.preventDefault()
+				console.log('form submitted')
+				onSearchRequested(
+					(e.target as HTMLFormElement).artistSearch.value
+				)
+			}}
+		>
+			<label htmlFor="artistSearch" className="sr-only">
 				Search artist
 			</label>
 			<div className="relative w-full">
@@ -22,7 +35,7 @@ export default function SearchBox() {
 				</div>
 				<input
 					type="text"
-					id="simple-search"
+					id="artistSearch"
 					className="text-md h-14.5 block w-full rounded-full border-2 border-gray-200 bg-white p-2.5 pl-10 text-lg text-gray-900 focus:border-rose-500  focus:ring-rose-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-rose-700 dark:focus:ring-rose-700 xl:text-xl"
 					placeholder="Search artist"
 					required

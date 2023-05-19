@@ -1,4 +1,6 @@
 export interface Artist {
+	id: string
+	musicPlatformId: string
 	name: string
 	imageUrl: string
 }
